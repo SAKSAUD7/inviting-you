@@ -1,0 +1,194 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  name      String?
+  role      Role      @default(ADMIN)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  weddings  Wedding[]
+}
+
+model Wedding {
+  id             String            @id @default(uuid())
+  slug           String            @unique
+  title          String
+  templateId     String            @default("velvet")
+  status         Status            @default(DRAFT)
+  publishedAt    DateTime?
+  userId         String
+  user           User              @relation(fields: [userId], references: [id])
+  couple         WeddingCouple?
+  family         WeddingFamily?
+  events         WeddingEvent[]
+  gallery        GalleryImage[]
+  music          WeddingMusic?
+  rsvpConfig     RSVPConfig?
+  rsvpResponses  RSVPResponse[]
+  compliments    Compliment[]
+  seo            WeddingSEO?
+  analytics      WeddingAnalytic[]
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@index([slug])
+  @@index([status])
+  @@index([userId])
+}
+
+model WeddingCouple {
+  id                 String   @id @default(uuid())
+  weddingId          String   @unique
+  wedding            Wedding  @relation(fields: [weddingId], references: [id], onDelete: Cascade)
+  brideName          String
+  brideQualification String?
+  bridePhoto         String?
+  groomName          String
+  groomQualification String?
+  groomPhoto         String?
+  couplePhoto        String?
+  monogram           String?
+  gregorianDate      DateTime
+  gregorianDisplay   String
+  hijriDate          String?
+  islamicVerse       String?
+  invitationMessage  String?
+}
+
+model WeddingFamily {
+  id                       String  @id @default(uuid())
+  weddingId                String  @unique
+  wedding                  Wedding @relation(fields: [weddingId], references: [id], onDelete: Cascade)
+  brideParents             String?
+  bridePaternalGrandfather String?
+  brideMaternalGrandfather String?
+  groomFather              String?
+  groomPaternalGrandfather String?
+  groomMaternalGrandfather String?
+  invitationFromName       String?
+  invitationFromOrg        String?
+  invitationFromAddress    String?
+  invitationFromPhone      String?
+}
+
+model WeddingEvent {
+  id           String   @id @default(uuid())
+  weddingId    String
+  wedding      Wedding  @relation(fields: [weddingId], references: [id], onDelete: Cascade)
+  name         String
+  type         String   @default("CUSTOM")
+  date         DateTime?
+  timeDisplay  String?
+  description  String?
+  venueName    String?
+  venueAddress String?
+  mapsUrl      String?
+  order        Int      @default(0)
+  enabled      Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  @@index([weddingId])
+}
+
+model GalleryImage {
+  id        String  @id @default(uuid())
+  weddingId String
+  wedding   Wedding @relation(fields: [weddingId], references: [id], onDelete: Cascade)
+  url       String
+  caption   String?
+  altText   String?
+  isCover   Boolean @default(false)
+  order     Int     @default(0)
+
+  @@index([weddingId])
+}
+
+model WeddingMusic {
+  id        String  @id @default(uuid())
+  weddingId String  @unique
+  wedding   Wedding @relation(fields: [weddingId], references: [id], onDelete: Cascade)
+  url       String?
+  title     String?
+  autoplay  Boolean @default(true)
+}
+
+model RSVPConfig {
+  id        String       @id @default(uuid())
+  weddingId String       @unique
+  wedding   Wedding      @relation(fields: [weddingId], references: [id], onDelete: Cascade)
+  enabled   Boolean      @default(true)
+  deadline  DateTime?
+  whatsapp  String?
+  message   String?
+}
+
+model RSVPResponse {
+  id         String   @id @default(uuid())
+  weddingId  String
+  wedding    Wedding  @relation(fields: [weddingId], references: [id], onDelete: Cascade)
+  guestName  String
+  attending  Boolean
+  guestCount Int      @default(1)
+  message    String?
+  createdAt  DateTime @default(now())
+
+  @@index([weddingId])
+  @@index([createdAt])
+}
+
+model Compliment {
+  id        String  @id @default(uuid())
+  weddingId String
+  wedding   Wedding @relation(fields: [weddingId], references: [id], onDelete: Cascade)
+  name      String
+  order     Int     @default(0)
+
+  @@index([weddingId])
+}
+
+model WeddingSEO {
+  id          String  @id @default(uuid())
+  weddingId   String  @unique
+  wedding     Wedding @relation(fields: [weddingId], references: [id], onDelete: Cascade)
+  title       String?
+  description String?
+  ogImage     String?
+  keywords    String?
+}
+
+model WeddingAnalytic {
+  id        String   @id @default(uuid())
+  weddingId String
+  wedding   Wedding  @relation(fields: [weddingId], references: [id], onDelete: Cascade)
+  event     String
+  device    String?
+  referrer  String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([weddingId])
+  @@index([event])
+  @@index([createdAt])
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}
+
+enum Status {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
