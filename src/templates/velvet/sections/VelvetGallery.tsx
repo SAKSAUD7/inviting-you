@@ -1,91 +1,102 @@
 'use client'
-import { useRef, useState } from 'react'
-import Image from 'next/image'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { GalleryImage } from '@/types/wedding'
 
 interface Props { images: GalleryImage[] }
 
 export default function VelvetGallery({ images }: Props) {
-  const trackRef = useRef<HTMLDivElement>(null)
-  const [active, setActive] = useState<GalleryImage | null>(null)
+  const [current, setCurrent] = useState(0)
+  const [isAuto, setIsAuto] = useState(true)
+  const pauseRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const frameRef = useRef<HTMLDivElement>(null)
+  const pointerStart = useRef({ x: 0, y: 0 })
+  const total = images.length
 
-  const sorted = [...images].sort((a, b) => a.order - b.order)
+  const goTo = useCallback((idx: number) => {
+    setCurrent((idx + total) % total)
+    setIsAuto(false)
+    if (pauseRef.current) clearTimeout(pauseRef.current)
+    pauseRef.current = setTimeout(() => setIsAuto(true), 5000)
+  }, [total])
+
+  useEffect(() => {
+    if (!isAuto || total <= 1) return
+    const id = setInterval(() => setCurrent((c) => (c + 1) % total), 4500)
+    return () => clearInterval(id)
+  }, [isAuto, total])
+
+  useEffect(() => {
+    const frame = frameRef.current
+    if (!frame || total <= 1) return
+
+    const onDown = (e: PointerEvent) => {
+      pointerStart.current = { x: e.clientX, y: e.clientY }
+    }
+    const onUp = (e: PointerEvent) => {
+      const dx = pointerStart.current.x - e.clientX
+      const dy = pointerStart.current.y - e.clientY
+      if (Math.abs(dx) >= 45 && Math.abs(dx) > Math.abs(dy)) {
+        goTo(dx > 0 ? current + 1 : current - 1)
+      }
+    }
+    frame.addEventListener('pointerdown', onDown)
+    frame.addEventListener('pointerup', onUp)
+    return () => { frame.removeEventListener('pointerdown', onDown); frame.removeEventListener('pointerup', onUp) }
+  }, [current, goTo, total])
+
+  if (total === 0) return null
 
   return (
-    <section className="velvet-gallery">
-      <h2 className="velvet-gallery__heading reveal-hidden">Memories</h2>
+    <section className="gallery-section section-pad" aria-label="Gallery">
+      <div className="section-shell">
+        <header className="section-heading reveal">
+          <span className="eyebrow">Our story</span>
+          <h2>Moments, softly held</h2>
+          <span className="ornament" aria-hidden="true"><i /></span>
+        </header>
 
-      <div ref={trackRef} className="velvet-gallery__track">
-        {sorted.map((img) => (
-          <div
-            key={img.id}
-            className="velvet-gallery__item"
-            onClick={() => setActive(img)}
-            role="button"
-            tabIndex={0}
-            aria-label={img.altText ?? img.caption ?? 'Gallery photo'}
-            onKeyDown={(e) => e.key === 'Enter' && setActive(img)}
-          >
-            <Image
-              src={img.url}
-              alt={img.altText ?? img.caption ?? 'Wedding photo'}
-              fill
-              sizes="(max-width: 640px) 80vw, 40vw"
-              style={{ objectFit: 'cover' }}
-            />
+        <div id="galleryFrame" className="gallery-frame reveal" ref={frameRef}>
+          <div id="gallerySlides">
+            {images.map((img, i) => (
+              <figure
+                key={img.id}
+                className={`gallery-slide${i === current ? ' is-active' : ''}`}
+                aria-hidden={i !== current}
+                style={{ display: i === current ? 'block' : 'none', opacity: i === current ? 1 : 0, transition: 'opacity 0.6s' }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={img.url}
+                  alt={img.altText || img.caption || `Wedding photo ${i + 1}`}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  style={{ width: '100%', display: 'block', objectFit: 'cover', aspectRatio: '4/3' }}
+                />
+                {img.caption && (
+                  <figcaption style={{ textAlign: 'center', marginTop: '16px', fontStyle: 'italic', color: 'color-mix(in srgb, var(--plum) 55%, transparent)' }}>
+                    {img.caption}
+                  </figcaption>
+                )}
+              </figure>
+            ))}
           </div>
-        ))}
-      </div>
-
-      {/* Lightbox */}
-      {active && (
-        <div
-          style={{
-            position: 'fixed', inset: 0, zIndex: 9000,
-            background: 'rgba(26,4,4,0.95)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: '1rem',
-            cursor: 'zoom-out',
-          }}
-          onClick={() => setActive(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Photo lightbox"
-        >
-          <div style={{ position: 'relative', maxWidth: '90vw', maxHeight: '85vh', width: '100%', height: '100%' }}>
-            <Image
-              src={active.url}
-              alt={active.altText ?? active.caption ?? 'Wedding photo'}
-              fill
-              sizes="90vw"
-              style={{ objectFit: 'contain' }}
-            />
-          </div>
-          {active.caption && (
-            <p style={{
-              position: 'absolute', bottom: '2rem', left: '50%', transform: 'translateX(-50%)',
-              fontFamily: 'var(--font-elegant)', fontStyle: 'italic',
-              color: 'rgba(245,237,216,0.7)', fontSize: '0.95rem',
-            }}>
-              {active.caption}
-            </p>
-          )}
-          <button
-            onClick={() => setActive(null)}
-            aria-label="Close"
-            style={{
-              position: 'absolute', top: '1rem', right: '1rem',
-              width: '40px', height: '40px', borderRadius: '50%',
-              border: '1px solid rgba(201,151,26,0.4)',
-              color: 'rgba(212,172,90,0.8)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '1.2rem', background: 'rgba(26,4,4,0.7)',
-            }}
-          >
-            ×
-          </button>
+          <span className="gallery-corner gallery-corner-a" aria-hidden="true"></span>
+          <span className="gallery-corner gallery-corner-b" aria-hidden="true"></span>
         </div>
-      )}
+
+        {total > 1 && (
+          <div id="galleryDots" className="gallery-dots reveal" aria-label="Choose gallery image">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                className={i === current ? 'is-active' : ''}
+                aria-label={`Show image ${i + 1}`}
+                onClick={() => goTo(i)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   )
 }

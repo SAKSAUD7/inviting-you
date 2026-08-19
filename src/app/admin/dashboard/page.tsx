@@ -100,9 +100,7 @@ export default async function AdminDashboard() {
             </thead>
             <tbody>
               {weddings.map((w, i) => (
-                <tr key={w.id} style={{ borderBottom: i < weddings.length - 1 ? '1px solid var(--admin-border)' : 'none', transition: 'background 0.2s' }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.02)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}>
+                <tr key={w.id} style={{ borderBottom: i < weddings.length - 1 ? '1px solid var(--admin-border)' : 'none' }}>
                   <td style={{ padding: '1rem 1.25rem' }}>
                     <div style={{ fontWeight: 600, color: 'var(--admin-text)', fontSize: '0.95rem' }}>{w.title}</div>
                     <div style={{ fontSize: '0.78rem', color: 'var(--admin-muted)', marginTop: '0.2rem' }}>
@@ -129,6 +127,9 @@ export default async function AdminDashboard() {
                       </Link>
                       <Link href={`/i/${w.slug}`} target="_blank" style={{ fontSize: '0.8rem', color: 'var(--admin-muted)', textDecoration: 'none' }}>
                         View ↗
+                      </Link>
+                      <Link href={`/admin/weddings/${w.id}/rsvp`} style={{ fontSize: '0.8rem', color: 'var(--admin-muted)', textDecoration: 'none' }}>
+                        RSVPs
                       </Link>
                     </div>
                   </td>

@@ -1,102 +1,124 @@
 'use client'
-
 import { useEffect, useRef, useState, useCallback } from 'react'
 import './velvet.css'
 import { WeddingData } from '@/types/wedding'
-
-// ─── Sub-components ───────────────────────────────────────────
 import VelvetOpening from './sections/VelvetOpening'
-import VelvetBlessed from './sections/VelvetBlessed'
-import VelvetCouple from './sections/VelvetCouple'
+import VelvetWelcome from './sections/VelvetWelcome'
 import VelvetScratchReveal from './sections/VelvetScratchReveal'
-import VelvetIslamicSection from './sections/VelvetIslamicSection'
-import VelvetFamily from './sections/VelvetFamily'
-import VelvetEvents from './sections/VelvetEvents'
-import VelvetDateDisplay from './sections/VelvetDateDisplay'
-import VelvetCountdown from './sections/VelvetCountdown'
-import VelvetVenue from './sections/VelvetVenue'
 import VelvetGallery from './sections/VelvetGallery'
-import VelvetRSVP from './sections/VelvetRSVP'
+import VelvetCountdown from './sections/VelvetCountdown'
+import VelvetProgram from './sections/VelvetProgram'
+import VelvetVenue from './sections/VelvetVenue'
+import VelvetEvents from './sections/VelvetEvents'
+import VelvetBlessings from './sections/VelvetBlessings'
 import VelvetCompliments from './sections/VelvetCompliments'
 import VelvetClosing from './sections/VelvetClosing'
 import VelvetMusicPlayer from './sections/VelvetMusicPlayer'
 
-interface VelvetInvitationProps {
-  wedding: WeddingData
-}
+export const FloralDivider = () => (
+  <div className="floral-divider" aria-hidden="true">
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img src="/assets/images/floral-divider.webp" alt="" />
+  </div>
+)
 
-export default function VelvetInvitation({ wedding }: VelvetInvitationProps) {
+export default function VelvetInvitation({ wedding }: { wedding: WeddingData }) {
   const [opened, setOpened] = useState(false)
-  const [opening, setOpening] = useState(false)
-  const mainRef = useRef<HTMLDivElement>(null)
+  const mainRef = useRef<HTMLElement>(null)
+
+  // Lock scroll on open screen
+  useEffect(() => {
+    document.body.classList.add('intro-locked')
+    return () => document.body.classList.remove('intro-locked')
+  }, [])
 
   const handleOpen = useCallback(() => {
-    if (opening || opened) return
-    setOpening(true)
-    setTimeout(() => setOpened(true), 1200)
-  }, [opening, opened])
+    setOpened(true)
+    document.body.classList.remove('intro-locked')
+    
+    // Dispatch event to VelvetMusicPlayer to start the MP3 audio
+    window.dispatchEvent(new Event('velvet-music-play'))
+  }, [])
 
-  // Scroll reveal
+  // Set up IntersectionObserver for scroll reveals
   useEffect(() => {
     if (!opened) return
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('revealed')
+            entry.target.classList.add('is-visible')
             observer.unobserve(entry.target)
           }
         })
       },
-      { threshold: 0.12 }
+      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
     )
-    const elements = mainRef.current?.querySelectorAll('.reveal-hidden')
-    elements?.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
+
+    // Small delay to let React render the content sections
+    const t = setTimeout(() => {
+      const els = mainRef.current?.querySelectorAll('.reveal')
+      els?.forEach((el) => observer.observe(el))
+    }, 100)
+
+    return () => {
+      clearTimeout(t)
+      observer.disconnect()
+    }
   }, [opened])
 
   const couple = wedding.couple
   const family = wedding.family
   const events = wedding.events.filter((e) => e.enabled).sort((a, b) => a.order - b.order)
-  const nikahEvent = events.find((e) => e.name.toLowerCase().includes('nikah') || e.type === 'NIKAH')
-  const venues = events.filter((e) => e.venueName)
+  const nikahEvent = events.find((e) => e.type === 'NIKAH' || e.name.toLowerCase().includes('nikah'))
+  const venueEvents = events.filter((e) => e.venueName)
+  const isValima = events.some((e) => e.type === 'VALIMA' || e.name.toLowerCase().includes('valima'))
 
   return (
-    <div className="invitation-shell">
-      {/* Opening screen */}
-      <VelvetOpening
-        couple={couple}
-        onOpen={handleOpen}
-        isOpening={opening}
-        isOpened={opened}
-      />
+    <main id="invitation" ref={mainRef}>
+      {/* Ambient music player — always shown, top-right corner */}
+      <VelvetMusicPlayer />
 
-      {/* Floating music player */}
-      {wedding.music && <VelvetMusicPlayer music={wedding.music} opened={opened} />}
+      {/* Opening / hero — always rendered, is-open class toggles visibility of content */}
+      <VelvetOpening couple={couple} family={family} onOpen={handleOpen} isOpened={opened} isValima={isValima} />
 
-      {/* Main content — revealed after opening */}
-      {opened && (
-        <main ref={mainRef} className="velvet-main">
-          <VelvetBlessed couple={couple} family={family} />
-          <VelvetCouple couple={couple} />
-          <VelvetScratchReveal couple={couple} />
-          <VelvetIslamicSection />
-          <VelvetFamily couple={couple} family={family} />
-          <VelvetEvents events={events} />
-          {couple && (
-            <VelvetDateDisplay
-              gregorianDisplay={couple.gregorianDisplay}
-              hijriDate={couple.hijriDate}
-            />
-          )}
-          {nikahEvent && <VelvetCountdown targetEvent={nikahEvent} />}
-          {venues.length > 0 && <VelvetVenue events={venues} />}
-          {wedding.gallery.length > 0 && <VelvetGallery images={wedding.gallery} />}
-          <VelvetRSVP weddingId={wedding.id} rsvpConfig={wedding.rsvpConfig} />
-          {wedding.compliments.length > 0 && <VelvetCompliments compliments={wedding.compliments} />}
-          <VelvetClosing couple={couple} />
-        </main>
+      {/* Main invitation content — always rendered so scrolling works */}
+      <FloralDivider />
+      <VelvetWelcome couple={couple} />
+      <FloralDivider />
+      <VelvetScratchReveal couple={couple} />
+      <FloralDivider />
+      {wedding.gallery.length > 0 && (
+        <>
+          <VelvetGallery images={wedding.gallery} />
+          <FloralDivider />
+        </>
       )}
-    </div>
+      {nikahEvent && (
+        <>
+          <VelvetCountdown targetEvent={nikahEvent} />
+          <FloralDivider />
+        </>
+      )}
+      {events.length > 0 && (
+        <>
+          <VelvetProgram events={events} />
+          <FloralDivider />
+        </>
+      )}
+      {venueEvents.length > 0 && (
+        <>
+          <VelvetVenue events={venueEvents} />
+          <FloralDivider />
+        </>
+      )}
+      <VelvetEvents events={events} />
+      <FloralDivider />
+      <VelvetBlessings />
+      <FloralDivider />
+      <VelvetCompliments compliments={wedding.compliments} />
+      <VelvetClosing couple={couple} family={family} />
+    </main>
   )
 }

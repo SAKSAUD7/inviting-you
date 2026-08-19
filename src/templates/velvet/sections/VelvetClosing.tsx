@@ -1,39 +1,33 @@
 'use client'
-import { WeddingCouple } from '@/types/wedding'
+import { WeddingCouple, WeddingFamily } from '@/types/wedding'
 
-interface Props { couple?: WeddingCouple | null }
+interface Props {
+  couple?: WeddingCouple | null
+  family?: WeddingFamily | null
+}
 
-export default function VelvetClosing({ couple }: Props) {
-  const brideFn = couple?.brideName?.split(' ')[0] ?? 'The Bride'
-  const groomFn = couple?.groomName?.split(' ')[0] ?? 'The Groom'
-  const dateStr = couple?.gregorianDate
-    ? new Date(couple.gregorianDate).toLocaleDateString('en-GB', {
-        day: '2-digit', month: '2-digit', year: 'numeric'
-      }).replace(/\//g, '.')
-    : '02.10.2026'
+export default function VelvetClosing({ couple, family }: Props) {
+  const brideFn = couple?.brideName?.split(' ')[0] ?? 'Iqra'
+  const groomFn = couple?.groomName?.split(' ')[0] ?? 'Mufassir'
+  const dateStr = couple?.gregorianDisplay ?? '2 October 2026'
+  const fromName = family?.invitationFromName
+  const fromOrg = family?.invitationFromOrg
+  const fromAddress = family?.invitationFromAddress
 
   return (
-    <section className="velvet-closing">
-      <div className="velvet-closing__ornament" />
-      <h2 className="velvet-closing__couple reveal-hidden">
-        {brideFn} &amp; {groomFn}
-      </h2>
-      <p className="velvet-closing__date reveal-hidden">{dateStr}</p>
-      <p className="velvet-closing__message reveal-hidden">
-        We can&apos;t wait to celebrate with you.<br />
-        May Allah bless this union with love and mercy.
-      </p>
-      <div className="velvet-closing__ornament" />
-      <p style={{
-        fontFamily: 'var(--font-body)',
-        fontSize: '0.55rem',
-        letterSpacing: '0.35em',
-        textTransform: 'uppercase',
-        color: 'rgba(201,151,26,0.3)',
-        marginTop: '3rem',
-      }}>
-        Naqsh Digital
-      </p>
-    </section>
+    <footer className="closing-section">
+      <div className="closing-arch reveal">
+        <span className="ornament light" aria-hidden="true"><i /></span>
+        <h2>We can&apos;t wait to celebrate with you.</h2>
+        <div id="closingNames" className="closing-names">
+          {brideFn} <span className="name-ampersand" style={{ fontSize: '1rem', fontStyle: 'italic', fontFamily: 'var(--font-display)', margin: '0 6px', color: 'color-mix(in srgb, var(--champagne) 55%, transparent)' }}>&amp;</span> {groomFn}
+        </div>
+        <small id="closingDetails">
+          {dateStr}
+          {fromName ? ` · ${fromName}` : ''}
+          {fromOrg ? ` · ${fromOrg}` : ''}
+        </small>
+      </div>
+    </footer>
   )
 }

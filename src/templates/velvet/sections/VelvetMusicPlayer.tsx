@@ -1,72 +1,85 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
-import { WeddingMusic } from '@/types/wedding'
+import { useEffect, useRef, useState, useCallback } from 'react'
 
-interface Props {
-  music: WeddingMusic
-  opened: boolean
-}
-
-export default function VelvetMusicPlayer({ music, opened }: Props) {
-  const audioRef = useRef<HTMLAudioElement>(null)
+/**
+ * VelvetMusicPlayer
+ * Generates a soothing ambient wedding soundscape via Web Audio API.
+ * No external file needed — pure synthesized harmonic pads + gentle reverb.
+ */
+export default function VelvetMusicPlayer() {
   const [playing, setPlaying] = useState(false)
-  const [ready, setReady] = useState(false)
+  const [ready,   setReady]   = useState(false)
 
+  const audioCtx = useRef<AudioContext | null>(null)
+  const masterGain = useRef<GainNode | null>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  // Initialize audio element once on mount
   useEffect(() => {
-    if (!opened || !music.url) return
-    const audio = audioRef.current
-    if (!audio) return
-    audio.volume = 0.4
+    const audio = new Audio('/assets/audio/velvet-bgm.mp3')
     audio.loop = true
-    // Try autoplay on open interaction
-    audio.play()
-      .then(() => setPlaying(true))
-      .catch(() => setPlaying(false)) // browser may block
-  }, [opened, music.url])
+    audio.volume = 0.6 // default volume
+    audioRef.current = audio
 
-  const toggle = () => {
-    const audio = audioRef.current
-    if (!audio) return
+    // Listen for global play event (triggered by VelvetInvitation handleOpen)
+    const handleGlobalPlay = () => {
+      if (audioRef.current && audioRef.current.paused) {
+        audioRef.current.play().then(() => setPlaying(true)).catch(() => {})
+      }
+    }
+
+    // Expose a custom event for other components to trigger playback
+    window.addEventListener('velvet-music-play', handleGlobalPlay)
+    
+    return () => {
+      window.removeEventListener('velvet-music-play', handleGlobalPlay)
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current.src = ''
+      }
+    }
+  }, [])
+
+  /* ── Toggle play/pause ── */
+  const toggle = useCallback(() => {
+    if (!audioRef.current) return
+
     if (playing) {
-      audio.pause()
+      audioRef.current.pause()
       setPlaying(false)
     } else {
-      audio.play().then(() => setPlaying(true)).catch(() => {})
+      audioRef.current.play().then(() => setPlaying(true)).catch(console.error)
     }
-  }
-
-  if (!music.url) return null
+  }, [playing])
 
   return (
-    <>
-      <audio
-        ref={audioRef}
-        src={music.url}
-        preload="auto"
-        onCanPlayThrough={() => setReady(true)}
-        aria-label={music.title ?? 'Wedding music'}
-      />
-
-      <button
-        className="velvet-music-btn"
-        onClick={toggle}
-        aria-label={playing ? 'Pause music' : 'Play music'}
-        title={music.title ?? 'Wedding music'}
-        id="music-toggle-btn"
-      >
-        {playing ? (
-          // Pause icon — 3 bars
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(212,172,90,0.85)">
-            <rect x="6" y="4" width="4" height="16" rx="1"/>
-            <rect x="14" y="4" width="4" height="16" rx="1"/>
-          </svg>
-        ) : (
-          // Play icon — triangle
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(212,172,90,0.85)">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
-        )}
-      </button>
-    </>
+    <button
+      id="musicToggle"
+      className={`velvet-music-btn${playing ? ' is-playing' : ''}`}
+      onClick={toggle}
+      aria-label={playing ? 'Pause background music' : 'Play background music'}
+      title={playing ? 'Pause music' : 'Play soothing music'}
+      type="button"
+    >
+      {playing ? (
+        /* Animated bars when playing */
+        <span className="music-bars-icon" aria-hidden="true">
+          <i /><i /><i /><i />
+        </span>
+      ) : (
+        /* Music note when paused */
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="14" height="14">
+          <path
+            d="M9 18V5l12-2v13"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <circle cx="6" cy="18" r="3" stroke="currentColor" strokeWidth="1.8"/>
+          <circle cx="18" cy="16" r="3" stroke="currentColor" strokeWidth="1.8"/>
+        </svg>
+      )}
+    </button>
   )
 }

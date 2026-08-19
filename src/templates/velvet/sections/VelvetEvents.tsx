@@ -4,69 +4,53 @@ import { WeddingEvent } from '@/types/wedding'
 interface Props { events: WeddingEvent[] }
 
 export default function VelvetEvents({ events }: Props) {
-  if (!events.length) return null
+  if (events.length === 0) return null
 
   return (
-    <section className="velvet-events">
-      <p className="velvet-events__label reveal-hidden">The Celebrations</p>
-      <h2 className="velvet-events__heading reveal-hidden">Insha Allah</h2>
-      <p className="velvet-events__inshallah reveal-hidden">Mehfil-e-Nikah</p>
+    <section className="events-section section-pad">
+      <div className="section-shell">
+        <header className="section-heading reveal">
+          <span className="eyebrow">The Festivities</span>
+          <h2>Days filled with joy</h2>
+          <span className="ornament" aria-hidden="true"><i /></span>
+        </header>
 
-      <div className="velvet-events__grid">
-        {events.map((event, i) => (
-          <article key={event.id} className="velvet-events__card reveal-hidden">
-            <p className="velvet-events__number">{String(i + 1).padStart(2, '0')}</p>
-            <h3 className="velvet-events__name">{event.name}</h3>
+        <div id="preWeddingEvents" className="event-list reveal">
+          {events.map((ev) => (
+            <article key={ev.id}>
+              <h3>{ev.name}</h3>
 
-            {event.date && (
-              <p className="velvet-events__date">
-                {new Date(event.date).toLocaleDateString('en-GB', {
-                  weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-                })}
-              </p>
-            )}
+              {(ev.date || ev.timeDisplay) && (
+                <p>
+                  {ev.date && (
+                    <span>
+                      {new Date(ev.date).toLocaleDateString('en-GB', {
+                        day: 'numeric', month: 'long', year: 'numeric',
+                      })}
+                    </span>
+                  )}
+                  {ev.date && ev.timeDisplay && <span>⬩</span>}
+                  {ev.timeDisplay && <span>{ev.timeDisplay}</span>}
+                </p>
+              )}
 
-            {event.timeDisplay && (
-              <p className="velvet-events__time">{event.timeDisplay}</p>
-            )}
+              {ev.venueName && (
+                <small>{ev.venueName}</small>
+              )}
 
-            {event.description && (
-              <p className="velvet-events__desc">{event.description}</p>
-            )}
-
-            {event.venueName && (
-              <p className="velvet-events__venue">{event.venueName}</p>
-            )}
-
-            {event.venueAddress && (
-              <p className="velvet-events__address">{event.venueAddress}</p>
-            )}
-
-            {event.mapsUrl && (
-              <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              {ev.mapsUrl && (
                 <a
-                  href={event.mapsUrl}
+                  href={ev.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="velvet-events__map-btn"
+                  className="event-map-link"
                 >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                  </svg>
-                  View Location
+                  View on Google Maps
                 </a>
-                <a
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(event.venueName + ' ' + (event.venueAddress ?? ''))}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="velvet-events__map-btn"
-                >
-                  Get Directions
-                </a>
-              </div>
-            )}
-          </article>
-        ))}
+              )}
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   )
