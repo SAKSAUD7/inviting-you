@@ -4,8 +4,9 @@ import { redirect } from 'next/navigation'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
-  // Allow login page through without redirect loop
-  
+  if (!session) {
+    redirect('/admin/login')
+  }
   return (
     <div style={{ minHeight: '100vh', display: 'flex', background: 'var(--admin-bg)', fontFamily: 'var(--font-sans)' }}>
       {/* Sidebar */}

@@ -7,8 +7,10 @@ export default function VelvetEvents({ events }: Props) {
   if (events.length === 0) return null
 
   return (
-    <section className="events-section section-pad">
-      <div className="section-shell">
+    <section className="events-section section-pad" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div className="velvet-garland tr" />
+      <div className="velvet-garland bl" />
+      <div className="section-shell" style={{ position: 'relative', zIndex: 2 }}>
         <header className="section-heading reveal">
           <span className="eyebrow">The Festivities</span>
           <h2>Days filled with joy</h2>

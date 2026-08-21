@@ -3244,3 +3244,49 @@ textarea:focus-visible {
   color: var(--champagne);
   outline: none;
 }
+
+/* ========================================================================= */
+/* FLORAL GARLANDS (INJECTED DECORATIONS)                                    */
+/* ========================================================================= */
+
+.velvet-garland {
+  position: absolute;
+  width: clamp(200px, 35vw, 400px);
+  height: clamp(200px, 35vw, 400px);
+  background-image: url('/assets/images/floral-divider.webp');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+  filter: sepia(0.5) hue-rotate(-10deg) saturate(1.5);
+}
+
+.velvet-garland.tl {
+  top: -5%;
+  left: -5%;
+  transform-origin: top left;
+  transform: rotate(-45deg);
+}
+
+.velvet-garland.br {
+  bottom: -5%;
+  right: -5%;
+  transform-origin: bottom right;
+  transform: rotate(135deg);
+}
+
+.velvet-garland.tr {
+  top: -5%;
+  right: -5%;
+  transform-origin: top right;
+  transform: rotate(45deg) scaleX(-1);
+}
+
+.velvet-garland.bl {
+  bottom: -5%;
+  left: -5%;
+  transform-origin: bottom left;
+  transform: rotate(-135deg) scaleX(-1);
+}

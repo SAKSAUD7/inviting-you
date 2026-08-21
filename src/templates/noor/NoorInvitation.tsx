@@ -1,23 +1,41 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import NoorHero from './sections/NoorHero'
+import NoorWelcome from './sections/NoorWelcome'
+import NoorCouple from './sections/NoorCouple'
+import NoorScratchReveal from './sections/NoorScratchReveal'
+import NoorEvents from './sections/NoorEvents'
+import NoorGallery from './sections/NoorGallery'
+import NoorCountdown from './sections/NoorCountdown'
+import NoorInteractiveDua from './sections/NoorInteractiveDua'
+import NoorBlessings from './sections/NoorBlessings'
+import NoorClosing from './sections/NoorClosing'
+import NoorMusicPlayer from './sections/NoorMusicPlayer'
 import './noor.css'
-import { WeddingData, WeddingEvent } from '@/types/wedding'
 
-interface NoorInvitationProps {
-  wedding: WeddingData
+interface Props {
+  wedding: any
 }
 
-export default function NoorInvitation({ wedding }: NoorInvitationProps) {
+// Reusable ornamental divider for sections
+const NoorDivider = () => (
+  <div style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '3rem 0', pointerEvents: 'none' }} aria-hidden="true">
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img src="/images/noor-floral-divider.png" alt="" style={{ width: '80%', maxWidth: '400px', opacity: 0.85, mixBlendMode: 'multiply' }} />
+  </div>
+)
+
+export default function NoorInvitation({ wedding }: Props) {
+  const { couple, events, galleryImages, family } = wedding
   const [opened, setOpened] = useState(false)
-  const [opening, setOpening] = useState(false)
   const mainRef = useRef<HTMLDivElement>(null)
 
-  const handleOpen = useCallback(() => {
-    if (opening || opened) return
-    setOpening(true)
-    setTimeout(() => setOpened(true), 1200)
-  }, [opening, opened])
+  const primaryEvent = events?.find((e: any) => e.isPrimary) || events?.[0]
+  const dateDisplay = primaryEvent?.date 
+    ? new Date(primaryEvent.date).toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) 
+    : wedding.couple?.gregorianDisplay?.replace(/\n/g, ' ') || 'Coming Soon'
 
   // Scroll reveal
   useEffect(() => {
@@ -38,147 +56,116 @@ export default function NoorInvitation({ wedding }: NoorInvitationProps) {
     return () => observer.disconnect()
   }, [opened])
 
-  const { couple, family, events, gallery, compliments, rsvpConfig } = wedding
-  const activeEvents = events.filter((e) => e.enabled).sort((a, b) => a.order - b.order)
-  const nikahEvent = activeEvents.find((e) => e.name.toLowerCase().includes('nikah') || e.type === 'NIKAH')
-  
   return (
-    <div className="noor-shell">
-      {/* Opening sequence */}
-      <div className={`noor-opening ${opening || opened ? 'is-opening' : ''}`}>
-        <div className="noor-opening-content">
-          <p style={{ fontFamily: 'var(--font-sans)', letterSpacing: '0.2em', fontSize: '0.8rem', color: 'var(--noor-muted)', marginBottom: '2rem', textTransform: 'uppercase' }}>
-            You are invited
-          </p>
-          <h1 style={{ marginBottom: '1rem', color: 'var(--noor-gold)' }}>
-            {couple?.brideName} &amp; {couple?.groomName}
-          </h1>
-          <p style={{ color: 'var(--noor-muted)', marginBottom: '3rem' }}>
-            {couple?.gregorianDisplay}
-          </p>
-          <button className="noor-btn" onClick={handleOpen}>
-            Open Invitation
-          </button>
-        </div>
-      </div>
-
+    <div ref={mainRef} className="noor-shell">
+      {opened && <NoorParticles />}
+      
+      <NoorHero wedding={wedding} opened={opened} onOpen={() => setOpened(true)} />
+      
       {opened && (
-        <main ref={mainRef} className="noor-main">
+        <motion.main 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+          className="noor-main" 
+          style={{ position: 'relative', zIndex: 1, paddingBottom: '3rem' }}
+        >
+          <NoorWelcome couple={couple} />
           
-          {/* Islamic Bismillah & Verse */}
-          <section className="noor-section noor-section-ivory">
-            <div className="reveal-hidden" style={{ textAlign: 'center', maxWidth: '600px' }}>
-              <p style={{ fontSize: '1.2rem', color: 'var(--noor-gold)', marginBottom: '2rem', fontFamily: 'var(--font-serif)', whiteSpace: 'pre-line' }}>
-                {couple?.islamicVerse || "In The Name Of Allah\nThe Most Beneficent & The Most Merciful"}
-              </p>
-              <div style={{ height: '40px', width: '1px', background: 'var(--noor-gold-soft)', margin: '0 auto 2rem' }} />
-              <p style={{ color: 'var(--noor-muted)' }}>
-                {couple?.invitationMessage}
-              </p>
-            </div>
-          </section>
-
-          {/* Couple Presentation */}
-          <section className="noor-section">
-            <div className="noor-arch-container reveal-hidden">
-              <h2 style={{ fontSize: '2rem', color: 'var(--noor-green)', marginBottom: '0.5rem' }}>
-                {couple?.brideName}
-              </h2>
-              {couple?.brideQualification && (
-                <p style={{ fontSize: '0.85rem', color: 'var(--noor-muted)', marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                  {couple.brideQualification}
-                </p>
-              )}
-              {family?.brideParents && (
-                <p style={{ fontSize: '0.9rem', color: 'var(--noor-text)', marginBottom: '3rem' }}>
-                  D/O {family.brideParents}
-                </p>
-              )}
-              
-              <div style={{ fontSize: '1.5rem', fontFamily: 'var(--font-serif)', color: 'var(--noor-gold)', margin: '2rem 0' }}>&amp;</div>
-
-              <h2 style={{ fontSize: '2rem', color: 'var(--noor-green)', marginBottom: '0.5rem' }}>
-                {couple?.groomName}
-              </h2>
-              {couple?.groomQualification && (
-                <p style={{ fontSize: '0.85rem', color: 'var(--noor-muted)', marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                  {couple.groomQualification}
-                </p>
-              )}
-              {family?.groomFather && (
-                <p style={{ fontSize: '0.9rem', color: 'var(--noor-text)' }}>
-                  S/O {family.groomFather}
-                </p>
-              )}
-            </div>
-          </section>
-
-          {/* Events */}
-          {activeEvents.length > 0 && (
-            <section className="noor-section noor-section-alt">
-              <h2 className="reveal-hidden">Wedding Events</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', width: '100%', alignItems: 'center' }}>
-                {activeEvents.map((event) => (
-                  <div key={event.id} className="noor-event-card reveal-hidden">
-                    <h3 className="noor-event-title">{event.name}</h3>
-                    <div className="noor-event-time">
-                      {new Date(event.date || '').toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} <br/>
-                      {event.timeDisplay}
-                    </div>
-                    {event.description && <p style={{ marginBottom: '1.5rem', fontStyle: 'italic', color: 'var(--noor-muted)' }}>{event.description}</p>}
-                    <div className="noor-event-venue">
-                      <strong>{event.venueName}</strong>
-                      <p style={{ fontSize: '0.9rem', color: 'var(--noor-muted)', marginTop: '0.5rem' }}>{event.venueAddress}</p>
-                    </div>
-                    {event.mapsUrl && (
-                      <a href={event.mapsUrl} target="_blank" rel="noreferrer" className="noor-btn" style={{ display: 'inline-block', marginTop: '1.5rem', textDecoration: 'none' }}>
-                        View Map
-                      </a>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </section>
+          <NoorDivider />
+          <NoorCouple couple={couple} />
+          
+          <NoorDivider />
+          
+          <NoorScratchReveal dateDisplay={dateDisplay} venueName={primaryEvent?.venueName || undefined} />
+          
+          {primaryEvent?.date && (
+            <>
+              <NoorDivider />
+              <NoorCountdown targetDate={new Date(primaryEvent.date)} />
+            </>
+          )}
+          
+          {events && events.length > 0 && (
+            <>
+              {/* No divider before events because Mehfil-e-Nikah needs a hard emerald transition */}
+              <NoorEvents events={events} />
+            </>
+          )}
+          
+          {galleryImages && galleryImages.length > 0 && (
+            <>
+              <NoorDivider />
+              <NoorGallery gallery={galleryImages} />
+            </>
           )}
 
-          {/* Compliments / Family */}
-          {compliments && compliments.length > 0 && (
-            <section className="noor-section">
-              <h2 className="reveal-hidden" style={{ fontSize: '1.5rem', marginBottom: '2rem' }}>With Best Compliments From</h2>
-              <div className="reveal-hidden" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center', maxWidth: '800px' }}>
-                {compliments.map((comp) => (
-                  <span key={comp.id} style={{ padding: '0.5rem 1rem', border: '1px solid var(--noor-gold-soft)', color: 'var(--noor-text)', borderRadius: '20px', fontSize: '0.9rem' }}>
-                    {comp.name}
-                  </span>
-                ))}
-              </div>
-            </section>
+          {/* No divider before Dua because it also has an emerald transition */}
+          <NoorInteractiveDua />
+          
+          {(family?.parents || family?.grandparents) && (
+            <>
+              <NoorDivider />
+              <NoorBlessings family={family} />
+            </>
           )}
 
-          {/* RSVP and Closing */}
-          <section className="noor-section noor-section-ivory" style={{ paddingBottom: '8rem' }}>
-            <h2 className="reveal-hidden">Join Our Celebration</h2>
-            {rsvpConfig?.enabled && (
-              <p className="reveal-hidden" style={{ color: 'var(--noor-muted)', marginBottom: '2rem', maxWidth: '500px' }}>
-                {rsvpConfig.message || "We would be honored by your presence."}
-              </p>
-            )}
-            
-            <div className="reveal-hidden" style={{ textAlign: 'center', marginTop: '4rem', borderTop: '1px solid var(--noor-gold-soft)', paddingTop: '4rem', width: '100%', maxWidth: '600px' }}>
-              <p style={{ fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--noor-muted)', marginBottom: '1rem' }}>
-                Invitation From
-              </p>
-              <h3 style={{ fontSize: '1.2rem', color: 'var(--noor-gold)', marginBottom: '0.5rem' }}>
-                {family?.invitationFromName}
-              </h3>
-              {family?.invitationFromOrg && <p style={{ fontSize: '0.95rem' }}>{family.invitationFromOrg}</p>}
-              {family?.invitationFromAddress && <p style={{ fontSize: '0.9rem', color: 'var(--noor-muted)' }}>{family.invitationFromAddress}</p>}
-              {family?.invitationFromPhone && <p style={{ fontSize: '0.9rem', color: 'var(--noor-muted)', marginTop: '0.5rem' }}>Ph: {family.invitationFromPhone}</p>}
-            </div>
-          </section>
-
-        </main>
+          <NoorDivider />
+          <NoorClosing couple={couple} />
+        </motion.main>
       )}
+
+      <NoorMusicPlayer music={wedding.music} opened={opened} />
+    </div>
+  )
+}
+
+function NoorParticles() {
+  const [petals, setPetals] = useState<{ id: number; left: string; animDuration: string; animDelay: string; size: number }[]>([])
+  const [motes, setMotes] = useState<{ id: number; left: string; animDuration: string; animDelay: string; size: number }[]>([])
+
+  useEffect(() => {
+    // Fewer petals, more organic variation
+    setPetals(Array.from({ length: 6 }).map((_, i) => ({
+      id: i,
+      left: `${5 + Math.random() * 90}vw`,
+      animDuration: `${15 + Math.random() * 15}s`,
+      animDelay: `${Math.random() * 10}s`,
+      size: 10 + Math.random() * 8, // 10-18px
+    })))
+    
+    // Ambient gold dust motes
+    setMotes(Array.from({ length: 12 }).map((_, i) => ({
+      id: i,
+      left: `${10 + Math.random() * 80}vw`,
+      animDuration: `${10 + Math.random() * 10}s`,
+      animDelay: `${Math.random() * 8}s`,
+      size: 3 + Math.random() * 4, // 3-7px
+    })))
+  }, [])
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
+      {petals.map((p) => (
+        <div 
+          key={`petal-${p.id}`}
+          className="noor-falling-petal"
+          style={{
+            left: p.left, width: `${p.size}px`, height: `${p.size * 1.2}px`,
+            animationDuration: p.animDuration, animationDelay: p.animDelay
+          }}
+        />
+      ))}
+      {motes.map((m) => (
+        <div 
+          key={`mote-${m.id}`}
+          className="noor-gold-dust"
+          style={{
+            left: m.left, top: '100%', width: `${m.size}px`, height: `${m.size}px`,
+            animationDuration: m.animDuration, animationDelay: m.animDelay
+          }}
+        />
+      ))}
     </div>
   )
 }

@@ -27,8 +27,10 @@ export default function VelvetWelcome({ couple }: Props) {
     'With hearts full of gratitude, we warmly invite you to join us as we celebrate this beautiful beginning with the love, prayers, and blessings of our families.'
 
   return (
-    <section id="welcome" className="welcome-section section-pad">
-      <div className="section-shell welcome-shell">
+    <section id="welcome" className="welcome-section section-pad" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div className="velvet-garland tl" />
+      <div className="velvet-garland br" />
+      <div className="section-shell welcome-shell" style={{ position: 'relative', zIndex: 2 }}>
         {/* Arch Emblem — exact reference element */}
         <div className="arch-emblem" aria-hidden="true">
           <span>﷽</span>

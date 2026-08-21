@@ -98,7 +98,11 @@ export async function POST(request: NextRequest) {
 
         ...(music && {
           music: {
-            create: { title: music.title || '', enabled: music.enabled ?? true },
+            create: { 
+              title: music.title || '', 
+              url: music.url || '',
+              autoplay: music.enabled ?? true 
+            },
           },
         }),
 

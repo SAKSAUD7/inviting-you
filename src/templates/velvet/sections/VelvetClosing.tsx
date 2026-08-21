@@ -15,8 +15,10 @@ export default function VelvetClosing({ couple, family }: Props) {
   const fromAddress = family?.invitationFromAddress
 
   return (
-    <footer className="closing-section">
-      <div className="closing-arch reveal">
+    <footer className="closing-section" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div className="velvet-garland tl" />
+      <div className="velvet-garland br" />
+      <div className="closing-arch reveal" style={{ position: 'relative', zIndex: 2 }}>
         <span className="ornament light" aria-hidden="true"><i /></span>
         <h2>We can&apos;t wait to celebrate with you.</h2>
         <div id="closingNames" className="closing-names">

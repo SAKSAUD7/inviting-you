@@ -36,47 +36,74 @@ export default function NewWeddingPage() {
   const [createdId, setCreatedId] = useState<string | null>(null)
 
   // Form state
-  const [title, setTitle] = useState('Iqra & Mohammed Mufassir')
-  const [slug, setSlug] = useState('iqra-mufassir')
+  const [title, setTitle] = useState('')
+  const [slug, setSlug] = useState('')
   const [templateId, setTemplateId] = useState('velvet')
   const [status, setStatus] = useState('DRAFT')
 
   // Couple
-  const [brideName, setBrideName] = useState('Iqra Bismi')
-  const [brideQual, setBrideQual] = useState('B.Com')
-  const [groomName, setGroomName] = useState('Mohammed Mufassir')
-  const [groomQual, setGroomQual] = useState('B.Sc')
-  const [gregorianDate, setGregorianDate] = useState('2026-10-02')
-  const [gregorianDisplay, setGregorianDisplay] = useState('Friday, 2 October 2026')
-  const [hijriDate, setHijriDate] = useState('20th Jamadu Al Awal 1448 Hijri')
-  const [islamicVerse, setIslamicVerse] = useState('In The Name Of Allah\nThe Most Beneficent & The Most Merciful')
-  const [invitationMsg, setInvitationMsg] = useState('With hearts full of gratitude, we warmly invite you to join us as we celebrate this beautiful beginning.')
+  const [brideName, setBrideName] = useState('')
+  const [brideQual, setBrideQual] = useState('')
+  const [groomName, setGroomName] = useState('')
+  const [groomQual, setGroomQual] = useState('')
+  const [gregorianDate, setGregorianDate] = useState('')
+  const [gregorianDisplay, setGregorianDisplay] = useState('')
+  const [hijriDate, setHijriDate] = useState('')
+  const [islamicVerse, setIslamicVerse] = useState('In the Name of Allah\nthe Most Gracious the Most Merciful')
+  const [invitationMsg, setInvitationMsg] = useState('Request the honour of your gracious presence at the Nikah Ceremony of their beloved daughter')
 
   // Family
-  const [brideParents, setBrideParents] = useState('Mrs. & Mr. Mohammed Asif')
-  const [bridePGF, setBridePGF] = useState('Janab Haji Abdul Rasheed Saheb')
-  const [brideMGF, setBrideMGF] = useState('Late Janab Mohammed Ismail Shariff Saheb')
-  const [groomFather, setGroomFather] = useState('Nawaz Ahmed')
-  const [groomPGF, setGroomPGF] = useState('Late Janab Abdul Wahab Saheb')
-  const [groomMGF, setGroomMGF] = useState('Late Janab Syed Yusuf Saheb')
-  const [fromName, setFromName] = useState('Mrs. & Mr. Mohammed Asif')
-  const [fromOrg, setFromOrg] = useState('New Unique Collection')
-  const [fromAddress, setFromAddress] = useState('Diamond Plaza, Commercial Street, Shivajinagar, Bangalore')
-  const [fromPhone, setFromPhone] = useState('9739700723')
+  const [brideParents, setBrideParents] = useState('')
+  const [bridePGF, setBridePGF] = useState('')
+  const [brideMGF, setBrideMGF] = useState('')
+  const [groomFather, setGroomFather] = useState('')
+  const [groomPGF, setGroomPGF] = useState('')
+  const [groomMGF, setGroomMGF] = useState('')
+  const [fromName, setFromName] = useState('')
+  const [fromOrg, setFromOrg] = useState('')
+  const [fromAddress, setFromAddress] = useState('')
+  const [fromPhone, setFromPhone] = useState('')
 
   // Events
-  const [events, setEvents] = useState<EventForm[]>([
-    { name: 'INSHA ALLAH Mehfil-e-Nikah', type: 'NIKAH', date: '2026-10-02', timeDisplay: '5:00 PM', description: 'After Namaz-e-Asar', venueName: 'Khadriya Masjid', venueAddress: 'Millers Road, Benson Town, Bangalore', mapsUrl: '' },
-    { name: 'Dinner', type: 'RECEPTION', date: '2026-10-02', timeDisplay: '8:00 PM onwards', description: '', venueName: 'CMA Royal', venueAddress: '#72/1, Thanisandra Main Road, Near Uqba Masjid, Near Elements Mall, Bengaluru – 560077', mapsUrl: '' },
-  ])
+  const [events, setEvents] = useState<EventForm[]>([{ ...defaultEvent }])
 
   // Music
   const [musicEnabled, setMusicEnabled] = useState(true)
-  const [musicTitle, setMusicTitle] = useState('Wedding Nasheed')
+  const [musicTitle, setMusicTitle] = useState('')
+  const [musicUrl, setMusicUrl] = useState('')
 
   // RSVP
   const [rsvpEnabled, setRsvpEnabled] = useState(true)
-  const [rsvpMsg, setRsvpMsg] = useState('We would be honoured by your presence.')
+  const [rsvpMsg, setRsvpMsg] = useState('We would be honoured by your presence. Please let us know if you can attend.')
+
+  const loadSampleData = () => {
+    setTitle('Iqra & Mohammed Mufassir')
+    setSlug('iqra-mufassir')
+    setTemplateId('velvet')
+    setBrideName('Iqra Bismi')
+    setBrideQual('B.Com')
+    setGroomName('Mohammed Mufassir')
+    setGroomQual('B.Sc')
+    setGregorianDate('2026-10-02')
+    setGregorianDisplay('Friday, 2 October 2026')
+    setHijriDate('20th Jamadu Al Awal 1448 Hijri')
+    setBrideParents('Mrs. & Mr. Mohammed Asif')
+    setBridePGF('Janab Haji Abdul Rasheed Saheb')
+    setBrideMGF('Late Janab Mohammed Ismail Shariff Saheb')
+    setGroomFather('Nawaz Ahmed')
+    setGroomPGF('Late Janab Abdul Wahab Saheb')
+    setGroomMGF('Late Janab Syed Yusuf Saheb')
+    setFromName('Mrs. & Mr. Mohammed Asif')
+    setFromOrg('New Unique Collection')
+    setFromAddress('Diamond Plaza, Commercial Street, Shivajinagar, Bangalore')
+    setFromPhone('9739700723')
+    setEvents([
+      { name: 'INSHA ALLAH Mehfil-e-Nikah', type: 'NIKAH', date: '2026-10-02', timeDisplay: '5:00 PM', description: 'After Namaz-e-Asar', venueName: 'Khadriya Masjid', venueAddress: 'Millers Road, Benson Town, Bangalore', mapsUrl: '' },
+      { name: 'Dinner', type: 'RECEPTION', date: '2026-10-02', timeDisplay: '8:00 PM onwards', description: '', venueName: 'CMA Royal', venueAddress: '#72/1, Thanisandra Main Road, Near Uqba Masjid, Near Elements Mall, Bengaluru – 560077', mapsUrl: '' },
+    ])
+    setMusicTitle('Wedding Nasheed')
+    setMusicUrl('/assets/audio/velvet-bgm.mp3')
+  }
 
   const addEvent = () => setEvents([...events, { ...defaultEvent }])
   const removeEvent = (i: number) => setEvents(events.filter((_, idx) => idx !== i))
@@ -97,10 +124,10 @@ export default function NewWeddingPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title, slug, templateId, status,
-          couple: { brideName, brideQualification: brideQual, groomName, groomQualification: groomQual, gregorianDate: new Date(gregorianDate), gregorianDisplay, hijriDate, islamicVerse, invitationMessage: invitationMsg },
+          couple: { brideName, brideQualification: brideQual, groomName, groomQualification: groomQual, gregorianDate: gregorianDate ? new Date(gregorianDate) : null, gregorianDisplay, hijriDate, islamicVerse, invitationMessage: invitationMsg },
           family: { brideParents, bridePaternalGrandfather: bridePGF, brideMaternalGrandfather: brideMGF, groomFather, groomPaternalGrandfather: groomPGF, groomMaternalGrandfather: groomMGF, invitationFromName: fromName, invitationFromOrg: fromOrg, invitationFromAddress: fromAddress, invitationFromPhone: fromPhone },
-          events: events.map((e, i) => ({ ...e, order: i + 1, enabled: true, date: new Date(e.date + 'T00:00:00Z') })),
-          music: musicEnabled ? { title: musicTitle, enabled: true } : undefined,
+          events: events.map((e, i) => ({ ...e, order: i + 1, enabled: true, date: e.date ? new Date(e.date + 'T00:00:00Z') : null })),
+          music: musicEnabled ? { title: musicTitle, url: musicUrl, enabled: true } : undefined,
           rsvpConfig: { enabled: rsvpEnabled, message: rsvpMsg },
         }),
       })
@@ -136,15 +163,94 @@ export default function NewWeddingPage() {
       case 'basics':
         return (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+              <button onClick={loadSampleData} style={{ padding: '0.5rem 1rem', background: 'rgba(201,151,26,0.1)', color: 'var(--admin-gold)', border: '1px solid var(--admin-gold)', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}>
+                Load Sample Data
+              </button>
+              <button onClick={() => {
+                const data = prompt('Paste your complete wedding details JSON here:')
+                if (data) {
+                  try {
+                    const parsed = JSON.parse(data)
+                    // Basics
+                    if (parsed.title) setTitle(parsed.title)
+                    if (parsed.slug) setSlug(parsed.slug)
+                    if (parsed.templateId) setTemplateId(parsed.templateId)
+                    if (parsed.status) setStatus(parsed.status)
+                    
+                    // Couple
+                    if (parsed.couple) {
+                      if (parsed.couple.brideName) setBrideName(parsed.couple.brideName)
+                      if (parsed.couple.brideQualification) setBrideQual(parsed.couple.brideQualification)
+                      if (parsed.couple.groomName) setGroomName(parsed.couple.groomName)
+                      if (parsed.couple.groomQualification) setGroomQual(parsed.couple.groomQualification)
+                      if (parsed.couple.gregorianDate) setGregorianDate(parsed.couple.gregorianDate)
+                      if (parsed.couple.gregorianDisplay) setGregorianDisplay(parsed.couple.gregorianDisplay)
+                      if (parsed.couple.hijriDate) setHijriDate(parsed.couple.hijriDate)
+                      if (parsed.couple.islamicVerse) setIslamicVerse(parsed.couple.islamicVerse)
+                      if (parsed.couple.invitationMessage) setInvitationMsg(parsed.couple.invitationMessage)
+                    }
+
+                    // Family
+                    if (parsed.family) {
+                      if (parsed.family.brideParents) setBrideParents(parsed.family.brideParents)
+                      if (parsed.family.bridePaternalGrandfather) setBridePGF(parsed.family.bridePaternalGrandfather)
+                      if (parsed.family.brideMaternalGrandfather) setBrideMGF(parsed.family.brideMaternalGrandfather)
+                      if (parsed.family.groomFather) setGroomFather(parsed.family.groomFather)
+                      if (parsed.family.groomPaternalGrandfather) setGroomPGF(parsed.family.groomPaternalGrandfather)
+                      if (parsed.family.groomMaternalGrandfather) setGroomMGF(parsed.family.groomMaternalGrandfather)
+                      if (parsed.family.invitationFromName) setFromName(parsed.family.invitationFromName)
+                      if (parsed.family.invitationFromOrg) setFromOrg(parsed.family.invitationFromOrg)
+                      if (parsed.family.invitationFromAddress) setFromAddress(parsed.family.invitationFromAddress)
+                      if (parsed.family.invitationFromPhone) setFromPhone(parsed.family.invitationFromPhone)
+                    }
+
+                    // Events
+                    if (parsed.events && Array.isArray(parsed.events)) {
+                      setEvents(parsed.events.map((e: any) => ({
+                        name: e.name || '',
+                        type: e.type || 'CUSTOM',
+                        date: e.date || '',
+                        timeDisplay: e.timeDisplay || '',
+                        description: e.description || '',
+                        venueName: e.venueName || '',
+                        venueAddress: e.venueAddress || '',
+                        mapsUrl: e.mapsUrl || ''
+                      })))
+                    }
+
+                    // Music
+                    if (parsed.music) {
+                      if (parsed.music.enabled !== undefined) setMusicEnabled(parsed.music.enabled)
+                      if (parsed.music.title) setMusicTitle(parsed.music.title)
+                      if (parsed.music.url) setMusicUrl(parsed.music.url)
+                    }
+
+                    // RSVP
+                    if (parsed.rsvpConfig) {
+                      if (parsed.rsvpConfig.enabled !== undefined) setRsvpEnabled(parsed.rsvpConfig.enabled)
+                      if (parsed.rsvpConfig.message) setRsvpMsg(parsed.rsvpConfig.message)
+                    }
+
+                    alert('All data imported successfully!')
+                  } catch (e) {
+                    alert('Invalid JSON format. Please ensure it is properly formatted.')
+                  }
+                }
+              }} style={{ padding: '0.5rem 1rem', background: 'transparent', color: 'var(--admin-muted)', border: '1px solid var(--admin-border)', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}>
+                Quick Import JSON
+              </button>
+            </div>
+            
             <div style={fieldStyle}>
               <label style={labelStyle}>Wedding Title</label>
-              <input style={inputStyle} value={title} onChange={(e) => { setTitle(e.target.value); setSlug(e.target.value.toLowerCase().replace(/\s+&\s+/g, '-').replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')) }} placeholder="Iqra & Mohammed Mufassir" />
+              <input style={inputStyle} value={title} onChange={(e) => { setTitle(e.target.value); setSlug(e.target.value.toLowerCase().replace(/\s+&\s+/g, '-').replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')) }} placeholder="e.g. Asfiya & Zuhaib" />
             </div>
             <div style={fieldStyle}>
               <label style={labelStyle}>Public URL Slug</label>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <span style={{ color: 'var(--admin-muted)', fontSize: '0.85rem', flexShrink: 0 }}>/i/</span>
-                <input style={{ ...inputStyle, flex: 1 }} value={slug} onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/\s+/g, '-'))} placeholder="iqra-mufassir" />
+                <input style={{ ...inputStyle, flex: 1 }} value={slug} onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/\s+/g, '-'))} placeholder="asfiya-zuhaib" />
               </div>
             </div>
             <div style={fieldStyle}>
@@ -272,13 +378,19 @@ export default function NewWeddingPage() {
               <label htmlFor="musicEnabled" style={{ cursor: 'pointer', fontSize: '0.95rem' }}>Enable background music</label>
             </div>
             {musicEnabled && (
-              <div style={fieldStyle}>
-                <label style={labelStyle}>Track Title</label>
-                <input style={inputStyle} value={musicTitle} onChange={(e) => setMusicTitle(e.target.value)} placeholder="e.g. Ya Nabi Salam Alayka" />
-                <p style={{ fontSize: '0.78rem', color: 'var(--admin-muted)', marginTop: '0.4rem' }}>
-                  After creating the invitation, you can upload the audio file from the edit page.
-                </p>
-              </div>
+              <>
+                <div style={fieldStyle}>
+                  <label style={labelStyle}>Track Title</label>
+                  <input style={inputStyle} value={musicTitle} onChange={(e) => setMusicTitle(e.target.value)} placeholder="e.g. Ya Nabi Salam Alayka" />
+                </div>
+                <div style={fieldStyle}>
+                  <label style={labelStyle}>Audio URL (direct link to MP3)</label>
+                  <input style={inputStyle} value={musicUrl} onChange={(e) => setMusicUrl(e.target.value)} placeholder="https://..." />
+                  <p style={{ fontSize: '0.78rem', color: 'var(--admin-muted)', marginTop: '0.4rem' }}>
+                    Upload audio to a file host and paste the direct URL here, or use a local path like `/assets/audio/velvet-bgm.mp3`.
+                  </p>
+                </div>
+              </>
             )}
           </div>
         )
