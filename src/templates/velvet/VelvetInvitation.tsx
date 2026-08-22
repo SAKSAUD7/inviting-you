@@ -17,13 +17,7 @@ import VelvetCompliments from './sections/VelvetCompliments'
 import VelvetClosing from './sections/VelvetClosing'
 import VelvetMusicPlayer from './sections/VelvetMusicPlayer'
 
-export const FloralDivider = () => (
-  <div className="floral-divider" aria-hidden="true">
-    {/* eslint-disable-next-line @next/next/no-img-element */}
-    <img src="/assets/images/floral-divider.webp" alt="" />
-  </div>
-)
-
+import { VelvetFloralDivider } from './VelvetOrnaments'
 export default function VelvetInvitation({ wedding }: { wedding: WeddingData }) {
   const [opened, setOpened] = useState(false)
   const mainRef = useRef<HTMLElement>(null)
@@ -86,39 +80,39 @@ export default function VelvetInvitation({ wedding }: { wedding: WeddingData }) 
       <VelvetOpening couple={couple} family={family} onOpen={handleOpen} isOpened={opened} isValima={isValima} />
 
       {/* Main invitation content — always rendered so scrolling works */}
-      <FloralDivider />
+      <VelvetFloralDivider />
       <VelvetWelcome couple={couple} />
-      <FloralDivider />
+      <VelvetFloralDivider />
       <VelvetScratchReveal couple={couple} />
-      <FloralDivider />
+      <VelvetFloralDivider />
       {wedding.gallery.length > 0 && (
         <>
           <VelvetGallery images={wedding.gallery} />
-          <FloralDivider />
+          <VelvetFloralDivider />
         </>
       )}
       {nikahEvent && (
         <>
           <VelvetCountdown targetEvent={nikahEvent} />
-          <FloralDivider />
+          <VelvetFloralDivider />
         </>
       )}
       {events.length > 0 && (
         <>
           <VelvetProgram events={events} />
-          <FloralDivider />
+          <VelvetFloralDivider />
         </>
       )}
       {venueEvents.length > 0 && (
         <>
           <VelvetVenue events={venueEvents} />
-          <FloralDivider />
+          <VelvetFloralDivider />
         </>
       )}
       <VelvetEvents events={events} />
-      <FloralDivider />
+      <VelvetFloralDivider />
       <VelvetBlessings />
-      <FloralDivider />
+      <VelvetFloralDivider />
       <VelvetCompliments compliments={wedding.compliments} />
       <VelvetClosing couple={couple} family={family} />
     </main>

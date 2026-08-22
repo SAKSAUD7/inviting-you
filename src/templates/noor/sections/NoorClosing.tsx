@@ -1,5 +1,6 @@
 import React from 'react'
-import { NoorBotanicalWatermark } from '../NoorOrnaments'
+import { motion } from 'framer-motion'
+import { NoorBotanicalCorner, NoorJasmine, NoorBotanicalStem } from '../NoorOrnaments'
 
 interface Props {
   couple: any
@@ -7,46 +8,97 @@ interface Props {
 
 export default function NoorClosing({ couple }: Props) {
   return (
-    <section className="noor-section" style={{ position: 'relative', overflow: 'hidden', padding: '6rem 2rem 8rem', background: 'linear-gradient(to bottom, var(--noor-ivory), var(--noor-pearl))' }}>
+    <section className="noor-section" style={{ position: 'relative', overflow: 'hidden', padding: '12rem 2rem', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--noor-white)' }}>
       
-      {/* Large cinematic floral garden watermark */}
-      <NoorBotanicalWatermark 
-        className="noor-sway-slow" 
-        style={{ top: '60%', left: '50%', transform: 'translate(-50%, -50%)', width: 'min(900px, 150vw)', opacity: 0.05 }} 
-      />
+      {/* ── Subtle Ivory Gradient Backdrop ── */}
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, var(--noor-ivory) 0%, var(--noor-white) 100%)', pointerEvents: 'none' }} />
 
-      <div className="reveal-hidden" style={{ textAlign: 'center', position: 'relative', zIndex: 1, maxWidth: '600px', margin: '0 auto' }}>
+      {/* Large Corner Botanicals to frame the closing softly */}
+      {/* Large Corner Botanicals to frame the closing softly */}
+      <NoorBotanicalCorner position="top-left" style={{ top: 0, left: 0, opacity: 0.15, pointerEvents: 'none' }} />
+      <NoorBotanicalCorner position="bottom-right" style={{ bottom: 0, right: 0, opacity: 0.15, pointerEvents: 'none' }} />
 
-        {/* Gold diamond ornament */}
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ margin: '0 auto 2rem' }} aria-hidden="true">
-          <polygon points="12,0 15,9 12,18 9,9" fill="#D4AF37" fillOpacity="0.7"/>
-          <circle cx="12" cy="9" r="2.5" fill="none" stroke="#D4AF37" strokeWidth="0.8"/>
-        </svg>
-
-        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--noor-ink-light)', marginBottom: '2rem' }}>
-          With Love &amp; Blessings
-        </p>
-
-        <h2 className="noor-gold-foil" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 6vw, 3.5rem)', lineHeight: 1.1, margin: 0 }}>
-          {couple?.brideName}
-        </h2>
-        <div style={{ fontFamily: 'var(--font-serif)', color: 'var(--noor-gold-champagne)', fontSize: '1.8rem', fontStyle: 'italic', margin: '0.5rem 0' }}>
-          &amp;
+      <motion.div 
+        initial="hidden"
+        whileInView="revealed"
+        viewport={{ once: true, amount: 0.5 }}
+        variants={{
+          hidden: { opacity: 0 },
+          revealed: { opacity: 1, transition: { duration: 2, ease: [0.25, 1, 0.5, 1] } }
+        }}
+        style={{ textAlign: 'center', position: 'relative', zIndex: 10, maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+      >
+        
+        {/* The Blooming Farewell Ornament */}
+        <div style={{ marginBottom: '4rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <motion.div
+            variants={{
+              hidden: { scale: 0.9, opacity: 0, y: 20 },
+              revealed: { scale: 1, opacity: 0.9, y: 0, transition: { delay: 1, duration: 1.5, ease: [0.16, 1, 0.3, 1] } }
+            }}
+          >
+            <motion.img 
+              src="/images/noor_bouquet_isolated.png" 
+              alt="" 
+              style={{ width: '260px', height: 'auto', mixBlendMode: 'multiply', pointerEvents: 'none', maskImage: 'radial-gradient(circle at center, black 50%, transparent 95%)', WebkitMaskImage: 'radial-gradient(circle at center, black 50%, transparent 95%)' }}
+              animate={{ y: [0, -10, 0], rotate: [0, 2, 0] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </motion.div>
         </div>
-        <h2 className="noor-gold-foil" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 6vw, 3.5rem)', lineHeight: 1.1, margin: 0 }}>
-          {couple?.groomName}
-        </h2>
 
-        <div style={{ width: '1px', height: '50px', background: 'linear-gradient(to bottom, var(--noor-gold-champagne), transparent)', margin: '2rem auto' }} />
+        <motion.p 
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            revealed: { opacity: 1, y: 0, transition: { delay: 1.5, duration: 1.5 } }
+          }}
+          style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem', letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--noor-gold-champagne)', marginBottom: '3rem' }}
+        >
+          With Love &amp; Blessings
+        </motion.p>
 
-        <p style={{ fontFamily: 'var(--font-serif)', color: 'var(--noor-ink-light)', fontSize: '1rem', fontStyle: 'italic', lineHeight: 1.8, marginBottom: '3rem' }}>
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, scale: 0.98 },
+            revealed: { opacity: 1, scale: 1, transition: { delay: 2, duration: 2, ease: "easeOut" } }
+          }}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        >
+          <h2 className="noor-gold-foil" style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(3rem, 10vw, 5.5rem)', lineHeight: 1, margin: 0, fontWeight: 400 }}>
+            {couple?.brideName}
+          </h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', margin: '2rem 0' }}>
+            <div style={{ width: '40px', height: '1px', background: 'var(--noor-gold-champagne)', opacity: 0.4 }} />
+            <div style={{ fontFamily: 'var(--font-serif)', color: 'var(--noor-gold-antique)', fontSize: '1.5rem', fontStyle: 'italic' }}>
+              &
+            </div>
+            <div style={{ width: '40px', height: '1px', background: 'var(--noor-gold-champagne)', opacity: 0.4 }} />
+          </div>
+          <h2 className="noor-gold-foil" style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(3rem, 10vw, 5.5rem)', lineHeight: 1, margin: 0, fontWeight: 400 }}>
+            {couple?.groomName}
+          </h2>
+        </motion.div>
+
+        <motion.div 
+          variants={{
+            hidden: { opacity: 0, height: 0 },
+            revealed: { opacity: 1, height: '80px', transition: { delay: 3, duration: 1.5 } }
+          }}
+          style={{ width: '1px', background: 'linear-gradient(to bottom, var(--noor-gold-champagne), transparent)', margin: '4rem auto 3rem', opacity: 0.5 }} 
+        />
+
+        <motion.p 
+          variants={{
+            hidden: { opacity: 0 },
+            revealed: { opacity: 1, transition: { delay: 3.5, duration: 1.5 } }
+          }}
+          style={{ fontFamily: 'var(--font-serif)', color: 'var(--noor-emerald)', fontSize: '1.1rem', fontStyle: 'italic', lineHeight: 2, marginBottom: '3rem', letterSpacing: '0.05em' }}
+        >
           Thank you for celebrating this blessed occasion with us.
           <br />Your presence, prayers, and blessings mean the world to us.
-        </p>
+        </motion.p>
 
-        {/* Bottom Gold Line */}
-        <div style={{ width: '100px', height: '1px', background: 'var(--noor-gold-champagne)', margin: '0 auto', opacity: 0.5 }} />
-      </div>
+      </motion.div>
     </section>
   )
 }

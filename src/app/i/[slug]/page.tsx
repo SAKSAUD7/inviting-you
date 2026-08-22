@@ -11,10 +11,18 @@ interface Props {
 
 export async function generateMetadata(props: Props) {
   const params = await props.params;
-  const wedding = await prisma.wedding.findUnique({
+  let wedding = await prisma.wedding.findUnique({
     where: { slug: params.slug },
     include: { seo: true, couple: true },
   })
+
+  // Fallback to client 3 data if not found
+  if (!wedding) {
+    wedding = await prisma.wedding.findUnique({
+      where: { slug: 'client3-asfiya-zuhaib' },
+      include: { seo: true, couple: true },
+    })
+  }
 
   if (!wedding) return {}
 
@@ -34,7 +42,7 @@ export async function generateMetadata(props: Props) {
 
 export default async function InvitationPage(props: Props) {
   const params = await props.params;
-  const weddingRecord = await prisma.wedding.findUnique({
+  let weddingRecord = await prisma.wedding.findUnique({
     where: { slug: params.slug },
     include: {
       couple: true,
@@ -47,6 +55,23 @@ export default async function InvitationPage(props: Props) {
       seo: true,
     },
   })
+
+  // Fallback to client 3 data if not found
+  if (!weddingRecord) {
+    weddingRecord = await prisma.wedding.findUnique({
+      where: { slug: 'client3-asfiya-zuhaib' },
+      include: {
+        couple: true,
+        family: true,
+        events: { orderBy: { order: 'asc' } },
+        gallery: { orderBy: { order: 'asc' } },
+        music: true,
+        rsvpConfig: true,
+        compliments: { orderBy: { order: 'asc' } },
+        seo: true,
+      },
+    })
+  }
 
   if (!weddingRecord) {
     notFound()

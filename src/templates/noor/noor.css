@@ -6,45 +6,45 @@
 /* ========================================================================= */
 
 :root {
-  /* 1. Core Color Palette */
-  --noor-ivory: #FDFCF7;
-  --noor-pearl: #F9F8F5;
-  --noor-warm-white: #FFFEFC;
-  --noor-beige-soft: #F4F1EA;
+  /* 1. Core Color Palette - Botanical Elegance (Client 3) */
+  --noor-white: #ffffff;
+  --noor-ivory: #FCFAF5;
+  --noor-paper: #F8F4EA;
+  --noor-ivory-soft: #F4EFE3;
+  --noor-midnight: #0A0F16;
+  --noor-midnight-light: #121A26;
+  --noor-charcoal: #2A2F35;
+  --noor-ivory-dim: var(--noor-paper); /* For backwards compatibility */
   
   /* 2. Metals & Golds */
-  --noor-gold-champagne: #D4AF37;
-  --noor-gold-antique: #B38B22;
-  --noor-gold-soft: rgba(212, 175, 55, 0.4);
-  --noor-gold-whisper: rgba(212, 175, 55, 0.1);
+  --noor-gold-antique: #A98A50; /* Refined muted gold */
+  --noor-gold-champagne: #C7A86B; /* Warmer sophisticated gold */
+  --noor-gold-soft: rgba(199, 168, 107, 0.2);
+  --noor-gold-whisper: rgba(199, 168, 107, 0.08);
   
   /* 3. Botanicals & Accents */
-  --noor-emerald-deep: #16261B;
-  --noor-emerald: #1F3624;
-  --noor-sage-soft: #C5D1C6;
-  --noor-olive-muted: #8A9280;
-
-  /* 4. Inks & Texts */
-  --noor-ink: #2C2C2C;
-  --noor-ink-light: #5A5A5A;
+  --noor-emerald-deep: #163628; /* Deep rich forest green for primary text */
+  --noor-emerald: #23543F; /* Lighter emerald for accents */
+  
+  /* 4. Inks & Texts (Light theme default) */
+  --noor-ink: var(--noor-emerald-deep);
+  --noor-ink-light: var(--noor-emerald);
+  --noor-ink-dark: var(--noor-charcoal);
   
   /* 5. Typography Scales */
-  --font-display: 'Cinzel', serif;
-  --font-serif: 'Playfair Display', serif;
-  --font-sans: 'Montserrat', sans-serif;
-  --font-arabic: 'Amiri', serif; /* Replace with an elegant arabic font later if needed */
+  --font-display: 'Cinzel', serif; /* Display Serif */
+  --font-serif: 'Playfair Display', serif; /* Editorial Serif */
+  --font-sans: 'Montserrat', sans-serif; /* Body Sans */
+  --font-arabic: 'Amiri', serif;
   
   /* 6. Base Assignment */
-  --noor-bg: var(--noor-ivory);
+  --noor-bg: var(--noor-paper);
 
-  /* 7. Backward Compatibility (To not break existing components during upgrade) */
-  --noor-gold: var(--noor-gold-champagne);
-  --noor-gold-deep: var(--noor-gold-antique);
+  /* 7. Backward Compatibility / UI Components */
+  --noor-gold: var(--noor-gold-antique);
+  --noor-gold-deep: #B9975B;
   --font-names: var(--font-display);
-  --noor-muted: var(--noor-ink-light);
-  --noor-paper: var(--noor-pearl);
-  --noor-gold-whisper: rgba(212, 175, 55, 0.15);
-  --noor-gold-soft: rgba(212, 175, 55, 0.25);
+  --noor-muted: rgba(22, 54, 40, 0.7);
 }
 
 /* ========================================================================= */
@@ -90,12 +90,9 @@
   z-index: 0;
 }
 
-/* Rich Ivory Paper Shell */
+/* Deep Midnight Shell */
 .noor-shell {
-  background-color: var(--noor-ivory);
-  background-image: url('/images/noor-ivory-paper.png');
-  background-size: cover;
-  background-attachment: fixed;
+  background-color: var(--noor-bg);
   color: var(--noor-ink);
   font-family: var(--font-sans);
   min-height: 100vh;
@@ -103,19 +100,22 @@
   overflow-x: hidden;
 }
 
-/* Deep Emerald Texture (for Mehfil-e-Nikah and Dua) */
+.noor-main {
+  background-color: var(--noor-bg);
+  position: relative;
+  z-index: 1;
+}
+
+/* Darker Emerald Texture (for subtle contrast sections) */
 .noor-bg-emerald {
   background-color: var(--noor-emerald-deep);
-  background-image: url('/images/noor-emerald-texture.png');
-  background-size: cover;
-  background-attachment: fixed;
-  color: var(--noor-ivory);
+  color: #ffffff;
 }
 
 .noor-bg-emerald * {
-  /* Override default text colors for dark mode */
-  --noor-ink: var(--noor-ivory);
-  --noor-ink-light: rgba(255, 255, 255, 0.7);
+  --noor-ink: #ffffff;
+  --noor-ink-light: rgba(255, 255, 255, 0.8);
+  --noor-muted: rgba(255, 255, 255, 0.7);
 }
 
 /* Glassmorphism Scratch Card */
@@ -136,10 +136,10 @@
   flex-direction: column; 
   justify-content: center; 
   align-items: center; 
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
   color: var(--noor-ink); 
-  border: 1px solid rgba(197, 160, 89, 0.3); 
+  border: 1px solid rgba(193, 160, 99, 0.4); 
 }
 .noor-date-card::before, .noor-date-card::after { 
   content:""; 
@@ -203,17 +203,17 @@
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  border: 1.5px solid rgba(212,175,55,0.35);
-  background: linear-gradient(145deg, #fff 0%, #f8f2e6 100%);
+  border: 1.5px solid rgba(193, 160, 99, 0.6);
+  background: linear-gradient(145deg, #ffffff 0%, #f5f5f5 100%);
   box-shadow:
-    0 8px 32px rgba(180,150,60,0.12),
-    inset 0 1px 3px rgba(255,255,255,0.9),
-    inset 0 -1px 3px rgba(0,0,0,0.04);
+    0 8px 32px rgba(0,0,0,0.1),
+    inset 0 1px 3px rgba(255, 255, 255, 1),
+    inset 0 -1px 3px rgba(0,0,0,0.05);
   display: grid;
   place-items: center;
   font-family: var(--font-serif);
   font-size: clamp(28px, 5vw, 44px);
-  font-weight: 300;
+  font-weight: 400;
   color: var(--noor-emerald-deep);
   letter-spacing: -0.02em;
   position: relative;
@@ -283,9 +283,9 @@
   background: var(--noor-gold); 
 }
 
-/* The Delicate White Arch */
+/* The Architecture Arch */
 .noor-arch-container {
-  background: var(--noor-bg);
+  background: var(--noor-midnight-light);
   border: 1px solid rgba(197, 160, 89, 0.2);
   border-radius: 8px;
   padding: 6rem 2rem;
@@ -414,18 +414,19 @@
   transform: translateY(0);
 }
 
-/* Floral Corners - Using the new clean white floral for the arch hero */
+/* Floral Corners - Using the new clean floral for the arch hero */
 .noor-floral-top-left, .noor-floral-bottom-right {
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   background-image: url('/images/noor-floral-tl.png');
   background-size: contain;
   background-repeat: no-repeat;
-  mix-blend-mode: multiply;
-  opacity: 0.5;
+  mix-blend-mode: multiply; /* Better for light backgrounds */
+  opacity: 0.8;
   pointer-events: none;
   z-index: 5;
+  filter: hue-rotate(-20deg) saturate(1.2) brightness(0.9); /* Tune green hue */
   animation: gentleSway 10s ease-in-out infinite alternate;
 }
 .noor-floral-top-left {
@@ -639,37 +640,37 @@
   position: absolute;
   width: 250px;
   height: 250px;
-  background-image: url('/assets/images/floral-divider.webp'); /* Reuse existing floral or similar */
+  background-image: url('/images/noor-floral-divider.png');
   background-size: contain;
   background-repeat: no-repeat;
   mix-blend-mode: multiply;
-  opacity: 0.3;
+  opacity: 0.6;
   pointer-events: none;
   z-index: 0;
-  filter: grayscale(100%) sepia(100%) hue-rotate(10deg) saturate(2) brightness(1.2);
+  filter: hue-rotate(-20deg) saturate(1.2) brightness(0.9);
   transition: transform 0.1s linear;
 }
 .noor-parallax-floral.left {
-  left: -50px;
-  transform: rotate(45deg);
+  left: -120px;
+  transform: rotate(90deg);
 }
 .noor-parallax-floral.right {
-  right: -50px;
-  transform: scaleX(-1) rotate(45deg);
+  right: -120px;
+  transform: scaleX(-1) rotate(90deg);
 }
 
 /* Scalloped Event Cards */
 .noor-event-card {
   position: relative;
-  background: var(--noor-bg);
-  border: 1px solid rgba(197, 160, 89, 0.3);
+  background: var(--noor-ivory);
+  border: 1px solid rgba(193, 160, 99, 0.5);
   border-radius: 12px;
   padding: 3rem 2rem;
   text-align: center;
   max-width: 550px;
   width: 100%;
   margin: 1.5rem 0;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
   overflow: hidden;
 }
 /* Intricate inner border */
@@ -916,4 +917,490 @@
 @keyframes slideOutEnvelope {
   0% { transform: translateY(40vh) scale(0.9); opacity: 0; }
   100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+/* ========================================================================= */
+/* CINEMATIC MOONLIT NIKAH INTRO SEQUENCE                                    */
+/* ========================================================================= */
+
+.noor-cinematic-intro {
+  position: fixed;
+  inset: 0;
+  background-color: var(--noor-midnight);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: opacity 1.5s ease-in-out, visibility 1.5s;
+}
+
+.noor-cinematic-intro.is-opening {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Scene 02 & 03: Stars */
+.noor-stars-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.noor-star.first-star {
+  position: absolute;
+  top: 15%;
+  right: 20%;
+  width: 2px;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.8);
+  opacity: 0;
+  animation: starFadeIn 2s ease-in-out 1s forwards;
+}
+
+.noor-star-cluster {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.8) 100%, transparent),
+    radial-gradient(1px 1px at 30% 60%, rgba(255, 255, 255, 0.6) 100%, transparent),
+    radial-gradient(2px 2px at 80% 15%, rgba(255, 255, 255, 0.9) 100%, transparent),
+    radial-gradient(1px 1px at 70% 80%, rgba(255, 255, 255, 0.5) 100%, transparent),
+    radial-gradient(1.5px 1.5px at 40% 30%, rgba(255, 255, 255, 0.7) 100%, transparent);
+  background-size: 200px 200px;
+  opacity: 0;
+  animation: starFadeIn 3s ease-in-out 2s forwards;
+}
+
+/* Scene 04 & 05: Moon */
+.noor-moon-layer {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 120px;
+  z-index: 2;
+}
+
+.noor-crescent {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset -15px -10px 0px 5px var(--noor-ivory);
+  opacity: 0;
+  transform: rotate(-30deg) scale(0.9);
+  animation: moonReveal 3s ease-out 3s forwards;
+}
+
+.noor-moonlight-glow {
+  position: absolute;
+  inset: -50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 242, 235, 0.2) 0%, transparent 70%);
+  opacity: 0;
+  animation: glowSpread 4s ease-out 4s forwards;
+}
+
+/* Scene 06: Architecture Silhouette */
+.noor-architecture-silhouette {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50vh;
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: archReveal 3s cubic-bezier(0.2, 0.8, 0.2, 1) 5s forwards;
+}
+
+.noor-arch-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 -10px 30px rgba(0, 0, 0, 0.8));
+}
+
+/* Scene 08-10: Typography */
+.noor-cinematic-typography {
+  position: relative;
+  z-index: 4;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 20vh;
+}
+
+.noor-cinematic-initials {
+  font-family: var(--font-names);
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: var(--noor-gold-champagne);
+  opacity: 0;
+  transform: scale(0.95);
+  animation: textReveal 2s ease-out 6s forwards;
+}
+
+.noor-cinematic-names {
+  font-family: var(--font-names);
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: var(--noor-ivory);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: textReveal 2.5s ease-out 7s forwards;
+}
+
+.noor-amp {
+  color: var(--noor-gold-champagne);
+  font-size: 0.8em;
+}
+
+.noor-cinematic-tagline {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--noor-ivory-dim);
+  opacity: 0;
+  animation: textReveal 3s ease-out 8s forwards;
+}
+
+/* Scene 11: Enter Button */
+.noor-cinematic-enter {
+  margin-top: 3rem;
+  background: transparent;
+  border: 1px solid rgba(193, 160, 99, 0.5);
+  color: var(--noor-gold-champagne);
+  padding: 12px 32px;
+  border-radius: 30px;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.4s ease;
+}
+
+.noor-cinematic-enter.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.noor-cinematic-enter:hover {
+  background: rgba(193, 160, 99, 0.1);
+  border-color: var(--noor-gold-champagne);
+  transform: translateY(-2px);
+}
+
+/* Keyframes */
+@keyframes starFadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes moonReveal {
+  to { opacity: 1; transform: rotate(-15deg) scale(1); }
+}
+
+@keyframes glowSpread {
+  to { opacity: 1; }
+}
+
+@keyframes archReveal {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes textReveal {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* ========================================================================= */
+/* CONSTELLATION COUPLE REVEAL                                               */
+/* ========================================================================= */
+.noor-constellation-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(10, 15, 22, 0) 0%, var(--noor-midnight) 100%);
+  z-index: 1;
+}
+
+.noor-constellation-points {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 15% 25%, rgba(193, 160, 99, 0.8) 100%, transparent),
+    radial-gradient(1.5px 1.5px at 35% 10%, rgba(193, 160, 99, 0.6) 100%, transparent),
+    radial-gradient(2.5px 2.5px at 85% 30%, rgba(193, 160, 99, 0.9) 100%, transparent),
+    radial-gradient(1px 1px at 70% 60%, rgba(193, 160, 99, 0.5) 100%, transparent),
+    radial-gradient(2px 2px at 20% 80%, rgba(193, 160, 99, 0.7) 100%, transparent),
+    radial-gradient(1.5px 1.5px at 50% 90%, rgba(193, 160, 99, 0.4) 100%, transparent),
+    radial-gradient(3px 3px at 90% 85%, rgba(193, 160, 99, 0.8) 100%, transparent);
+  opacity: 0.3;
+  z-index: 0;
+  animation: slowPan 30s linear infinite alternate;
+}
+
+.noor-constellation-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.15;
+  background-image: 
+    linear-gradient(15deg, transparent 49%, rgba(193, 160, 99, 0.5) 50%, transparent 51%),
+    linear-gradient(-35deg, transparent 49%, rgba(193, 160, 99, 0.5) 50%, transparent 51%);
+  background-size: 200px 200px, 300px 300px;
+  animation: slowPanLines 40s linear infinite alternate;
+}
+
+@keyframes slowPan {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-20px, -20px); }
+}
+
+@keyframes slowPanLines {
+  from { transform: translate(0, 0); }
+  to { transform: translate(20px, 10px); }
+}
+
+.noor-editorial-image {
+  box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(193, 160, 99, 0.3);
+  border-radius: 4px;
+}
+/* ========================================================================= */
+/* LANTERN EVENT REVEAL                                                      */
+/* ========================================================================= */
+.noor-lantern-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.noor-lantern {
+  width: 40px;
+  height: 80px;
+  position: relative;
+  margin-bottom: 2rem;
+  opacity: 0.3;
+  transition: opacity 1.5s ease, filter 1.5s ease;
+  filter: drop-shadow(0 0 0px transparent);
+}
+
+.noor-lantern.is-lit {
+  opacity: 1;
+  filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.6));
+}
+
+.noor-lantern-chain {
+  width: 2px;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, var(--noor-gold-champagne));
+  margin: 0 auto;
+}
+
+.noor-lantern-body {
+  width: 100%;
+  height: 60px;
+  border: 1px solid var(--noor-gold-champagne);
+  border-radius: 4px;
+  position: relative;
+  background: rgba(10, 15, 22, 0.8);
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.noor-lantern.is-lit .noor-lantern-body {
+  background: rgba(212, 175, 55, 0.15);
+}
+
+.noor-lantern-flame {
+  width: 8px;
+  height: 12px;
+  background: radial-gradient(ellipse at center, #fff 0%, var(--noor-gold-champagne) 100%);
+  border-radius: 50% 50% 20% 20%;
+  opacity: 0;
+  animation: flicker 4s infinite alternate;
+  transition: opacity 1s ease;
+}
+
+.noor-lantern.is-lit .noor-lantern-flame {
+  opacity: 1;
+}
+
+@keyframes flicker {
+  0% { transform: scale(1) translateY(0); filter: blur(1px); }
+  50% { transform: scale(1.1) translateY(-1px); filter: blur(2px); }
+  100% { transform: scale(0.9) translateY(1px); filter: blur(1px); }
+}
+
+.noor-event-architectural-frame {
+  position: relative;
+  padding: 4rem 2rem;
+  margin: 2rem auto 6rem;
+  width: min(90vw, 600px);
+  text-align: center;
+  border-top: 1px solid rgba(193, 160, 99, 0.3);
+  border-bottom: 1px solid rgba(193, 160, 99, 0.3);
+  background: linear-gradient(to right, transparent, rgba(193, 160, 99, 0.03), transparent);
+}
+
+.noor-event-architectural-frame::before,
+.noor-event-architectural-frame::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: rgba(193, 160, 99, 0.15);
+}
+
+.noor-event-architectural-frame::before { top: 8px; }
+.noor-event-architectural-frame::after { bottom: 8px; }
+/* ========================================================================= */
+/* MOONSET CLOSING                                                           */
+/* ========================================================================= */
+.noor-moonset-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--noor-midnight-light), #05080b);
+  z-index: 1;
+}
+
+.noor-moonset-glow {
+  position: absolute;
+  bottom: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150vw;
+  height: 50vh;
+  background: radial-gradient(ellipse at top center, rgba(245, 242, 235, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.noor-moonset-crescent {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%) rotate(15deg);
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  box-shadow: inset -10px -15px 0px 5px rgba(245, 242, 235, 0.8);
+  opacity: 0;
+  z-index: 2;
+  transition: opacity 2s ease, transform 2s ease-out;
+}
+
+.reveal-hidden.revealed .noor-moonset-crescent {
+  opacity: 0.3;
+  transform: translateX(-50%) rotate(0deg);
+}
+
+.noor-moonset-stars {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.8) 100%, transparent);
+  background-size: 150px 150px;
+  opacity: 0.2;
+  z-index: 1;
+}
+/* ========================================================================= */
+/* EDITORIAL ASYMMETRIC GALLERY                                              */
+/* ========================================================================= */
+.noor-editorial-gallery {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.noor-gallery-item {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(193, 160, 99, 0.2);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.noor-gallery-item.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.noor-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 10s ease-out;
+  filter: brightness(0.9) contrast(1.1) sepia(0.1) hue-rotate(-5deg);
+}
+
+.noor-gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Asymmetric Grid Layout */
+.noor-gallery-item:nth-child(3n+1) {
+  grid-column: 2 / 10;
+  aspect-ratio: 16/9;
+  margin-bottom: 2rem;
+}
+
+.noor-gallery-item:nth-child(3n+2) {
+  grid-column: 7 / 12;
+  aspect-ratio: 3/4;
+  margin-top: -4rem;
+}
+
+.noor-gallery-item:nth-child(3n+3) {
+  grid-column: 1 / 6;
+  aspect-ratio: 4/5;
+  margin-top: 4rem;
+}
+
+@media (max-width: 768px) {
+  .noor-editorial-gallery {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .noor-gallery-item:nth-child(n) {
+    grid-column: 1 / -1;
+    margin-top: 0;
+    margin-bottom: 0;
+    aspect-ratio: auto;
+    height: 60vh;
+  }
+}
+
+/* ========================================================================= */
+/* ACCESSIBILITY (Phase 18)                                                  */
+/* ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .noor-falling-petal, .noor-gold-dust {
+    display: none !important;
+  }
 }

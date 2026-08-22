@@ -1,4 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import { NoorBotanicalCorner, NoorBotanicalCrest } from '../NoorOrnaments'
 
 interface Props {
   dateDisplay: string
@@ -26,12 +28,34 @@ export default function NoorScratchReveal({ dateDisplay, venueName }: Props) {
 
     const fillCanvas = () => {
       if (!ctx || isRevealed) return
-      ctx.fillStyle = '#c5a059' // Champagne Gold cover
+      
+      // Create a metallic gold foil gradient
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
+      gradient.addColorStop(0, '#BF953F')
+      gradient.addColorStop(0.25, '#FCF6BA')
+      gradient.addColorStop(0.5, '#B38728')
+      gradient.addColorStop(0.75, '#FBF5B7')
+      gradient.addColorStop(1, '#AA771C')
+      
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.fillStyle = gradient
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       
-      // Draw some "scratch me" text
-      ctx.font = '300 24px "Noto Serif Display", serif'
-      ctx.fillStyle = '#FFFFFF'
+      // Add subtle texture overlay
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.15)'
+      for(let i=0; i<canvas.width; i+=8) {
+         for(let j=0; j<canvas.height; j+=8) {
+            if((i+j)%16 === 0) {
+               ctx.beginPath()
+               ctx.arc(i, j, 1, 0, Math.PI*2)
+               ctx.fill()
+            }
+         }
+      }
+
+      // Draw "scratch me" text
+      ctx.font = 'italic 24px "Playfair Display", serif'
+      ctx.fillStyle = '#5A461E' // Deep gold-brown
       ctx.textAlign = 'center'
       ctx.fillText('Scratch to Reveal', canvas.width / 2, canvas.height / 2)
     }
@@ -40,6 +64,8 @@ export default function NoorScratchReveal({ dateDisplay, venueName }: Props) {
     window.addEventListener('resize', resizeCanvas)
 
     let isDrawing = false
+    let lastX = 0
+    let lastY = 0
     let pixelsScratched = 0
     const totalPixels = canvas.width * canvas.height
 
@@ -54,7 +80,10 @@ export default function NoorScratchReveal({ dateDisplay, venueName }: Props) {
     }
 
     const startDrawing = (e: MouseEvent | TouchEvent) => {
+      const { x, y } = getCursorPosition(e)
       isDrawing = true
+      lastX = x
+      lastY = y
       scratch(e)
     }
 
@@ -71,12 +100,20 @@ export default function NoorScratchReveal({ dateDisplay, venueName }: Props) {
       
       ctx.globalCompositeOperation = 'destination-out'
       ctx.beginPath()
-      ctx.arc(x, y, 45, 0, Math.PI * 2) // 45px brush size
-      ctx.fill()
+      ctx.moveTo(lastX, lastY)
+      ctx.lineTo(x, y)
+      ctx.lineWidth = 60
+      ctx.lineCap = 'round'
+      ctx.lineJoin = 'round'
+      ctx.stroke()
       
-      pixelsScratched += Math.PI * 45 * 45 // Approximation
+      const distance = Math.hypot(x - lastX, y - lastY)
+      pixelsScratched += (distance + 10) * 60
       
-      if (pixelsScratched > totalPixels * 0.4) {
+      lastX = x
+      lastY = y
+      
+      if (pixelsScratched > totalPixels * 0.7) {
         revealAll()
       }
     }
@@ -92,7 +129,7 @@ export default function NoorScratchReveal({ dateDisplay, venueName }: Props) {
     }
 
     const checkReveal = () => {
-      if (pixelsScratched > totalPixels * 0.4) revealAll()
+      if (pixelsScratched > totalPixels * 0.7) revealAll()
     }
 
     canvas.addEventListener('mousedown', startDrawing)
@@ -114,105 +151,79 @@ export default function NoorScratchReveal({ dateDisplay, venueName }: Props) {
   }, [isRevealed])
 
   return (
-    <section className="noor-section reveal-hidden" style={{ background: 'var(--noor-ivory)', minHeight: '80vh', display: 'grid', placeItems: 'center', position: 'relative', overflow: 'hidden' }}>
+    <section className="noor-section" style={{ background: 'var(--noor-paper)', padding: '6rem 1.5rem', display: 'grid', placeItems: 'center', position: 'relative', overflow: 'hidden' }}>
 
       {/* ── Top-left botanical corner ── */}
-      <svg aria-hidden="true" style={{ position: 'absolute', top: 0, left: 0, width: '200px', opacity: 0.1, pointerEvents: 'none' }} viewBox="0 0 200 200" fill="none">
-        <path d="M0 0 Q30 50 10 100 Q-10 150 30 200" stroke="#1F3624" strokeWidth="2" fill="none"/>
-        <path d="M8 40  Q55 20  75 45"  stroke="#1F3624" strokeWidth="1.3" fill="none"/>
-        <path d="M5 90  Q55 70  80 95"  stroke="#1F3624" strokeWidth="1.3" fill="none"/>
-        <path d="M22 140 Q70 120 90 145" stroke="#1F3624" strokeWidth="1.3" fill="none"/>
-        <ellipse cx="77"  cy="43"  rx="12" ry="6" fill="#1F3624" transform="rotate(-25 77 43)"/>
-        <ellipse cx="82"  cy="93"  rx="12" ry="6" fill="#1F3624" transform="rotate(-5 82 93)"/>
-        <ellipse cx="92"  cy="143" rx="12" ry="6" fill="#1F3624" transform="rotate(15 92 143)"/>
-        <circle cx="0" cy="0" r="4" fill="#D4AF37" fillOpacity="0.6"/>
-      </svg>
+      <NoorBotanicalCorner position="top-left" style={{ top: 0, left: 0, opacity: 0.1, pointerEvents: 'none' }} />
 
       {/* ── Bottom-right botanical corner ── */}
-      <svg aria-hidden="true" style={{ position: 'absolute', bottom: 0, right: 0, width: '200px', opacity: 0.1, pointerEvents: 'none', transform: 'rotate(180deg)' }} viewBox="0 0 200 200" fill="none">
-        <path d="M0 0 Q30 50 10 100 Q-10 150 30 200" stroke="#1F3624" strokeWidth="2" fill="none"/>
-        <path d="M8 40  Q55 20  75 45"  stroke="#1F3624" strokeWidth="1.3" fill="none"/>
-        <path d="M5 90  Q55 70  80 95"  stroke="#1F3624" strokeWidth="1.3" fill="none"/>
-        <path d="M22 140 Q70 120 90 145" stroke="#1F3624" strokeWidth="1.3" fill="none"/>
-        <ellipse cx="77"  cy="43"  rx="12" ry="6" fill="#1F3624" transform="rotate(-25 77 43)"/>
-        <ellipse cx="82"  cy="93"  rx="12" ry="6" fill="#1F3624" transform="rotate(-5 82 93)"/>
-        <ellipse cx="92"  cy="143" rx="12" ry="6" fill="#1F3624" transform="rotate(15 92 143)"/>
-        <circle cx="0" cy="0" r="4" fill="#D4AF37" fillOpacity="0.6"/>
-      </svg>
+      <NoorBotanicalCorner position="bottom-right" style={{ bottom: 0, right: 0, opacity: 0.1, pointerEvents: 'none' }} />
 
-      <div style={{ textAlign: 'center', width: '100%', position: 'relative', zIndex: 1 }}>
-
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
+        style={{ textAlign: 'center', width: '100%', position: 'relative', zIndex: 1 }}
+      >
         {/* ── Section label ── */}
-        <div className="noor-bloom-reveal revealed" style={{ marginBottom: '2.5rem' }}>
-          <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.7rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'var(--noor-ink-light)', marginBottom: '0.6rem' }}>
+        <div style={{ marginBottom: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.7rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: 'var(--noor-emerald)', marginBottom: '1.5rem' }}>
             A Secret Awaits
           </p>
-          <svg width="160" height="12" viewBox="0 0 160 12" aria-hidden="true" style={{ margin: '0 auto', display: 'block' }}>
-            <line x1="0" y1="6" x2="58" y2="6" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.5"/>
-            <path d="M64 6 Q68 2 72 6 Q76 10 80 6" stroke="#D4AF37" strokeWidth="0.8" fill="none"/>
-            <circle cx="80" cy="6" r="2" fill="#D4AF37" fillOpacity="0.6"/>
-            <path d="M80 6 Q84 2 88 6 Q92 10 96 6" stroke="#D4AF37" strokeWidth="0.8" fill="none"/>
-            <line x1="102" y1="6" x2="160" y2="6" stroke="#D4AF37" strokeWidth="0.5" strokeOpacity="0.5"/>
-          </svg>
+          <NoorBotanicalCrest />
         </div>
 
         {/* Ornate Frame Container */}
-        <div style={{ position: 'relative', width: 'min(700px, 95vw)', margin: '0 auto' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img 
-            src="/images/noor-scratch-frame.png" 
-            alt="" 
-            style={{ 
-              width: '100%', 
-              height: 'auto', 
-              display: 'block', 
-              mixBlendMode: 'multiply',
-              opacity: 0.95,
-              position: 'relative',
-              zIndex: 2,
-              pointerEvents: 'none'
-            }} 
-          />
+        <div style={{ position: 'relative', width: 'min(500px, 95vw)', margin: '0 auto', padding: '24px', background: 'var(--noor-paper)', border: '1px solid var(--noor-gold-soft)', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.02)' }}>
+          {/* Inner hairline border for double-frame effect */}
+          <div style={{ position: 'absolute', inset: '8px', border: '1px solid var(--noor-gold-whisper)', borderRadius: '10px', pointerEvents: 'none' }} />
+          
+          {/* Outline Design of Flowers on the Frame */}
+          <NoorBotanicalCorner position="top-left" style={{ top: '-10px', left: '-10px', width: '120px', opacity: 0.6, pointerEvents: 'none', zIndex: 5 }} />
+          <NoorBotanicalCorner position="bottom-right" style={{ bottom: '-10px', right: '-10px', width: '120px', opacity: 0.6, pointerEvents: 'none', zIndex: 5 }} />
+
           
           <div className="noor-scratch-wrap" style={{ 
-            position: 'absolute', 
-            top: '12%', 
-            left: '12%', 
-            right: '12%', 
-            bottom: '12%', 
-            width: 'auto', 
-            margin: 0, 
-            aspectRatio: 'auto',
-            borderRadius: '12px',
-            boxShadow: 'none',
-            zIndex: 1
+            position: 'relative', 
+            width: '100%', 
+            aspectRatio: '16/9',
+            borderRadius: '8px',
+            overflow: 'hidden',
+            backgroundColor: 'var(--noor-white)',
+            boxShadow: 'inset 0 0 20px rgba(193,160,99,0.1)'
           }}>
-          {/* Revealed Content */}
-          <div className="noor-date-card">
-            <h3 className="noor-date-card__eyebrow">Save the Date</h3>
-            <div className="noor-date-card__date">{dateDisplay}</div>
-            
-            <div className="noor-date-card__meta">
-              <span>{venueName || "Bangalore"}</span>
-              <i />
-              <span>Insha Allah</span>
+            {/* Revealed Content */}
+            <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--noor-ivory)', padding: '1.5rem', position: 'relative' }}>
+              
+              <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--noor-emerald)', marginBottom: '1rem' }}>
+                Save the Date
+              </h3>
+              <div style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1.2rem, 4vw, 2.5rem)', color: 'var(--noor-emerald-deep)', lineHeight: 1.2, margin: '0.5rem 0' }}>
+                {dateDisplay}
+              </div>
+              
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '1rem', fontFamily: 'var(--font-serif)', fontSize: '0.9rem', color: 'var(--noor-gold-champagne)', fontStyle: 'italic' }}>
+                <span>{venueName || "Bangalore"}</span>
+                <span style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'var(--noor-gold-champagne)' }} />
+                <span>Insha Allah</span>
+              </div>
             </div>
-          </div>
 
-          {/* Canvas Cover */}
-          <canvas 
-            ref={canvasRef}
-            id="scratch-canvas"
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', cursor: 'crosshair', zIndex: 10, borderRadius: '12px', touchAction: 'none' }}
-          />
-        </div>
+            {/* Canvas Cover */}
+            <canvas 
+              ref={canvasRef}
+              id="scratch-canvas"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', cursor: 'crosshair', zIndex: 10, touchAction: 'none' }}
+            />
+          </div>
         </div>
 
         {/* Hint text below card */}
-        <p style={{ marginTop: '1.5rem', fontFamily: 'var(--font-serif)', fontSize: '0.85rem', fontStyle: 'italic', color: 'var(--noor-ink-light)', letterSpacing: '0.05em' }}>
+        <p style={{ marginTop: '2rem', fontFamily: 'var(--font-serif)', fontSize: '0.9rem', fontStyle: 'italic', color: 'var(--noor-emerald)', letterSpacing: '0.05em' }}>
           Reveal Our Special Date
         </p>
-      </div>
+      </motion.div>
     </section>
   )
 }

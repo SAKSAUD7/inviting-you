@@ -5,8 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import NoorHero from './sections/NoorHero'
 import NoorWelcome from './sections/NoorWelcome'
 import NoorCouple from './sections/NoorCouple'
+import NoorStory from './sections/NoorStory'
 import NoorScratchReveal from './sections/NoorScratchReveal'
 import NoorEvents from './sections/NoorEvents'
+import NoorVenue from './sections/NoorVenue'
+import NoorRSVP from './sections/NoorRSVP'
 import NoorGallery from './sections/NoorGallery'
 import NoorCountdown from './sections/NoorCountdown'
 import NoorInteractiveDua from './sections/NoorInteractiveDua'
@@ -19,11 +22,14 @@ interface Props {
   wedding: any
 }
 
+import { NoorFloralDivider } from './NoorOrnaments'
+
 // Reusable ornamental divider for sections
 const NoorDivider = () => (
-  <div style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '3rem 0', pointerEvents: 'none' }} aria-hidden="true">
-    {/* eslint-disable-next-line @next/next/no-img-element */}
-    <img src="/images/noor-floral-divider.png" alt="" style={{ width: '80%', maxWidth: '400px', opacity: 0.85, mixBlendMode: 'multiply' }} />
+  <div style={{ width: '100%', height: 0, display: 'flex', justifyContent: 'center', alignItems: 'flex-start', position: 'relative', zIndex: 10, pointerEvents: 'none' }} aria-hidden="true">
+    <div style={{ width: '100%', maxWidth: '900px' }}>
+      <NoorFloralDivider />
+    </div>
   </div>
 )
 
@@ -64,19 +70,25 @@ export default function NoorInvitation({ wedding }: Props) {
       
       {opened && (
         <motion.main 
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, ease: "easeInOut" }}
+          transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
           className="noor-main" 
-          style={{ position: 'relative', zIndex: 1, paddingBottom: '3rem' }}
+          style={{ position: 'relative', zIndex: 1, paddingBottom: '0' }}
         >
           <NoorWelcome couple={couple} />
           
           <NoorDivider />
           <NoorCouple couple={couple} />
           
+          {(couple?.story || couple?.howTheyMet) && (
+            <>
+              <NoorDivider />
+              <NoorStory couple={couple} />
+            </>
+          )}
+
           <NoorDivider />
-          
           <NoorScratchReveal dateDisplay={dateDisplay} venueName={primaryEvent?.venueName || undefined} />
           
           {primaryEvent?.date && (
@@ -88,10 +100,13 @@ export default function NoorInvitation({ wedding }: Props) {
           
           {events && events.length > 0 && (
             <>
-              {/* No divider before events because Mehfil-e-Nikah needs a hard emerald transition */}
+              {/* No divider before events because it has its own transition */}
               <NoorEvents events={events} />
+              <NoorVenue events={events} />
             </>
           )}
+
+          <NoorRSVP />
           
           {galleryImages && galleryImages.length > 0 && (
             <>
@@ -100,7 +115,6 @@ export default function NoorInvitation({ wedding }: Props) {
             </>
           )}
 
-          {/* No divider before Dua because it also has an emerald transition */}
           <NoorInteractiveDua />
           
           {(family?.parents || family?.grandparents) && (
@@ -110,7 +124,6 @@ export default function NoorInvitation({ wedding }: Props) {
             </>
           )}
 
-          <NoorDivider />
           <NoorClosing couple={couple} />
         </motion.main>
       )}

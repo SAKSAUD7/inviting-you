@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+:root {
+  /* Royal Palette */
+  --sultan-crimson: #6B0E1D;
+  --sultan-crimson-dark: #3F000A;
+  --sultan-gold-metallic: #C19A5B;
+  --sultan-gold-bright: #E5C37A;
+  --sultan-gold-soft: #F4E8CE;
+  --sultan-ivory: #FDFBF7;
+  --sultan-ink: #1A0D0D;
+
+  /* Fonts */
+  --font-sultan-display: 'Cinzel', serif;
+  --font-sultan-heading: 'Playfair Display', serif;
+  --font-sultan-body: 'Lato', sans-serif;
+}
+
+/* Shell & Container */
+.sultan-shell {
+  background-color: var(--sultan-crimson-dark);
+  color: var(--sultan-gold-soft);
+  font-family: var(--font-sultan-body);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.sultan-main {
+  background-color: var(--sultan-crimson-dark);
+  position: relative;
+  z-index: 1;
+}
+
+.sultan-section {
+  width: 100%;
+  position: relative;
+}
+
+/* Regal Typography */
+.sultan-h1 {
+  font-family: var(--font-sultan-display);
+  color: var(--sultan-gold-bright);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin: 0;
+}
+
+.sultan-h2 {
+  font-family: var(--font-sultan-heading);
+  color: var(--sultan-gold-metallic);
+  font-style: italic;
+  font-weight: 400;
+  margin: 0;
+}
+
+.sultan-body-text {
+  font-family: var(--font-sultan-body);
+  color: var(--sultan-ivory);
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+}
+
+/* Interactive Elements */
+.sultan-button {
+  background: transparent;
+  border: 1px solid var(--sultan-gold-metallic);
+  color: var(--sultan-gold-bright);
+  font-family: var(--font-sultan-display);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  padding: 1rem 2.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  border-radius: 2px;
+}
+
+.sultan-button:hover {
+  background: rgba(193, 154, 91, 0.1);
+  box-shadow: 0 0 20px rgba(193, 154, 91, 0.2);
+}
+
+/* Animations */
+@keyframes sultan-fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sultan-animate-fade {
+  animation: sultan-fade-in 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}

@@ -3290,3 +3290,179 @@ textarea:focus-visible {
   transform-origin: bottom left;
   transform: rotate(-135deg) scaleX(-1);
 }
+/* ========================================================================= */
+/* THEATRICAL CURTAIN REVEAL                                                 */
+/* ========================================================================= */
+.velvet-curtain-left,
+.velvet-curtain-right {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, #0a0001, #1e0003);
+  z-index: 10;
+  transition: transform 1.5s cubic-bezier(0.85, 0, 0.15, 1);
+  box-shadow: inset -10px 0 30px rgba(0,0,0,0.8);
+}
+
+.velvet-curtain-left {
+  left: 0;
+  transform-origin: left center;
+}
+
+.velvet-curtain-right {
+  right: 0;
+  transform-origin: right center;
+  background: linear-gradient(-90deg, #0a0001, #1e0003);
+  box-shadow: inset 10px 0 30px rgba(0,0,0,0.8);
+}
+
+.hero.is-open .velvet-curtain-left {
+  transform: scaleX(0);
+}
+
+.hero.is-open .velvet-curtain-right {
+  transform: scaleX(0);
+}
+/* ========================================================================= */
+/* VELVET EDITORIAL GALLERY                                                  */
+/* ========================================================================= */
+.velvet-editorial-gallery {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.velvet-gallery-item {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(201, 169, 110, 0.15);
+  background: var(--plum);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 1.2s;
+}
+
+.velvet-gallery-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 50px rgba(0,0,0,0.7), inset 0 0 0 1px rgba(201, 169, 110, 0.3);
+}
+
+.velvet-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 8s ease-out;
+  filter: grayscale(0.2) contrast(1.1);
+}
+
+.velvet-gallery-item:hover img {
+  transform: scale(1.08);
+  filter: grayscale(0) contrast(1.1);
+}
+
+/* Asymmetric Grid Layout for Velvet */
+.velvet-gallery-item:nth-child(3n+1) {
+  grid-column: 1 / 9;
+  aspect-ratio: 16/10;
+}
+
+.velvet-gallery-item:nth-child(3n+2) {
+  grid-column: 9 / 13;
+  aspect-ratio: 3/4;
+}
+
+.velvet-gallery-item:nth-child(3n+3) {
+  grid-column: 3 / 11;
+  aspect-ratio: 4/5;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .velvet-editorial-gallery {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .velvet-gallery-item:nth-child(n) {
+    grid-column: 1 / -1;
+    margin-top: 0;
+    aspect-ratio: auto;
+    height: 50vh;
+  }
+}
+/* ========================================================================= */
+/* VELVET EDITORIAL EVENTS & TIMELINE                                        */
+/* ========================================================================= */
+.velvet-event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  margin-top: 3rem;
+}
+
+.velvet-event-card {
+  border: 1px solid color-mix(in srgb, var(--champagne) 25%, transparent);
+  background: color-mix(in srgb, var(--plum) 95%, transparent);
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: transform 0.6s ease, border-color 0.6s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.velvet-event-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--champagne), transparent);
+  transform: scaleX(0);
+  transition: transform 0.6s ease;
+}
+
+.velvet-event-card:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--champagne) 60%, transparent);
+}
+
+.velvet-event-card:hover::before {
+  transform: scaleX(1);
+}
+
+.velvet-event-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--ivory);
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.velvet-event-card p {
+  color: color-mix(in srgb, var(--champagne) 85%, transparent);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1.5rem;
+}
+
+.velvet-event-card .event-map-link {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--champagne);
+  border: 1px solid var(--champagne);
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background 0.3s, color 0.3s;
+}
+
+.velvet-event-card .event-map-link:hover {
+  background: var(--champagne);
+  color: var(--plum);
+}

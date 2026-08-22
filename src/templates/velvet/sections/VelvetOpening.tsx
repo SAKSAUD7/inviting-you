@@ -59,7 +59,11 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
       onClick={onOpen}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onOpen() }}
     >
-      {/* Background video */}
+      {/* Theatrical Curtains */}
+      <div className="velvet-curtain-left" aria-hidden="true" />
+      <div className="velvet-curtain-right" aria-hidden="true" />
+
+      {/* Background video (revealed when curtains open) */}
       <video
         ref={videoRef}
         id="introVideo"
@@ -107,7 +111,7 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
         </p>
 
         {/* Tap prompt */}
-        <span className="opening-tap-label">Tap to open</span>
+        <span className="opening-tap-label" style={{ zIndex: 20, position: 'relative' }}>Tap to open</span>
       </div>
 
       {/* ══════════════════════════════════════════════

@@ -15,7 +15,7 @@ export interface WeddingData {
   seo?: WeddingSEO | null
 }
 
-export type TemplateId = 'velvet' | 'noor' | 'garden' | 'pearl'
+export type TemplateId = 'velvet' | 'noor' | 'garden' | 'pearl' | 'sultan'
 
 export interface WeddingCouple {
   id: string

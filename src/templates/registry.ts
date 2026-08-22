@@ -52,6 +52,18 @@ export const TEMPLATE_REGISTRY: Record<TemplateId, TemplateMetadata> = {
     mood: ['Minimal', 'Pure', 'Timeless', 'Modern'],
     features: ['Pure typography', 'Hairline rules', 'Minimal animations', 'Music player'],
   },
+  sultan: {
+    id: 'sultan',
+    name: 'Sultan',
+    tagline: 'Royal, majestic, heavy',
+    description: 'A royal Nikah experience with deep crimson, heavy gold accents, and a majestic palace door reveal.',
+    category: 'Islamic Luxury',
+    price: 2999,
+    priceLabel: '₹2,999',
+    thumbnail: '/templates/sultan-thumb.jpg',
+    mood: ['Royal', 'Majestic', 'Heavy', 'Traditional'],
+    features: ['Palace Door Reveal', 'Mughal motifs', 'Rich typography'],
+  },
 }
 
 export function getTemplateMetadata(id: TemplateId): TemplateMetadata {
@@ -70,6 +82,7 @@ export type InvitationTemplateProps = {
 const templateLoaders: Record<string, () => Promise<{ default: ComponentType<InvitationTemplateProps> }>> = {
   velvet: () => import('@/templates/velvet/VelvetInvitation'),
   noor:   () => import('@/templates/noor/NoorInvitation'),
+  sultan: () => import('@/templates/sultan/SultanInvitation'),
   // garden: () => import('@/templates/garden/GardenInvitation'),
   // pearl:  () => import('@/templates/pearl/PearlInvitation'),
 }

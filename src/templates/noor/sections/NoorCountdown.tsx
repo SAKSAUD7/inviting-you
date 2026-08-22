@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { NoorBotanicalWatermark } from '../NoorOrnaments'
 
 interface Props {
@@ -35,39 +36,63 @@ export default function NoorCountdown({ targetDate }: Props) {
   }, [targetDate])
 
   return (
-    <section className="noor-section reveal-hidden" style={{ background: 'var(--noor-ivory)', position: 'relative', overflow: 'hidden', padding: '4rem 1.5rem 6rem' }}>
+    <section className="noor-section" style={{ background: 'var(--noor-ivory)', position: 'relative', overflow: 'hidden', padding: '6rem 1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       
-      {/* Large faint floral wreath watermark */}
+      {/* Large faint floral watermark */}
       <NoorBotanicalWatermark 
         className="noor-sway-slow" 
-        style={{ top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 'min(800px, 120vw)', opacity: 0.05 }} 
+        style={{ top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 'min(800px, 120vw)', opacity: 0.03 }} 
       />
 
-      <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', marginBottom: '3rem' }}>
-        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--noor-ink-light)' }}>
-          The Celebration Begins In
-        </p>
-        <div style={{ width: '1px', height: '30px', background: 'linear-gradient(to bottom, var(--noor-gold-champagne), transparent)', margin: '1rem auto' }} />
-      </div>
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
+        style={{ position: 'relative', zIndex: 1, textAlign: 'center', width: '100%', maxWidth: '800px' }}
+      >
+        <div style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--noor-emerald)', marginBottom: '3rem' }}>
+          Counting Down To Forever
+        </div>
 
-      <div className="noor-countdown" style={{ position: 'relative', zIndex: 1 }}>
-        <div className="noor-countdown__unit">
-          <div className="noor-countdown-circle">{timeLeft.days.toString().padStart(2, '0')}</div>
-          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--noor-gold-deep)' }}>Days</span>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '2rem' }}>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', minWidth: '80px' }}>
+            <div style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(3rem, 8vw, 4.5rem)', color: 'var(--noor-emerald-deep)', lineHeight: 1, fontWeight: 400 }}>
+              {timeLeft.days.toString().padStart(2, '0')}
+            </div>
+            <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--noor-gold-champagne)' }}>Days</span>
+          </div>
+
+          <div style={{ width: '1px', height: '60px', background: 'linear-gradient(to bottom, transparent, var(--noor-gold-champagne), transparent)', opacity: 0.5 }} />
+          
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', minWidth: '80px' }}>
+            <div style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(3rem, 8vw, 4.5rem)', color: 'var(--noor-emerald-deep)', lineHeight: 1, fontWeight: 400 }}>
+              {timeLeft.hours.toString().padStart(2, '0')}
+            </div>
+            <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--noor-gold-champagne)' }}>Hours</span>
+          </div>
+
+          <div style={{ width: '1px', height: '60px', background: 'linear-gradient(to bottom, transparent, var(--noor-gold-champagne), transparent)', opacity: 0.5 }} />
+
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', minWidth: '80px' }}>
+            <div style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(3rem, 8vw, 4.5rem)', color: 'var(--noor-emerald-deep)', lineHeight: 1, fontWeight: 400 }}>
+              {timeLeft.minutes.toString().padStart(2, '0')}
+            </div>
+            <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--noor-gold-champagne)' }}>Minutes</span>
+          </div>
+
+          <div style={{ width: '1px', height: '60px', background: 'linear-gradient(to bottom, transparent, var(--noor-gold-champagne), transparent)', opacity: 0.5 }} />
+
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', minWidth: '80px' }}>
+            <div style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(3rem, 8vw, 4.5rem)', color: 'var(--noor-emerald-deep)', lineHeight: 1, fontWeight: 400 }}>
+              {timeLeft.seconds.toString().padStart(2, '0')}
+            </div>
+            <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--noor-gold-champagne)' }}>Seconds</span>
+          </div>
+
         </div>
-        <div className="noor-countdown__unit">
-          <div className="noor-countdown-circle">{timeLeft.hours.toString().padStart(2, '0')}</div>
-          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--noor-gold-deep)' }}>Hours</span>
-        </div>
-        <div className="noor-countdown__unit">
-          <div className="noor-countdown-circle">{timeLeft.minutes.toString().padStart(2, '0')}</div>
-          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--noor-gold-deep)' }}>Minutes</span>
-        </div>
-        <div className="noor-countdown__unit">
-          <div className="noor-countdown-circle">{timeLeft.seconds.toString().padStart(2, '0')}</div>
-          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--noor-gold-deep)' }}>Seconds</span>
-        </div>
-      </div>
+      </motion.div>
     </section>
   )
 }

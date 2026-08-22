@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
-import { NoorGoldMehrab, NoorIslamicGeometry, NoorJasmineGarland } from '../NoorOrnaments'
+import { motion, AnimatePresence } from 'framer-motion'
+import { NoorJasmine, NoorBotanicalStem, NoorGoldLine } from '../NoorOrnaments'
 
 export default function NoorInteractiveDua() {
   const [clicked, setClicked] = useState(false)
@@ -11,18 +11,13 @@ export default function NoorInteractiveDua() {
   }
 
   return (
-    <section className="noor-section noor-bg-emerald" style={{ padding: '8rem 1.5rem', overflow: 'hidden', position: 'relative', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <section className="noor-section" style={{ padding: '8rem 1.5rem', overflow: 'hidden', position: 'relative', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--noor-paper)' }}>
       
-      {/* Background Ornaments */}
-      <NoorIslamicGeometry style={{ top: '5%', left: '-50px', width: '250px', opacity: 0.1 }} />
-      <NoorIslamicGeometry style={{ bottom: '5%', right: '-50px', width: '250px', opacity: 0.1 }} />
-
       <motion.div 
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        className={`reveal-hidden ${clicked ? 'noor-dua-active' : ''}`} 
+        transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
         onClick={handleClick}
         style={{
           width: '100%',
@@ -31,71 +26,90 @@ export default function NoorInteractiveDua() {
           textAlign: 'center',
           cursor: clicked ? 'default' : 'pointer',
           position: 'relative',
-          transition: 'all 1s ease',
-          zIndex: 2
+          zIndex: 2,
+          padding: '4rem 2rem',
+          backgroundColor: 'var(--noor-white)',
+          border: '1px solid var(--noor-gold-soft)',
         }}
       >
-        <div style={{ position: 'relative' }}>
-          
-          <NoorGoldMehrab style={{ opacity: clicked ? 1 : 0.6, transition: 'opacity 1s ease' }} />
-          
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
-            
-            {/* The Noor Effect Light Wash */}
-            {clicked && (
-               <motion.div 
-                 initial={{ scale: 0, opacity: 0 }}
-                 animate={{ scale: [0, 1.2, 1.3], opacity: [0, 1, 0] }}
-                 transition={{ duration: 3, ease: "easeOut" }}
-                 style={{
-                   position: 'absolute', inset: '-20%', background: 'radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.4), transparent 60%)',
-                   zIndex: 0, pointerEvents: 'none', mixBlendMode: 'screen'
-                 }} 
-               />
-            )}
-
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <h2 style={{ fontFamily: 'var(--font-serif)', color: 'var(--noor-gold-champagne)', fontSize: 'clamp(2rem, 5vw, 3rem)', marginBottom: '1.5rem' }}>
-                {clicked ? "Jazakallah Khair" : "Keep Us In Your Duas"}
+        <AnimatePresence mode="wait">
+          {!clicked ? (
+            <motion.div 
+              key="unclicked"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.5 }}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+            >
+              <div style={{ fontFamily: 'var(--font-sans)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--noor-emerald)', marginBottom: '2rem' }}>
+                A Moment of Prayer
+              </div>
+              
+              <h2 style={{ fontFamily: 'var(--font-names)', color: 'var(--noor-emerald-deep)', fontSize: 'clamp(2.5rem, 6vw, 3.5rem)', marginBottom: '1.5rem', fontWeight: 400, lineHeight: 1.1 }}>
+                Keep Us In<br/>Your Duas
               </h2>
               
-              <p style={{ color: 'var(--noor-ivory)', fontFamily: 'var(--font-sans)', fontSize: '0.9rem', marginBottom: '2.5rem', letterSpacing: '0.1em', opacity: 0.9 }}>
-                {clicked ? "Your blessings have been received." : "Tap to send your Dua and blessings to the couple."}
+              <p style={{ color: 'var(--noor-emerald)', fontFamily: 'var(--font-serif)', fontSize: '1rem', fontStyle: 'italic', marginBottom: '3rem', letterSpacing: '0.05em' }}>
+                Tap to send your blessings to the couple.
               </p>
               
               <div style={{
                 width: '60px',
                 height: '60px',
                 borderRadius: '50%',
-                background: clicked ? 'var(--noor-gold-champagne)' : 'transparent',
+                background: 'transparent',
                 border: '1px solid var(--noor-gold-champagne)',
-                margin: '0 auto',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-                color: clicked ? 'var(--noor-emerald-deep)' : 'var(--noor-gold-champagne)',
-                boxShadow: clicked ? '0 0 30px rgba(212, 175, 55, 0.5)' : 'none'
-              }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill={clicked ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                color: 'var(--noor-gold-champagne)',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--noor-gold-champagne)'
+                e.currentTarget.style.color = 'var(--noor-white)'
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent'
+                e.currentTarget.style.color = 'var(--noor-gold-champagne)'
+              }}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                 </svg>
               </div>
-            </div>
-            
-            {/* Blooming Florals on Click */}
-            <NoorJasmineGarland className={clicked ? 'revealed' : ''} style={{ position: 'absolute', bottom: '-40px', left: '-40px', width: '120px', opacity: 0, transform: 'translateY(20px) rotate(-10deg)', transition: 'all 1.5s ease 0.5s', zIndex: 2 }} />
-            <NoorJasmineGarland className={clicked ? 'revealed' : ''} style={{ position: 'absolute', bottom: '-40px', right: '-40px', width: '120px', opacity: 0, transform: 'translateY(20px) rotate(10deg) scaleX(-1)', transition: 'all 1.5s ease 0.7s', zIndex: 2 }} />
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="clicked"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '300px' }}
+            >
+              <NoorBotanicalStem animated={true} style={{ height: '60px', marginBottom: '1rem' }} />
+              
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.5, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <NoorJasmine />
+              </motion.div>
 
-          </div>
-        </div>
-        
-        <style>{`
-          .noor-dua-active .revealed {
-            opacity: 1 !important;
-            transform: translateY(0) rotate(0) scaleX(var(--sx, 1)) !important;
-          }
-        `}</style>
+              <NoorGoldLine active={true} style={{ width: '40px', margin: '2rem auto', opacity: 0.5 }} />
+
+              <h2 style={{ fontFamily: 'var(--font-names)', color: 'var(--noor-emerald-deep)', fontSize: 'clamp(2rem, 5vw, 3rem)', marginBottom: '1rem', fontWeight: 400 }}>
+                Jazakallah Khair
+              </h2>
+              
+              <p style={{ color: 'var(--noor-emerald)', fontFamily: 'var(--font-serif)', fontSize: '1rem', fontStyle: 'italic', letterSpacing: '0.05em' }}>
+                Your blessings have been beautifully received.
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </section>
   )
