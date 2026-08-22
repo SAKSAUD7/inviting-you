@@ -8,10 +8,10 @@ import SultanGallery from './sections/SultanGallery'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface SultanInvitationProps {
-  data: any
+  wedding: any
 }
 
-export default function SultanInvitation({ data }: SultanInvitationProps) {
+export default function SultanInvitation({ wedding: data }: SultanInvitationProps) {
   const [opened, setOpened] = useState(false)
 
   // Prevent scroll when closed
