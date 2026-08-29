@@ -1,0 +1,2 @@
+# Scalability Audit
+Can the platform support 50+ templates? Not currently. The lack of a shared component engine means templates are largely copy-pasted. Refactoring into a shared engine is a hard prerequisite for mass template production.
