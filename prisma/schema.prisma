@@ -24,6 +24,7 @@ model Wedding {
   slug           String            @unique
   title          String
   templateId     String            @default("velvet")
+  templateVersion Int              @default(1)
   status         Status            @default(DRAFT)
   publishedAt    DateTime?
   userId         String

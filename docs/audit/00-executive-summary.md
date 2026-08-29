@@ -1,44 +1,47 @@
-# Executive Summary
+# 00 — Executive Summary
+**Inviting You** · Master Architecture & Project Audit
+**Audited**: 2026-08-29
 
-## 1. Is the project fundamentally viable?
-Yes. The foundational architecture (Next.js App Router, Prisma, framer-motion) is highly capable of scaling to a SaaS platform. The core data models (`Wedding`, `Couple`, `Events`, `Gallery`) are robust enough to support dynamic rendering across different visual templates without tight coupling to the data structure.
+---
 
-## 2. What is already good?
-- **Universal Data Contract**: The Prisma schema provides a clean, template-agnostic data foundation.
-- **Dynamic Routing**: The `/i/[slug]` route brilliantly resolves a single database record and passes it to the `TemplateRegistry`, preventing the need to deploy individual apps for clients.
-- **Velvet Architecture**: Velvet provides an excellent reference for how to separate layout, animation, and static data inside a unique design system.
-- **Modern Tech Stack**: Next.js 16 (Turbopack), React 19, and Tailwind/Vanilla CSS combo ensure high performance if optimized correctly.
+## The Verdict
 
-## 3. What is currently dangerous?
-- **Template Versioning**: There is no immutable template-version reference on the `Wedding` model. If `Noor` is updated, it automatically affects all past clients using `Noor`, potentially breaking their layouts or causing unintended aesthetic shifts.
-- **Data Isolation (Multi-Tenancy)**: The Admin UI and API routes need strict verification to ensure `User A` cannot query or mutate `Wedding B`. 
-- **Type Safety Gaps**: Component props occasionally drift from the main `InvitationTemplateProps` contract (as seen in the recent Sultan type mismatch).
+"Inviting You" is a highly ambitious, premium digital wedding invitation platform built on Next.js 16 and Prisma. 
 
-## 4. What is currently slowing development?
-- **Manual Asset Curation**: Sourcing, processing, and cropping ornaments (like floral dividers) consumes massive amounts of engineering time.
-- **Lack of a Design System Abstraction**: While the data contract is clean, the visual contract (colors, fonts, borders) must be manually hardcoded for every new template.
-- **No Component Factory**: Building a new template currently requires manually rewriting sections (`Hero`, `Gallery`, `Events`) even if the underlying logic is identical to previous templates.
+The **guest-facing product (the invitations)** is exceptional. The cinematic pacing, the scroll-reveal animations, and the interactive scratch-off dates deliver on the promise of "ultra-luxury." The server-side rendering architecture ensures these heavy, media-rich pages load extremely fast.
 
-## 5. Why are templates taking so long?
-Because engineers are functioning as art directors. Building a template requires sourcing assets, tweaking CSS blend modes, adjusting Framer Motion timing curves, and testing responsiveness. There is no separation between the "Design Definition" and the "Code Implementation."
+However, the **internal architecture (the engine and backend)** is currently an MVP that cannot scale safely. The recent attempt to implement a "Shared Engine" and "Template Versioning" (Phase 1) was incomplete, leaving behind dead code and critical security vulnerabilities that block the creation of new templates.
 
-## 6. Why is Noor difficult to build?
-Noor relies on an "Editorial Botanical" aesthetic, which requires high-quality, transparent, well-masked assets (florals, gold foils). Implementing these assets requires complex CSS trickery (like `mix-blend-mode: multiply`) which frequently breaks across mobile Safari and different stacking contexts.
+---
 
-## 7. What prevents thousands of client invitations?
-Nothing fundamentally prevents this at the data level. However, the Admin Portal currently lacks the workflow to easily manage, filter, duplicate, and publish thousands of client records. Generating invitations is still too manual.
+## Critical Discoveries (The "Must-Fix" List)
 
-## 8. What prevents adding 50+ templates?
-The lack of a shared component engine. If 50 templates are built using the current manual method, maintaining them will become a nightmare. If a bug is found in the `Gallery` slider, it would need to be fixed in 50 separate `[Template]Gallery.tsx` files.
+The following issues are **P0 Blockers**. New features (like building the Sultan template) must be halted until these are resolved.
 
-## 9. What prevents admin-based automatic invitation generation?
-The Admin Portal is still in its infancy. It lacks a comprehensive form wizard to input all required `WeddingData`, map it to the template, and generate the slug automatically without developer intervention.
+1. **Massive Security Vulnerability**: All API routes that create, edit, and delete client weddings (`/api/weddings/*`) have absolutely no authentication. Any anonymous user on the internet can delete a client's invitation.
+2. **Fake Template Versioning**: The database stores a `templateVersion`, but the Next.js router completely ignores it. If a developer edits the Noor template today, it will instantly alter the live invitations of past clients who paid for the original design.
+3. **Dead Code Engine**: The Shared Engine built to power all future templates is not used by any template. Furthermore, the engine's RSVP component submits to a fake `setTimeout`, meaning any template that tries to use it will silently fail to collect RSVPs.
+4. **Unoptimized Media**: The platform does not use Next.js image optimization, resulting in massive payload sizes that will struggle on slow mobile connections.
 
-## 10. What prevents card-image-to-invitation automation?
-The system lacks the OCR/AI ingestion layer. While the Prisma schema is ready to receive structured JSON, there is no API endpoint or admin workflow to accept an image, pass it to an LLM Vision model, parse the JSON, and map it to a new `Wedding` draft.
+---
 
-## 11. What should be fixed FIRST?
-**Template Versioning and the Shared Component Engine.** Before adding the 3rd or 4th template, the engine must abstract the structural logic (Sliders, Countdowns, Modals) away from the visual styling. 
+## State of the Templates
 
-## 12. What should NOT be touched yet?
-The core Prisma schema and the dynamic routing infrastructure (`/i/[slug]`). These are currently the strongest and most scalable parts of the application.
+| Template | Status | Notes |
+|---|---|---|
+| **Velvet** | ✅ Production | Complete. Heavy, luxurious, dark theme. Implements its own bespoke logic. |
+| **Noor** | ✅ Production | Complete. Light, botanical theme using Framer Motion. Implements its own bespoke logic. |
+| **Sultan** | 🚧 Stub | Paused. Do not build until the Shared Engine is genuinely functional. |
+
+---
+
+## Recommended Path Forward
+
+The project requires a brief but intense **"Architecture Remediation"** phase (Phase 1.5) before any new visual design begins. 
+
+1. **Secure the Core**: Instantly apply session guards to all API routes.
+2. **Wire the Versioning**: Ensure the router reads `templateVersion` from the database so templates can be safely upgraded in the future without breaking past clients.
+3. **Fix the Engine**: Remove CSS from the Shared Engine, wire its RSVP logic to the real database, and force Velvet and Noor to use it. This proves the engine works.
+4. **Resume Growth**: Once the engine is proven, building Template 3 (Sultan) and Template 4 will take a fraction of the time, allowing the business to scale rapidly.
+
+*For detailed breakdowns of specific areas, refer to the individual audit files in this directory.*

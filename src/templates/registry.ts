@@ -75,7 +75,7 @@ export function getAllTemplates(): TemplateMetadata[] {
 }
 
 export type InvitationTemplateProps = {
-  wedding: WeddingData
+  wedding: WeddingData & { templateVersion?: number }
 }
 
 // Dynamic loaders — each template's JS only loads when needed
