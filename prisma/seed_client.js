@@ -104,7 +104,7 @@ async function main() {
       },
       rsvpConfig: {
         create: {
-          enabled: true,
+          enabled: false,
         }
       }
     }

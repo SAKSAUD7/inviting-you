@@ -97,7 +97,7 @@ async function main() {
   await prisma.rSVPConfig.create({
     data: {
       weddingId: wedding.id,
-      enabled: true,
+      enabled: false,
       message: 'Will you celebrate with us?',
     },
   })
