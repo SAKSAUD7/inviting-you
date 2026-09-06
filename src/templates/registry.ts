@@ -92,9 +92,9 @@ const templateLoaders: Record<
 export function getDynamicTemplate(
   id: TemplateId,
   version: number
-): ReturnType<typeof dynamic> | null {
+): ComponentType<InvitationTemplateProps> | null {
   const key = `${id}@${version}`
   const loader = templateLoaders[key]
   if (!loader) return null
-  return dynamic(loader)
+  return dynamic<InvitationTemplateProps>(loader)
 }
