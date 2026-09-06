@@ -114,7 +114,6 @@ export default function VelvetInvitation({ wedding }: { wedding: WeddingData }) 
       <VelvetFloralDivider />
       <VelvetRSVP weddingId={wedding.id} rsvpConfig={wedding.rsvpConfig} />
       <VelvetFloralDivider />
-      <VelvetFloralDivider />
       <VelvetBlessings />
       <VelvetFloralDivider />
       <VelvetCompliments compliments={wedding.compliments} />
