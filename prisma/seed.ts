@@ -54,7 +54,7 @@ async function main() {
       brideParents: 'Mrs. & Mr. Mohammed Asif',
       bridePaternalGrandfather: 'Janab Haji Abdul Rasheed Saheb',
       brideMaternalGrandfather: 'Late Janab Mohammed Ismail Shariff Saheb',
-      groomFather: 'Mr. & Mr. Nawaz Ahmed',
+      groomFather: 'Mrs. & Mr. Nawaz Ahmed',
       groomPaternalGrandfather: 'Late Janab Abdul Wahab Saheb',
       groomMaternalGrandfather: 'Late Janab Syed Yusuf Saheb',
       invitationFromName: 'Mrs. & Mr. Mohammed Asif',
