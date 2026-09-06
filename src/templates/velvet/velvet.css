@@ -264,7 +264,7 @@ main {
   position: absolute;
   transition: opacity .7s ease, transform .9s ease, visibility .7s;
   visibility: visible;
-  z-index: 3;
+  z-index: 20;
   color: var(--ivory);
 }
 
