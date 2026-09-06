@@ -1,14 +1,18 @@
-import { TemplateId, TemplateMetadata } from '@/types/wedding'
+import { TemplateId, TemplateMetadata, WeddingData } from '@/types/wedding'
 import dynamic from 'next/dynamic'
 import { ComponentType } from 'react'
-import { WeddingData } from '@/types/wedding'
+
+// ---------------------------------------------------------------------------
+// Template Metadata — only templates with real loaders appear here
+// ---------------------------------------------------------------------------
 
 export const TEMPLATE_REGISTRY: Record<TemplateId, TemplateMetadata> = {
   velvet: {
     id: 'velvet',
     name: 'Velvet',
     tagline: 'Dark, cinematic, regal',
-    description: 'A dramatic luxury experience with deep crimson tones, gold accents, crystal chandeliers, and an immersive cinematic reveal.',
+    description:
+      'A dramatic luxury experience with deep crimson tones, gold accents, crystal chandeliers, and an immersive cinematic reveal.',
     category: 'Islamic Luxury',
     price: 2999,
     priceLabel: '₹2,999',
@@ -20,7 +24,8 @@ export const TEMPLATE_REGISTRY: Record<TemplateId, TemplateMetadata> = {
     id: 'noor',
     name: 'Noor',
     tagline: 'Light, elegant, serene',
-    description: 'A light and airy editorial experience with warm ivory tones, Islamic arch motifs, and graceful botanical elements.',
+    description:
+      'A light and airy editorial experience with warm ivory tones, Islamic arch motifs, and graceful botanical elements.',
     category: 'Islamic Elegance',
     price: 2499,
     priceLabel: '₹2,499',
@@ -28,35 +33,12 @@ export const TEMPLATE_REGISTRY: Record<TemplateId, TemplateMetadata> = {
     mood: ['Light', 'Elegant', 'Editorial', 'Serene'],
     features: ['Islamic arch motif', 'Editorial gallery', 'Botanical elements', 'Music player'],
   },
-  garden: {
-    id: 'garden',
-    name: 'Garden',
-    tagline: 'Botanical, romantic, lush',
-    description: 'A lush botanical experience with watercolor florals, forest greens, and the warmth of a garden celebration.',
-    category: 'Floral',
-    price: 2499,
-    priceLabel: '₹2,499',
-    thumbnail: '/templates/garden-thumb.jpg',
-    mood: ['Romantic', 'Botanical', 'Warm', 'Lush'],
-    features: ['Watercolor florals', 'Parallax sections', 'Botanical gallery', 'Music player'],
-  },
-  pearl: {
-    id: 'pearl',
-    name: 'Pearl',
-    tagline: 'Minimal, pure, timeless',
-    description: 'An ultra-minimalist luxury experience with pure white, pearl accents, and typographic artistry.',
-    category: 'Minimalist',
-    price: 1999,
-    priceLabel: '₹1,999',
-    thumbnail: '/templates/pearl-thumb.jpg',
-    mood: ['Minimal', 'Pure', 'Timeless', 'Modern'],
-    features: ['Pure typography', 'Hairline rules', 'Minimal animations', 'Music player'],
-  },
   sultan: {
     id: 'sultan',
     name: 'Sultan',
     tagline: 'Royal, majestic, heavy',
-    description: 'A royal Nikah experience with deep crimson, heavy gold accents, and a majestic palace door reveal.',
+    description:
+      'A royal Nikah experience with deep crimson, heavy gold accents, and a majestic palace door reveal.',
     category: 'Islamic Luxury',
     price: 2999,
     priceLabel: '₹2,999',
@@ -74,21 +56,45 @@ export function getAllTemplates(): TemplateMetadata[] {
   return Object.values(TEMPLATE_REGISTRY)
 }
 
-export type InvitationTemplateProps = {
-  wedding: WeddingData & { templateVersion?: number }
+// ---------------------------------------------------------------------------
+// Template Props Contract
+// All templates receive a fully-typed WeddingData. templateVersion is required.
+// ---------------------------------------------------------------------------
+
+export interface InvitationTemplateProps {
+  wedding: WeddingData
 }
 
-// Dynamic loaders — each template's JS only loads when needed
-const templateLoaders: Record<string, () => Promise<{ default: ComponentType<InvitationTemplateProps> }>> = {
-  velvet: () => import('@/templates/velvet/VelvetInvitation'),
-  noor:   () => import('@/templates/noor/NoorInvitation'),
-  sultan: () => import('@/templates/sultan/SultanInvitation'),
-  // garden: () => import('@/templates/garden/GardenInvitation'),
-  // pearl:  () => import('@/templates/pearl/PearlInvitation'),
+// ---------------------------------------------------------------------------
+// Versioned Dynamic Loaders
+// Key format: "<templateId>@<templateVersion>"
+// Adding a new template version = add a new key. Old keys are NEVER removed.
+// ---------------------------------------------------------------------------
+
+const templateLoaders: Record<
+  string,
+  () => Promise<{ default: ComponentType<InvitationTemplateProps> }>
+> = {
+  'velvet@1': () => import('@/templates/velvet/VelvetInvitation'),
+  'noor@1': () => import('@/templates/noor/NoorInvitation'),
+  'sultan@1': () => import('@/templates/sultan/SultanInvitation'),
+  // When a new version is released, ADD a new entry — never replace:
+  // 'noor@2':  () => import('@/templates/noor-v2/NoorInvitation'),
 }
 
-export function getDynamicTemplate(id: TemplateId) {
-  const loader = templateLoaders[id as string]
+// ---------------------------------------------------------------------------
+// Template Resolver
+// Returns the dynamic component for a given id+version pair.
+// Returns null if the combination is not registered — caller must handle this.
+// NEVER falls back silently to another version.
+// ---------------------------------------------------------------------------
+
+export function getDynamicTemplate(
+  id: TemplateId,
+  version: number
+): ReturnType<typeof dynamic> | null {
+  const key = `${id}@${version}`
+  const loader = templateLoaders[key]
   if (!loader) return null
   return dynamic(loader)
 }

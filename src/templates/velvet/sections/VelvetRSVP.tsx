@@ -1,44 +1,16 @@
 'use client'
-import { useState } from 'react'
 import { RSVPConfig } from '@/types/wedding'
+import { useRSVP } from '@/engine/useRSVP'
 
 interface Props {
   weddingId: string
   rsvpConfig?: RSVPConfig | null
 }
 
-type Status = 'idle' | 'loading' | 'success' | 'error'
-
 export default function VelvetRSVP({ weddingId, rsvpConfig }: Props) {
-  const [name, setName] = useState('')
-  const [attending, setAttending] = useState<boolean | null>(null)
-  const [guestCount, setGuestCount] = useState(1)
-  const [message, setMessage] = useState('')
-  const [status, setStatus] = useState<Status>('idle')
-  const [error, setError] = useState('')
+  const { formData, setFormData, status, error, submit } = useRSVP(weddingId)
 
   if (!rsvpConfig?.enabled) return null
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!name.trim()) { setError('Please enter your name.'); return }
-    if (attending === null) { setError('Please select attendance.'); return }
-    setStatus('loading')
-    setError('')
-    try {
-      const res = await fetch('/api/rsvp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ weddingId, guestName: name, attending, guestCount, message }),
-      })
-      if (!res.ok) throw new Error('Failed')
-      setStatus('success')
-    } catch {
-      setStatus('error')
-      setError('Something went wrong. Please try again.')
-      setTimeout(() => setStatus('idle'), 3000)
-    }
-  }
 
   return (
     <section className="section-pad" style={{ background: 'var(--cream)' }}>
@@ -63,8 +35,8 @@ export default function VelvetRSVP({ weddingId, rsvpConfig }: Props) {
                 id="rsvp-name"
                 type="text"
                 style={{ width: '100%', padding: '14px 16px', border: '1px solid color-mix(in srgb, var(--plum) 22%, transparent)', background: 'color-mix(in srgb, var(--ivory) 60%, var(--cream))', color: 'var(--plum)', fontFamily: 'var(--font-body)', fontSize: '0.95rem', borderRadius: 0, outline: 'none' }}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={formData.guestName}
+                onChange={(e) => setFormData({ ...formData, guestName: e.target.value })}
                 placeholder="Enter your name"
                 required
                 autoComplete="name"
@@ -83,8 +55,8 @@ export default function VelvetRSVP({ weddingId, rsvpConfig }: Props) {
                       type="radio"
                       name="attending"
                       style={{ width: '16px', height: '16px', accentColor: 'var(--plum)' }}
-                      checked={attending === value}
-                      onChange={() => setAttending(value)}
+                      checked={formData.attending === value}
+                      onChange={() => setFormData({ ...formData, attending: value })}
                     />
                     {label}
                   </label>
@@ -92,14 +64,14 @@ export default function VelvetRSVP({ weddingId, rsvpConfig }: Props) {
               </div>
             </div>
 
-            {attending === true && (
+            {formData.attending === true && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <label htmlFor="rsvp-guests" style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'color-mix(in srgb, var(--plum) 65%, transparent)' }}>Number of Guests</label>
                 <select
                   id="rsvp-guests"
                   style={{ width: '100%', padding: '14px 16px', border: '1px solid color-mix(in srgb, var(--plum) 22%, transparent)', background: 'color-mix(in srgb, var(--ivory) 60%, var(--cream))', color: 'var(--plum)', fontFamily: 'var(--font-body)', fontSize: '0.95rem', borderRadius: 0, outline: 'none' }}
-                  value={guestCount}
-                  onChange={(e) => setGuestCount(Number(e.target.value))}
+                  value={formData.guestCount}
+                  onChange={(e) => setFormData({ ...formData, guestCount: Number(e.target.value) })}
                 >
                   {[1,2,3,4,5,6].map((n) => (
                     <option key={n} value={n}>{n} {n === 1 ? 'guest' : 'guests'}</option>
@@ -113,8 +85,8 @@ export default function VelvetRSVP({ weddingId, rsvpConfig }: Props) {
               <textarea
                 id="rsvp-message"
                 style={{ width: '100%', padding: '14px 16px', border: '1px solid color-mix(in srgb, var(--plum) 22%, transparent)', background: 'color-mix(in srgb, var(--ivory) 60%, var(--cream))', color: 'var(--plum)', fontFamily: 'var(--font-body)', fontSize: '0.95rem', borderRadius: 0, outline: 'none', resize: 'vertical', minHeight: '90px' }}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 placeholder="Share your blessings…"
                 rows={3}
               />

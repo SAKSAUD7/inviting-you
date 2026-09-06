@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { auth } from '@/auth'
 
 export const dynamic = 'force-dynamic'
 
+// ---------------------------------------------------------------------------
+// POST /api/rsvp — Public guest submission (no auth required)
+// ---------------------------------------------------------------------------
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -52,7 +56,16 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// GET /api/rsvp — Admin read of RSVP responses (Auth required)
+// Guests should NOT be able to read other guests' names and status.
+// ---------------------------------------------------------------------------
 export async function GET(request: NextRequest) {
+  const session = await auth()
+  if (!session?.user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { searchParams } = new URL(request.url)
   const weddingId = searchParams.get('weddingId')
 

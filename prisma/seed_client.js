@@ -17,14 +17,14 @@ async function main() {
   }
 
   // Delete existing wedding if exists for idempotency
-  const existing = await prisma.wedding.findUnique({ where: { slug: 'iqra-mufassir' } });
+  const existing = await prisma.wedding.findUnique({ where: { slug: 'iqra-mufassir-nikah' } });
   if (existing) {
-    await prisma.wedding.delete({ where: { slug: 'iqra-mufassir' } });
+    await prisma.wedding.delete({ where: { slug: 'iqra-mufassir-nikah' } });
   }
 
   const wedding = await prisma.wedding.create({
     data: {
-      slug: 'iqra-mufassir',
+      slug: 'iqra-mufassir-nikah',
       title: 'Iqra & Mohammed Mufassir',
       templateId: 'velvet',
       status: 'PUBLISHED',
@@ -85,7 +85,7 @@ async function main() {
       },
       compliments: {
         create: [
-          { name: 'Alhaj Mohammed Shafiq & Sons', order: 1 },
+          { name: 'Alhaj Mohammed Shafi & Sons', order: 1 },
           { name: 'Shaik Mahmood & Sons', order: 2 },
           { name: 'Mohammed Jaber Saheb', order: 3 },
           { name: 'Mohammed Javeed Saheb', order: 4 },

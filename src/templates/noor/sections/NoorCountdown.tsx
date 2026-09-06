@@ -1,39 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
 import { NoorBotanicalWatermark } from '../NoorOrnaments'
+import { useCountdown } from '@/engine/useCountdown'
 
 interface Props {
   targetDate: Date
 }
 
 export default function NoorCountdown({ targetDate }: Props) {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  })
+  const { days, hours, minutes, seconds, isPast, isLoading } = useCountdown(targetDate)
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const now = new Date().getTime()
-      const distance = targetDate.getTime() - now
-
-      if (distance < 0) {
-        clearInterval(timer)
-        return
-      }
-
-      setTimeLeft({
-        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((distance % (1000 * 60)) / 1000)
-      })
-    }, 1000)
-
-    return () => clearInterval(timer)
-  }, [targetDate])
+  if (isLoading) return null
+  if (isPast) return null // Or a custom message like Velvet
 
   return (
     <section className="noor-section" style={{ background: 'var(--noor-ivory)', position: 'relative', overflow: 'hidden', padding: '6rem 1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -59,7 +37,7 @@ export default function NoorCountdown({ targetDate }: Props) {
           
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', minWidth: '80px' }}>
             <div style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(3rem, 8vw, 4.5rem)', color: 'var(--noor-emerald-deep)', lineHeight: 1, fontWeight: 400 }}>
-              {timeLeft.days.toString().padStart(2, '0')}
+              {days.toString().padStart(2, '0')}
             </div>
             <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--noor-gold-champagne)' }}>Days</span>
           </div>
@@ -68,7 +46,7 @@ export default function NoorCountdown({ targetDate }: Props) {
           
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', minWidth: '80px' }}>
             <div style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(3rem, 8vw, 4.5rem)', color: 'var(--noor-emerald-deep)', lineHeight: 1, fontWeight: 400 }}>
-              {timeLeft.hours.toString().padStart(2, '0')}
+              {hours.toString().padStart(2, '0')}
             </div>
             <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--noor-gold-champagne)' }}>Hours</span>
           </div>
@@ -77,7 +55,7 @@ export default function NoorCountdown({ targetDate }: Props) {
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', minWidth: '80px' }}>
             <div style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(3rem, 8vw, 4.5rem)', color: 'var(--noor-emerald-deep)', lineHeight: 1, fontWeight: 400 }}>
-              {timeLeft.minutes.toString().padStart(2, '0')}
+              {minutes.toString().padStart(2, '0')}
             </div>
             <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--noor-gold-champagne)' }}>Minutes</span>
           </div>
@@ -86,7 +64,7 @@ export default function NoorCountdown({ targetDate }: Props) {
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', minWidth: '80px' }}>
             <div style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(3rem, 8vw, 4.5rem)', color: 'var(--noor-emerald-deep)', lineHeight: 1, fontWeight: 400 }}>
-              {timeLeft.seconds.toString().padStart(2, '0')}
+              {seconds.toString().padStart(2, '0')}
             </div>
             <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--noor-gold-champagne)' }}>Seconds</span>
           </div>

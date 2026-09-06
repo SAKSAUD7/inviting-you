@@ -6,12 +6,13 @@ import SultanHero from './sections/SultanHero'
 import SultanEvents from './sections/SultanEvents'
 import SultanGallery from './sections/SultanGallery'
 import { motion, AnimatePresence } from 'framer-motion'
+import { WeddingData } from '@/types/wedding'
 
 interface SultanInvitationProps {
-  wedding: any
+  wedding: WeddingData
 }
 
-export default function SultanInvitation({ wedding: data }: SultanInvitationProps) {
+export default function SultanInvitation({ wedding }: SultanInvitationProps) {
   const [opened, setOpened] = useState(false)
 
   // Prevent scroll when closed
@@ -33,7 +34,7 @@ export default function SultanInvitation({ wedding: data }: SultanInvitationProp
 
   return (
     <div className="sultan-shell">
-      <SultanHero opened={opened} onOpen={handleOpen} data={data} />
+      <SultanHero opened={opened} onOpen={handleOpen} data={wedding} />
       
       <AnimatePresence>
         {opened && (
@@ -43,12 +44,12 @@ export default function SultanInvitation({ wedding: data }: SultanInvitationProp
             transition={{ duration: 1, delay: 0.5 }}
             className="sultan-main"
           >
-            {data.events && data.events.length > 0 && <SultanEvents events={data.events} />}
-            {data.gallery && data.gallery.length > 0 && <SultanGallery photos={data.gallery.map((g: any) => g.url)} />}
+            {wedding.events && wedding.events.length > 0 && <SultanEvents events={wedding.events} />}
+            {wedding.gallery && wedding.gallery.length > 0 && <SultanGallery photos={wedding.gallery.map((g) => g.url)} />}
             
             <footer style={{ padding: '4rem 1.5rem', textAlign: 'center', backgroundColor: 'var(--sultan-crimson-dark)', borderTop: '1px solid rgba(193, 154, 91, 0.2)' }}>
               <h2 className="sultan-h2" style={{ fontSize: '2rem', marginBottom: '1rem' }}>
-                {data.bride?.firstName} & {data.groom?.firstName}
+                {wedding.couple?.brideName} & {wedding.couple?.groomName}
               </h2>
               <div style={{ fontFamily: 'var(--font-sultan-display)', color: 'var(--sultan-gold-metallic)', fontSize: '0.8rem', letterSpacing: '0.2em' }}>
                 THANK YOU

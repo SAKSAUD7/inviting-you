@@ -11,6 +11,7 @@ import VelvetCountdown from './sections/VelvetCountdown'
 
 import VelvetVenue from './sections/VelvetVenue'
 import VelvetEvents from './sections/VelvetEvents'
+import VelvetRSVP from './sections/VelvetRSVP'
 import VelvetProgram from './sections/VelvetProgram'
 import VelvetBlessings from './sections/VelvetBlessings'
 import VelvetCompliments from './sections/VelvetCompliments'
@@ -110,6 +111,9 @@ export default function VelvetInvitation({ wedding }: { wedding: WeddingData }) 
         </>
       )}
       <VelvetEvents events={events} />
+      <VelvetFloralDivider />
+      <VelvetRSVP weddingId={wedding.id} rsvpConfig={wedding.rsvpConfig} />
+      <VelvetFloralDivider />
       <VelvetFloralDivider />
       <VelvetBlessings />
       <VelvetFloralDivider />

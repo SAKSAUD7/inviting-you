@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { auth } from '@/auth'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(request: NextRequest) {
+// ---------------------------------------------------------------------------
+// GET /api/weddings — List all weddings (Admin only)
+// ---------------------------------------------------------------------------
+export async function GET() {
+  const session = await auth()
+  if (!session?.user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const weddings = await prisma.wedding.findMany({
       include: {
@@ -19,7 +28,15 @@ export async function GET(request: NextRequest) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// POST /api/weddings — Create a wedding (Admin only)
+// ---------------------------------------------------------------------------
 export async function POST(request: NextRequest) {
+  const session = await auth()
+  if (!session?.user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const body = await request.json()
     const { slug, title, templateId, status, couple, family, events, music, rsvpConfig } = body
@@ -81,16 +98,16 @@ export async function POST(request: NextRequest) {
         ...(events &&
           events.length > 0 && {
             events: {
-              create: events.map((e: any, i: number) => ({
+              create: events.map((e: Record<string, unknown>, i: number) => ({
                 name: e.name,
                 type: e.type || 'CUSTOM',
-                date: e.date ? new Date(e.date) : new Date(),
+                date: e.date ? new Date(e.date as string) : new Date(),
                 timeDisplay: e.timeDisplay || '',
                 description: e.description || '',
                 venueName: e.venueName || '',
                 venueAddress: e.venueAddress || '',
                 mapsUrl: e.mapsUrl || '',
-                order: e.order || i + 1,
+                order: (e.order as number) || i + 1,
                 enabled: true,
               })),
             },
@@ -98,10 +115,10 @@ export async function POST(request: NextRequest) {
 
         ...(music && {
           music: {
-            create: { 
-              title: music.title || '', 
+            create: {
+              title: music.title || '',
               url: music.url || '',
-              autoplay: music.enabled ?? true 
+              autoplay: music.enabled ?? true,
             },
           },
         }),
@@ -116,14 +133,14 @@ export async function POST(request: NextRequest) {
     })
 
     return NextResponse.json(wedding, { status: 201 })
-  } catch (error: any) {
-    if (error?.code === 'P2002') {
+  } catch (error: unknown) {
+    if (typeof error === 'object' && error !== null && 'code' in error && (error as { code: string }).code === 'P2002') {
       return NextResponse.json(
         { error: 'A wedding with this URL slug already exists. Please choose a different slug.' },
         { status: 409 }
       )
     }
     console.error('Wedding creation error:', error)
-    return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 })
   }
 }

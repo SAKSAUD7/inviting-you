@@ -106,7 +106,7 @@ export default function NoorInvitation({ wedding }: Props) {
             </>
           )}
 
-          <NoorRSVP />
+          <NoorRSVP weddingId={wedding.id} rsvpConfig={wedding.rsvpConfig} />
           
           {galleryImages && galleryImages.length > 0 && (
             <>

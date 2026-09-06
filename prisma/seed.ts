@@ -22,7 +22,7 @@ async function main() {
   // Create Wedding
   const wedding = await prisma.wedding.create({
     data: {
-      slug: 'iqra-mufassir',
+      slug: 'iqra-mufassir-nikah',
       title: 'Iqra & Mohammed Mufassir',
       templateId: 'velvet',
       status: 'PUBLISHED',

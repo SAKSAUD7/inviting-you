@@ -2,13 +2,18 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { NoorGoldLine, NoorBotanicalStem, NoorBotanicalCorner } from '../NoorOrnaments'
 
-export default function NoorRSVP() {
-  const [submitted, setSubmitted] = useState(false)
+import { useRSVP } from '@/engine/useRSVP'
+import { RSVPConfig } from '@/types/wedding'
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitted(true)
-  }
+interface Props {
+  weddingId: string
+  rsvpConfig?: RSVPConfig | null
+}
+
+export default function NoorRSVP({ weddingId, rsvpConfig }: Props) {
+  const { formData, setFormData, status, error, submit } = useRSVP(weddingId)
+
+  if (!rsvpConfig?.enabled) return null
 
   return (
     <section className="noor-section" style={{ position: 'relative', overflow: 'hidden', padding: '8rem 1.5rem', backgroundColor: 'var(--noor-paper)', display: 'flex', justifyContent: 'center' }}>
@@ -24,7 +29,7 @@ export default function NoorRSVP() {
         <NoorBotanicalCorner position="bottom-right" style={{ bottom: 0, right: 0, opacity: 0.3, pointerEvents: 'none' }} />
         
         <AnimatePresence mode="wait">
-          {!submitted ? (
+          {status !== 'success' ? (
             <motion.div 
               key="form"
               initial={{ opacity: 0 }}
@@ -42,7 +47,7 @@ export default function NoorRSVP() {
 
               <NoorGoldLine active={true} style={{ width: '60px', margin: '0 auto 3rem', opacity: 0.5 }} />
 
-              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem', alignItems: 'center' }}>
+              <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem', alignItems: 'center' }}>
                 
                 {/* Name Input */}
                 <div style={{ width: '100%', borderBottom: '1px solid var(--noor-gold-champagne)', position: 'relative' }}>
@@ -50,6 +55,8 @@ export default function NoorRSVP() {
                     type="text" 
                     placeholder="M." 
                     required
+                    value={formData.guestName}
+                    onChange={(e) => setFormData({ ...formData, guestName: e.target.value })}
                     style={{ 
                       width: '100%', padding: '0.5rem 0', background: 'transparent', border: 'none', outline: 'none',
                       fontFamily: 'var(--font-serif)', fontSize: '1.2rem', color: 'var(--noor-emerald-deep)', fontStyle: 'italic'
@@ -60,18 +67,33 @@ export default function NoorRSVP() {
                 {/* Attendance Options */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%', marginTop: '1rem' }}>
                   <label style={{ display: 'flex', alignItems: 'center', gap: '1rem', cursor: 'pointer' }}>
-                    <input type="radio" name="attending" value="yes" required style={{ accentColor: 'var(--noor-emerald-deep)' }} />
+                    <input 
+                      type="radio" 
+                      name="attending" 
+                      checked={formData.attending === true}
+                      onChange={() => setFormData({ ...formData, attending: true })}
+                      required 
+                      style={{ accentColor: 'var(--noor-emerald-deep)' }} 
+                    />
                     <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--noor-emerald-deep)' }}>
                       Joyfully Accepts
                     </span>
                   </label>
                   <label style={{ display: 'flex', alignItems: 'center', gap: '1rem', cursor: 'pointer' }}>
-                    <input type="radio" name="attending" value="no" style={{ accentColor: 'var(--noor-emerald-deep)' }} />
+                    <input 
+                      type="radio" 
+                      name="attending" 
+                      checked={formData.attending === false}
+                      onChange={() => setFormData({ ...formData, attending: false })}
+                      style={{ accentColor: 'var(--noor-emerald-deep)' }} 
+                    />
                     <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--noor-emerald-deep)' }}>
                       Regretfully Declines
                     </span>
                   </label>
                 </div>
+
+                {error && <p style={{ color: '#d9534f', fontSize: '0.85rem' }}>{error}</p>}
 
                 <button 
                   type="submit"
@@ -91,7 +113,7 @@ export default function NoorRSVP() {
                     e.currentTarget.style.color = 'var(--noor-emerald-deep)'
                   }}
                 >
-                  Reply
+                  {status === 'loading' ? 'Sending...' : 'Reply'}
                 </button>
               </form>
             </motion.div>

@@ -3,6 +3,8 @@ export interface WeddingData {
   slug: string
   title: string
   templateId: TemplateId
+  /** Version of the template to render. DB default is 1. Never silently ignored. */
+  templateVersion: number
   status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
   publishedAt?: string | null
   couple?: WeddingCouple | null
@@ -15,7 +17,8 @@ export interface WeddingData {
   seo?: WeddingSEO | null
 }
 
-export type TemplateId = 'velvet' | 'noor' | 'garden' | 'pearl' | 'sultan'
+/** Only templates with an available loader are valid TemplateIds. */
+export type TemplateId = 'velvet' | 'noor' | 'sultan'
 
 export interface WeddingCouple {
   id: string

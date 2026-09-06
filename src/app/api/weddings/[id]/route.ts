@@ -1,12 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { auth } from '@/auth'
 
 export const dynamic = 'force-dynamic'
 
+// ---------------------------------------------------------------------------
+// GET /api/weddings/[id] — Get a single wedding (Admin only)
+// ---------------------------------------------------------------------------
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const session = await auth()
+  if (!session?.user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { id } = await params
   try {
     const wedding = await prisma.wedding.findUnique({
@@ -32,10 +41,18 @@ export async function GET(
   }
 }
 
+// ---------------------------------------------------------------------------
+// PUT /api/weddings/[id] — Update a wedding (Admin only)
+// ---------------------------------------------------------------------------
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const session = await auth()
+  if (!session?.user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { id } = await params
   try {
     const body = await request.json()
@@ -99,18 +116,18 @@ export async function PUT(
       await prisma.weddingEvent.deleteMany({ where: { weddingId: id } })
       if (events.length > 0) {
         await prisma.weddingEvent.createMany({
-          data: events.map((e: any, i: number) => ({
+          data: events.map((e: Record<string, unknown>, i: number) => ({
             weddingId: id,
             name: e.name,
             type: e.type || 'CUSTOM',
-            date: e.date ? new Date(e.date) : null,
+            date: e.date ? new Date(e.date as string) : null,
             timeDisplay: e.timeDisplay || '',
             description: e.description || '',
             venueName: e.venueName || '',
             venueAddress: e.venueAddress || '',
             mapsUrl: e.mapsUrl || '',
-            order: e.order || i + 1,
-            enabled: e.enabled ?? true,
+            order: (e.order as number) || i + 1,
+            enabled: (e.enabled as boolean) ?? true,
           })),
         })
       }
@@ -144,19 +161,27 @@ export async function PUT(
     }
 
     return NextResponse.json({ success: true, id: wedding.id })
-  } catch (error: any) {
-    if (error?.code === 'P2002') {
+  } catch (error: unknown) {
+    if (typeof error === 'object' && error !== null && 'code' in error && (error as { code: string }).code === 'P2002') {
       return NextResponse.json({ error: 'Slug already in use' }, { status: 409 })
     }
     console.error('Update error:', error)
-    return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 })
   }
 }
 
+// ---------------------------------------------------------------------------
+// DELETE /api/weddings/[id] — Delete a wedding (Admin only)
+// ---------------------------------------------------------------------------
 export async function DELETE(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const session = await auth()
+  if (!session?.user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { id } = await params
   try {
     await prisma.wedding.delete({ where: { id } })
