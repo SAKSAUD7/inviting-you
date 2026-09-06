@@ -37,7 +37,7 @@ async function main() {
       weddingId: wedding.id,
       brideName: 'Iqra Bismi',
       brideQualification: 'B.Com',
-      groomName: 'Mufassir Mohammed',
+      groomName: 'Mohammed Mufassir',
       groomQualification: 'B.Sc',
       gregorianDate: new Date('2026-10-02T17:00:00Z'),
       gregorianDisplay: 'Friday, 2 October 2026',

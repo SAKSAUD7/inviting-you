@@ -17,14 +17,31 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
     ? couple.monogram.split(/\s*[&\/]\s*/).map(s => s.trim()).filter(s => s.length === 1)
     : null
 
-  // Helper: find first name-part starting with a given initial across all name parts
-  const findPartByInitial = (names: string[], initial: string): string => {
-    for (const fullName of names) {
-      const parts = fullName.split(/\s+/)
-      const match = parts.find(p => p[0]?.toUpperCase() === initial.toUpperCase())
-      if (match) return match
+  // Helper: extract primary name part (skipping common prefixes like Mohammed)
+  const getPrimaryName = (names: string[], initial: string, fullName?: string): string => {
+    const fallback = fullName ? fullName.split(' ')[0] : ''
+    
+    // If monogram is present, find matching initial
+    if (initial) {
+      for (const name of names) {
+        const parts = name.split(/\s+/)
+        // Check if there's a part matching the initial (skip Mohammed if it also matches but there's another match)
+        const match = parts.find(p => p[0]?.toUpperCase() === initial.toUpperCase() && p.toLowerCase() !== 'mohammed')
+        if (match) return match
+        // Fallback to Mohammed if it's the only match
+        const backup = parts.find(p => p[0]?.toUpperCase() === initial.toUpperCase())
+        if (backup) return backup
+      }
     }
-    return initial
+    
+    // If no monogram or no match, just skip Mohammed prefix if possible
+    if (fullName) {
+      const parts = fullName.split(/\s+/)
+      if (parts.length > 1 && (parts[0].toLowerCase() === 'mohammed' || parts[0].toLowerCase() === 'md.')) {
+        return parts[1]
+      }
+    }
+    return fallback
   }
 
   const allNames = [couple?.brideName ?? '', couple?.groomName ?? '']
@@ -32,8 +49,8 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
   // Initials & names for the OPENING MARK (before tap)
   const leftInitial  = monogramLetters?.[0] ?? couple?.brideName?.trim()[0]  ?? 'I'
   const rightInitial = monogramLetters?.[1] ?? couple?.groomName?.trim()[0] ?? 'M'
-  const leftName  = monogramLetters ? findPartByInitial(allNames, leftInitial)  : (couple?.brideName?.split(' ')[0]  ?? 'Iqra')
-  const rightName = monogramLetters ? findPartByInitial(allNames, rightInitial) : (couple?.groomName?.split(' ')[0] ?? 'Mufassir')
+  const leftName  = getPrimaryName(allNames, monogramLetters ? leftInitial : '', couple?.brideName ?? 'Iqra')
+  const rightName = getPrimaryName(allNames, monogramLetters ? rightInitial : '', couple?.groomName ?? 'Mufassir')
 
   // Name parts for the HERO CONTENT (after tap) — always derived from actual full names
   const brideParts = couple?.brideName?.split(' ') ?? ['Iqra', 'Bismi']

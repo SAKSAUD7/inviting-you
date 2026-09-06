@@ -33,7 +33,7 @@ async function main() {
         create: {
           brideName: 'Iqra Bismi',
           brideQualification: 'B.Com',
-          groomName: 'Mufassir Mohammed',
+          groomName: 'Mohammed Mufassir',
           groomQualification: 'B.Sc',
           monogram: 'I & M',
           gregorianDate: new Date('2026-10-02T17:00:00.000+05:30'),
