@@ -23,8 +23,8 @@ const GarlandDivider = () => (
 
 export default function VelvetCouple({ couple }: Props) {
   if (!couple) return null
-  const brideFn = couple.brideName.split(' ')[0]
-  const groomFn = couple.groomName.split(' ')[0]
+  const brideFn = couple.brideName.replace(/^(Mohammed|Md\.?)\s+/i, '').split(' ')[0]
+  const groomFn = couple.groomName.replace(/^(Mohammed|Md\.?)\s+/i, '').split(' ')[0]
 
   return (
     <section className="velvet-couple">

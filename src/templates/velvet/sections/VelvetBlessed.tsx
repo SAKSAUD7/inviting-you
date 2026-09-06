@@ -25,8 +25,8 @@ const FloralsTop = () => (
 )
 
 export default function VelvetBlessed({ couple, family }: Props) {
-  const brideName = couple?.brideName?.split(' ')[0] ?? 'The Bride'
-  const groomName = couple?.groomName?.split(' ')[0] ?? 'The Groom'
+  const brideName = (couple?.brideName ?? 'The Bride').replace(/^(Mohammed|Md\.?)\s+/i, '').split(' ')[0]
+  const groomName = (couple?.groomName ?? 'The Groom').replace(/^(Mohammed|Md\.?)\s+/i, '').split(' ')[0]
   const fromName = family?.invitationFromName ?? family?.brideParents
 
   return (

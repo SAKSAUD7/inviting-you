@@ -11,8 +11,13 @@ export default function VelvetWelcome({ couple }: Props) {
     ? couple.monogram.split(/\s*[&\/]\s*/).map(s => s.trim()).filter(s => s.length === 1)
     : null
 
-  const findNameByInitial = (fullName: string, initial: string) =>
-    fullName.split(/\s+/).find(p => p[0]?.toUpperCase() === initial.toUpperCase()) ?? fullName.split(' ')[0]
+  const findNameByInitial = (fullName: string, initial: string) => {
+    const parts = fullName.split(/\s+/)
+    const match = parts.find(p => p[0]?.toUpperCase() === initial.toUpperCase() && p.toLowerCase() !== 'mohammed')
+    if (match) return match
+    const backup = parts.find(p => p[0]?.toUpperCase() === initial.toUpperCase())
+    return backup || initial
+  }
 
   const leftName = monogramLetters
     ? findNameByInitial((couple?.brideName ?? '') + ' ' + (couple?.groomName ?? ''), monogramLetters[0])
@@ -20,7 +25,7 @@ export default function VelvetWelcome({ couple }: Props) {
 
   const rightName = monogramLetters
     ? findNameByInitial((couple?.groomName ?? '') + ' ' + (couple?.brideName ?? ''), monogramLetters[1])
-    : (couple?.groomName?.split(' ')[0] ?? 'Mufassir')
+    : (couple?.groomName ?? 'Mufassir').replace(/^(Mohammed|Md\.?)\s+/i, '').split(' ')[0]
 
   const welcomeTitle = 'A Blessed Beginning'
   const welcomeBody = couple?.invitationMessage ||

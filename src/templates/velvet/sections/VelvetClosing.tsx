@@ -7,8 +7,8 @@ interface Props {
 }
 
 export default function VelvetClosing({ couple, family }: Props) {
-  const brideFn = couple?.brideName?.split(' ')[0] ?? 'Iqra'
-  const groomFn = couple?.groomName?.split(' ')[0] ?? 'Mufassir'
+  const brideFn = (couple?.brideName ?? 'Iqra').replace(/^(Mohammed|Md\.?)\s+/i, '').split(' ')[0]
+  const groomFn = (couple?.groomName ?? 'Mufassir').replace(/^(Mohammed|Md\.?)\s+/i, '').split(' ')[0]
   const dateStr = couple?.gregorianDisplay ?? '2 October 2026'
   const fromName = family?.invitationFromName
   const fromOrg = family?.invitationFromOrg
