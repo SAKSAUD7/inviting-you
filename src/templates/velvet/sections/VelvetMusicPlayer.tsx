@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
  * Generates a soothing ambient wedding soundscape via Web Audio API.
  * No external file needed — pure synthesized harmonic pads + gentle reverb.
  */
-export default function VelvetMusicPlayer() {
+export default function VelvetMusicPlayer({ musicUrl }: { musicUrl?: string | null }) {
   const [playing, setPlaying] = useState(false)
   const [ready,   setReady]   = useState(false)
 
@@ -16,7 +16,7 @@ export default function VelvetMusicPlayer() {
 
   // Initialize audio element once on mount
   useEffect(() => {
-    const audio = new Audio('/assets/audio/velvet-bgm.mp3')
+    const audio = new Audio(musicUrl || '/assets/audio/velvet-bgm.mp3')
     audio.loop = true
     audio.volume = 0.6 // default volume
     audioRef.current = audio

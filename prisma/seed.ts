@@ -37,7 +37,7 @@ async function main() {
       weddingId: wedding.id,
       brideName: 'Iqra Bismi',
       brideQualification: 'B.Com',
-      groomName: 'Mohammed Mufassir',
+      groomName: 'Mufassir Mohammed',
       groomQualification: 'B.Sc',
       gregorianDate: new Date('2026-10-02T17:00:00Z'),
       gregorianDisplay: 'Friday, 2 October 2026',
@@ -109,6 +109,15 @@ async function main() {
       title: 'Iqra & Mohammed Mufassir - Nikah Invitation',
       description: 'You are warmly invited to the Nikah ceremony of Iqra Bismi and Mohammed Mufassir on Friday, 2nd October 2026.',
     },
+  })
+
+  // Create Music
+  await prisma.weddingMusic.create({
+    data: {
+      weddingId: wedding.id,
+      url: '/assets/audio/iqra-mufassir.mp3',
+      autoplay: true,
+    }
   })
 
   console.log('Successfully seeded database.')

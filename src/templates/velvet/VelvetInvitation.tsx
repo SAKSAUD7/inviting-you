@@ -75,7 +75,7 @@ export default function VelvetInvitation({ wedding }: { wedding: WeddingData }) 
   return (
     <main id="invitation" ref={mainRef}>
       {/* Ambient music player — always shown, top-right corner */}
-      <VelvetMusicPlayer />
+      <VelvetMusicPlayer musicUrl={wedding.music?.url} />
 
       {/* Opening / hero — always rendered, is-open class toggles visibility of content */}
       <VelvetOpening couple={couple} family={family} onOpen={handleOpen} isOpened={opened} isValima={isValima} />

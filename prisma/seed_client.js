@@ -33,7 +33,7 @@ async function main() {
         create: {
           brideName: 'Iqra Bismi',
           brideQualification: 'B.Com',
-          groomName: 'Mohammed Mufassir',
+          groomName: 'Mufassir Mohammed',
           groomQualification: 'B.Sc',
           monogram: 'I & M',
           gregorianDate: new Date('2026-10-02T17:00:00.000+05:30'),
@@ -41,6 +41,12 @@ async function main() {
           hijriDate: '20th Jamadu Al Awal 1448 Hijri',
           islamicVerse: 'In The Name Of Allah\nThe Most Beneficent & The Most Merciful\n\nINSHA ALLAH\nMehfil-e-Nikah',
           invitationMessage: 'With hearts full of gratitude, we warmly invite you to join us as we celebrate this beautiful beginning with the love, prayers, and blessings of our families.',
+        }
+      },
+      music: {
+        create: {
+          url: '/assets/audio/iqra-mufassir.mp3',
+          autoplay: true,
         }
       },
       family: {
