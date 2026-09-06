@@ -1,9 +1,9 @@
 import React from 'react'
 
 export const VelvetFloralDivider = () => (
-  <div className="floral-divider" aria-hidden="true" style={{ width: '100%', display: 'flex', justifyContent: 'center', padding: '3rem 0 0.5rem 0', background: 'var(--ivory)', pointerEvents: 'none' }}>
+  <div className="floral-divider" aria-hidden="true" style={{ width: '100%', display: 'flex', justifyContent: 'center', pointerEvents: 'none', height: 0, position: 'relative', zIndex: 10 }}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
-    <img src="/assets/images/floral-divider.webp" alt="" style={{ maxWidth: '300px', width: '80%', filter: 'brightness(0.9) contrast(1.2)' }} />
+    <img src="/assets/images/floral-divider.webp" alt="" style={{ maxWidth: '300px', width: '80%', filter: 'brightness(0.9) contrast(1.2)', transform: 'translateY(-50%)' }} />
   </div>
 )
 
