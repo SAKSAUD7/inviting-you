@@ -46,6 +46,11 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
   useEffect(() => {
     if (isOpened && videoRef.current) {
       videoRef.current.play().catch(() => {})
+      
+      // Auto-scroll hint after curtain animation finishes
+      setTimeout(() => {
+        window.scrollBy({ top: window.innerHeight * 0.15, behavior: 'smooth' })
+      }, 2500)
     }
   }, [isOpened])
 
