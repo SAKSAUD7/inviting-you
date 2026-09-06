@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma'
 import { getDynamicTemplate } from '@/templates/registry'
 import { TemplateId, WeddingData } from '@/types/wedding'
 
+export const dynamic = 'force-dynamic'
+
 interface Props {
   params: Promise<{ slug: string }>
 }
