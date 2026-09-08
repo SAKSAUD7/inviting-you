@@ -382,6 +382,7 @@ main#walima-invitation {
   color: #d4af70;
   background: linear-gradient(135deg, #f0d080 0%, #d4af70 50%, #8a6a2e 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   line-height: 1;
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
