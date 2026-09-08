@@ -96,17 +96,7 @@ async function main() {
       },
 
       compliments: {
-        create: [
-          { name: 'Alhaj Mohammed Shafi & Sons', order: 1 },
-          { name: 'Shaik Mahmood & Sons', order: 2 },
-          { name: 'Mohammed Jaber Saheb', order: 3 },
-          { name: 'Mohammed Javeed Saheb', order: 4 },
-          { name: 'Haji Dr. Roshan Zameer Saheb', order: 5 },
-          { name: 'Mohammed Rafiulla', order: 6 },
-          { name: 'Aasim Khan', order: 7 },
-          { name: 'Mohammed Dastagir Shariff', order: 8 },
-          { name: 'Brothers, Relatives & Friends', order: 9 },
-        ]
+        create: []
       },
 
       rsvpConfig: {

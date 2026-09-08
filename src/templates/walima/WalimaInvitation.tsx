@@ -136,9 +136,11 @@ export default function WalimaInvitation({ wedding }: { wedding: WeddingData }) 
         <WalimaBlessings />
       </WalimaSectionWrap>
 
-      <WalimaSectionWrap>
-        <WalimaCompliments compliments={wedding.compliments} />
-      </WalimaSectionWrap>
+      {wedding.compliments && wedding.compliments.length > 0 && (
+        <WalimaSectionWrap>
+          <WalimaCompliments compliments={wedding.compliments} />
+        </WalimaSectionWrap>
+      )}
 
       {/* Closing — no divider after the last section */}
       <WalimaSectionWrap withDivider={false}>
