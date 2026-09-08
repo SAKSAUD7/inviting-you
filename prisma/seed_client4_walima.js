@@ -53,7 +53,7 @@ async function main() {
 
       music: {
         create: {
-          url: '/assets/audio/iqra-mufassir.mp3',
+          url: '/assets/audio/walima-mufassir-iqra.mp3',
           autoplay: true,
         }
       },
@@ -72,9 +72,9 @@ async function main() {
 
           // Invitation is from the groom's parents
           invitationFromName: 'Mrs. & Mr. Nawaz Ahmed',
-          invitationFromOrg: 'DIMENSION BILLARDS',
-          invitationFromAddress: '#32, 3rd Main, Ayyappa Reddy Garden, LIC Colony, Yeshwantpur, Bangalore – 560022',
-          invitationFromPhone: '9740467156, 9845692304, 9845039063, 8970407681',
+          invitationFromOrg: '',
+          invitationFromAddress: '',
+          invitationFromPhone: '',
         }
       },
 
