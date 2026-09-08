@@ -106,6 +106,13 @@ async function main() {
         create: {
           enabled: false,
         }
+      },
+      seo: {
+        create: {
+          title: 'Dawat e Nikah | Iqra Bismi & Mohammed Mufassir',
+          description: 'With hearts full of gratitude, we warmly invite you to join us as we celebrate the Dawat e Nikah of Iqra & Mohammed Mufassir on Friday, 2nd October 2026.',
+          keywords: 'Nikah, Dawat e Nikah, Iqra Bismi, Mohammed Mufassir, Khadriya Masjid, Bangalore Wedding',
+        }
       }
     }
   });
