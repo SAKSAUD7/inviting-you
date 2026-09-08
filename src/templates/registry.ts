@@ -46,6 +46,19 @@ export const TEMPLATE_REGISTRY: Record<TemplateId, TemplateMetadata> = {
     mood: ['Royal', 'Majestic', 'Heavy', 'Traditional'],
     features: ['Palace Door Reveal', 'Mughal motifs', 'Rich typography'],
   },
+  walima: {
+    id: 'walima',
+    name: 'Walima',
+    tagline: 'Soft pastel, romantic, elegant',
+    description:
+      'A premium soft pastel Walima invitation with an elegant floral reveal, Islamic arch motifs, and a custom intertwined monogram.',
+    category: 'Islamic Elegance',
+    price: 2999,
+    priceLabel: '₹2,999',
+    thumbnail: '/templates/walima-thumb.jpg',
+    mood: ['Soft', 'Romantic', 'Elegant', 'Pastel'],
+    features: ['Floral petal reveal', 'Custom monogram', 'Animated opening', 'Music player'],
+  },
 }
 
 export function getTemplateMetadata(id: TemplateId): TemplateMetadata {
@@ -78,6 +91,7 @@ const templateLoaders: Record<
   'velvet@1': () => import('@/templates/velvet/VelvetInvitation'),
   'noor@1': () => import('@/templates/noor/NoorInvitation'),
   'sultan@1': () => import('@/templates/sultan/SultanInvitation'),
+  'walima@1': () => import('@/templates/walima/WalimaInvitation'),
   // When a new version is released, ADD a new entry — never replace:
   // 'noor@2':  () => import('@/templates/noor-v2/NoorInvitation'),
 }

@@ -18,7 +18,7 @@ export interface WeddingData {
 }
 
 /** Only templates with an available loader are valid TemplateIds. */
-export type TemplateId = 'velvet' | 'noor' | 'sultan'
+export type TemplateId = 'velvet' | 'noor' | 'sultan' | 'walima'
 
 export interface WeddingCouple {
   id: string
