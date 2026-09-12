@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 import { BirthdayConfig } from '@/types/wedding'
@@ -16,25 +16,25 @@ interface Balloon {
   highlightColor: string
   stringColor: string
   speed: number
-  size: number
   delay: number
 }
 
 export default function BirthdayBalloons({ data, onComplete }: Props) {
   const [balloons, setBalloons] = useState<Balloon[]>([])
   const [poppedIds, setPoppedIds] = useState<number[]>([])
-  const [revealedWords, setRevealedWords] = useState<string[]>([])
-  const totalBalloons = data.balloons || 4
 
+  const totalBalloons = data.balloons || 4
   const name = data.birthdayPersonName || 'You'
   const sectionTitle = data.balloonSectionTitle || 'Pop the Balloons'
   const sectionSubtitle = data.balloonSectionSubtitle
     ? data.balloonSectionSubtitle.replace('{name}', name)
     : `and reveal a message from my heart for ${name}...`
 
-  const revealWords: string[] = data.balloonRevealWords?.length
+  // Build words array — pad with ✨ if fewer words than balloons
+  const baseWords: string[] = data.balloonRevealWords?.length
     ? data.balloonRevealWords.map(w => w.replace('{name}', name))
     : [name, 'makes', 'life', 'beautiful']
+  const revealWords = Array.from({ length: totalBalloons }, (_, i) => baseWords[i] ?? '✨')
 
   const PALETTE = [
     { color: '#a8d8ea', highlight: '#d6f0f9', string: '#76b9cf' },
@@ -54,7 +54,6 @@ export default function BirthdayBalloons({ data, onComplete }: Props) {
         highlightColor: palette.highlight,
         stringColor: palette.string,
         speed: 2.5 + Math.random() * 2,
-        size: 90,
         delay: i * 0.15,
       }
     })
@@ -66,12 +65,10 @@ export default function BirthdayBalloons({ data, onComplete }: Props) {
     if (poppedIds.includes(id)) return
     e.preventDefault()
 
-    const x = e.clientX / window.innerWidth
-    const y = e.clientY / window.innerHeight
     confetti({
       particleCount: 50,
       spread: 80,
-      origin: { x, y },
+      origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight },
       colors: ['#ff758c', '#ffd166', '#a2d2ff', '#b9fbc0', '#d4b8e8'],
       disableForReducedMotion: true,
       zIndex: 200,
@@ -79,7 +76,6 @@ export default function BirthdayBalloons({ data, onComplete }: Props) {
 
     const newPopped = [...poppedIds, id]
     setPoppedIds(newPopped)
-    setRevealedWords(revealWords.slice(0, newPopped.length))
 
     if (newPopped.length >= totalBalloons) {
       setTimeout(onComplete, 2800)
@@ -87,8 +83,6 @@ export default function BirthdayBalloons({ data, onComplete }: Props) {
   }
 
   const allPopped = poppedIds.length >= totalBalloons
-
-  // Determine grid columns based on balloon count
   const cols = totalBalloons <= 2 ? totalBalloons : totalBalloons <= 4 ? 2 : 3
 
   return (
@@ -106,9 +100,7 @@ export default function BirthdayBalloons({ data, onComplete }: Props) {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <p className="balloon-intro-text">
-          A gentle surprise floats just for {name} 🎈
-        </p>
+        <p className="balloon-intro-text">A gentle surprise floats just for {name} 🎈</p>
         <h2 className="balloon-title">{sectionTitle}</h2>
         <p className="balloon-subtitle">{sectionSubtitle}</p>
       </motion.div>
@@ -116,79 +108,84 @@ export default function BirthdayBalloons({ data, onComplete }: Props) {
       {/* Balloon Grid */}
       <div
         className="balloon-grid"
-        style={{
-          gridTemplateColumns: `repeat(${cols}, 1fr)`,
-        }}
+        style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
       >
-        <AnimatePresence>
-          {balloons.map((balloon) => {
-            const isPopped = poppedIds.includes(balloon.id)
-            const wordIndex = poppedIds.indexOf(balloon.id)
-            const word = wordIndex >= 0 ? revealedWords[wordIndex] : null
+        {balloons.map((balloon) => {
+          const isPopped = poppedIds.includes(balloon.id)
+          // Derive word directly — no separate state to go out of sync
+          const popOrder = poppedIds.indexOf(balloon.id)
+          const word = popOrder >= 0 ? revealWords[popOrder] : null
 
-            return (
-              <div key={balloon.id} className="balloon-cell">
-                <AnimatePresence mode="wait">
-                  {!isPopped ? (
-                    <motion.div
-                      key="balloon"
-                      className="balloon-item"
-                      initial={{ scale: 0, y: 60, opacity: 0 }}
-                      animate={{
-                        scale: 1,
-                        opacity: 1,
-                        y: [0, -10, 0, 10, 0],
-                        rotate: [0, -3, 3, -2, 0],
-                      }}
-                      exit={{ scale: 0, opacity: 0, y: -40 }}
-                      transition={{
-                        scale: { type: 'spring', bounce: 0.5, delay: balloon.delay },
-                        opacity: { delay: balloon.delay },
-                        y: { repeat: Infinity, duration: balloon.speed, ease: 'easeInOut', delay: balloon.delay },
-                        rotate: { repeat: Infinity, duration: balloon.speed * 1.3, ease: 'easeInOut' },
-                      }}
-                      onPointerDown={(e) => handlePop(balloon.id, e)}
-                      style={{ cursor: 'pointer', touchAction: 'none', userSelect: 'none' }}
+          return (
+            <div key={balloon.id} className="balloon-cell">
+              <AnimatePresence mode="wait">
+                {!isPopped ? (
+                  <motion.div
+                    key={`balloon-${balloon.id}`}
+                    className="balloon-item"
+                    initial={{ scale: 0, y: 60, opacity: 0 }}
+                    animate={{
+                      scale: 1,
+                      opacity: 1,
+                      y: [0, -10, 0, 10, 0],
+                      rotate: [0, -3, 3, -2, 0],
+                    }}
+                    exit={{ scale: 0, opacity: 0, y: -40 }}
+                    transition={{
+                      scale: { type: 'spring', bounce: 0.5, delay: balloon.delay },
+                      opacity: { delay: balloon.delay },
+                      y: {
+                        repeat: Infinity,
+                        duration: balloon.speed,
+                        ease: 'easeInOut',
+                        delay: balloon.delay,
+                      },
+                      rotate: {
+                        repeat: Infinity,
+                        duration: balloon.speed * 1.3,
+                        ease: 'easeInOut',
+                      },
+                    }}
+                    onPointerDown={(e) => handlePop(balloon.id, e)}
+                    style={{ cursor: 'pointer', touchAction: 'none', userSelect: 'none' }}
+                  >
+                    <svg
+                      viewBox="0 0 100 130"
+                      className="balloon-svg"
+                      style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))' }}
                     >
-                      <svg
-                        width={balloon.size}
-                        height={balloon.size * 1.3}
-                        viewBox="0 0 100 130"
-                        style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.15))' }}
-                      >
-                        <ellipse cx="50" cy="50" rx="42" ry="48" fill={balloon.color} />
-                        <ellipse cx="35" cy="30" rx="14" ry="18" fill={balloon.highlightColor} opacity="0.7" />
-                        <ellipse cx="28" cy="22" rx="5" ry="7" fill="white" opacity="0.5" />
-                        <ellipse cx="50" cy="98" rx="5" ry="4" fill={balloon.color} />
-                        <ellipse cx="50" cy="97" rx="3" ry="3" fill={balloon.stringColor} />
-                        <path
-                          d="M50 101 Q45 112 50 122 Q55 132 50 130"
-                          stroke={balloon.stringColor}
-                          strokeWidth="1.5"
-                          fill="none"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="word"
-                      className="balloon-word"
-                      initial={{ opacity: 0, scale: 0, rotate: -15 }}
-                      animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                      transition={{ type: 'spring', bounce: 0.6, delay: 0.1 }}
-                    >
-                      {word ?? '✨'}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            )
-          })}
-        </AnimatePresence>
+                      <ellipse cx="50" cy="50" rx="42" ry="48" fill={balloon.color} />
+                      <ellipse cx="35" cy="30" rx="14" ry="18" fill={balloon.highlightColor} opacity="0.7" />
+                      <ellipse cx="28" cy="22" rx="5" ry="7" fill="white" opacity="0.5" />
+                      <ellipse cx="50" cy="98" rx="5" ry="4" fill={balloon.color} />
+                      <ellipse cx="50" cy="97" rx="3" ry="3" fill={balloon.stringColor} />
+                      <path
+                        d="M50 101 Q45 112 50 122 Q55 132 50 130"
+                        stroke={balloon.stringColor}
+                        strokeWidth="1.5"
+                        fill="none"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key={`word-${balloon.id}`}
+                    className="balloon-word"
+                    initial={{ opacity: 0, scale: 0, rotate: -15 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    transition={{ type: 'spring', bounce: 0.6, delay: 0.05 }}
+                  >
+                    {word ?? '✨'}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )
+        })}
       </div>
 
-      {/* Instruction / Continue */}
+      {/* Footer */}
       <motion.div
         className="balloon-footer"
         initial={{ opacity: 0 }}
