@@ -136,7 +136,6 @@ export default function BirthdayBalloons({ data, onComplete }: Props) {
                     transition={{
                       scale: { type: 'spring', bounce: 0.5, delay: balloon.delay },
                       opacity: { duration: 0.25, delay: balloon.delay },
-                      exit: { duration: 0.25 },
                     }}
                     onPointerDown={(e) => handlePop(balloon.id, e)}
                     style={{ cursor: 'pointer', touchAction: 'none', userSelect: 'none' }}
