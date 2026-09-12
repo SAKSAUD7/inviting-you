@@ -59,6 +59,18 @@ export const TEMPLATE_REGISTRY: Record<TemplateId, TemplateMetadata> = {
     mood: ['Soft', 'Romantic', 'Elegant', 'Pastel'],
     features: ['Floral petal reveal', 'Custom monogram', 'Animated opening', 'Music player'],
   },
+  'birthday-interactive-01': {
+    id: 'birthday-interactive-01',
+    name: 'Birthday Surprise',
+    tagline: 'Playful, interactive, emotional',
+    description: 'A highly interactive and premium birthday template with a balloon popping game, interactive candle, and an emotional message reveal.',
+    category: 'Birthday',
+    price: 1999,
+    priceLabel: '₹1,999',
+    thumbnail: '/templates/birthday-thumb.jpg',
+    mood: ['Playful', 'Cute', 'Interactive', 'Premium'],
+    features: ['Balloon Popping Game', 'Interactive Candle', 'Letter Reveal', 'Background Music'],
+  },
 }
 
 export function getTemplateMetadata(id: TemplateId): TemplateMetadata {
@@ -92,6 +104,7 @@ const templateLoaders: Record<
   'noor@1': () => import('@/templates/noor/NoorInvitation'),
   'sultan@1': () => import('@/templates/sultan/SultanInvitation'),
   'walima@1': () => import('@/templates/walima/WalimaInvitation'),
+  'birthday-interactive-01@1': () => import('@/templates/birthday-interactive-01/BirthdayInvitation'),
   // When a new version is released, ADD a new entry — never replace:
   // 'noor@2':  () => import('@/templates/noor-v2/NoorInvitation'),
 }

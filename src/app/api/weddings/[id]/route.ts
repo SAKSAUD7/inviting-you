@@ -29,6 +29,7 @@ export async function GET(
         rsvpConfig: true,
         rsvpResponses: { orderBy: { createdAt: 'desc' }, take: 50 },
         compliments: { orderBy: { order: 'asc' } },
+        birthday: true,
         seo: true,
         _count: { select: { rsvpResponses: true } },
       },
@@ -56,7 +57,7 @@ export async function PUT(
   const { id } = await params
   try {
     const body = await request.json()
-    const { title, slug, templateId, status, couple, family, events, music, rsvpConfig, seo } = body
+    const { title, slug, templateId, status, couple, family, events, music, rsvpConfig, seo, birthday, gallery } = body
 
     // Update wedding basics
     const wedding = await prisma.wedding.update({
@@ -158,6 +159,54 @@ export async function PUT(
         update: seo,
         create: { weddingId: id, ...seo },
       })
+    }
+
+    if (birthday) {
+      const birthdayData = {
+        birthdayPersonName: birthday.birthdayPersonName || '',
+        age: birthday.age ? parseInt(birthday.age) : null,
+        birthdayDate: birthday.birthdayDate ? new Date(birthday.birthdayDate) : null,
+        senderName: birthday.senderName || '',
+        headline: birthday.headline || '',
+        introMessage: birthday.introMessage || '',
+        questionText: birthday.questionText || '',
+        balloons: birthday.balloons ? parseInt(birthday.balloons) : 4,
+        balloonSectionTitle: birthday.balloonSectionTitle || null,
+        balloonSectionSubtitle: birthday.balloonSectionSubtitle || null,
+        balloonRevealWords: Array.isArray(birthday.balloonRevealWords) ? birthday.balloonRevealWords : [],
+        bouquetMessages: birthday.bouquetMessages || [],
+        bouquetTitle: birthday.bouquetTitle || null,
+        bouquetSubtitle: birthday.bouquetSubtitle || null,
+        bouquetReasons: Array.isArray(birthday.bouquetReasons) ? birthday.bouquetReasons : [],
+        birthdayMessage: birthday.birthdayMessage || '',
+        signature: birthday.signature || '',
+        finalMessage: birthday.finalMessage || '',
+        heroImage: birthday.heroImage || '',
+        loveMessage: birthday.loveMessage || null,
+        giftMessage: birthday.giftMessage || null,
+      }
+      await prisma.birthdayConfig.upsert({
+        where: { weddingId: id },
+        update: birthdayData,
+        create: { weddingId: id, ...birthdayData },
+      })
+    }
+
+    // Replace gallery images
+    if (gallery) {
+      await prisma.galleryImage.deleteMany({ where: { weddingId: id } })
+      if (gallery.length > 0) {
+        await prisma.galleryImage.createMany({
+          data: gallery.map((g: Record<string, unknown>, i: number) => ({
+            weddingId: id,
+            url: g.url as string,
+            caption: (g.caption as string) || '',
+            altText: (g.altText as string) || '',
+            isCover: (g.isCover as boolean) ?? (i === 0),
+            order: (g.order as number) || i + 1,
+          })),
+        })
+      }
     }
 
     return NextResponse.json({ success: true, id: wedding.id })

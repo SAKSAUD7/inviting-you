@@ -1,0 +1,334 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap');
+
+:root {
+  --birthday-bg: #fff0f5; /* Soft pink background */
+  --birthday-bg-gradient: linear-gradient(135deg, #fff0f5, #ffe4e1, #ffd1dc);
+  --birthday-text: #594a4e; /* Warm deep brown/grey for better contrast with pink */
+  --birthday-text-light: #8a797d;
+  --birthday-card-bg: rgba(255, 255, 255, 0.85); /* Slightly more transparent for frosted look */
+  
+  --font-birthday-heading: 'Caveat', cursive;
+  --font-birthday-body: 'Nunito', sans-serif;
+}
+
+#birthday-invitation {
+  background: var(--birthday-bg-gradient);
+  color: var(--birthday-text);
+  font-family: var(--font-birthday-body);
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Base text styling */
+#birthday-invitation h1,
+#birthday-invitation h2,
+#birthday-invitation h3 {
+  font-family: var(--font-birthday-heading);
+  font-weight: 700;
+  margin: 0;
+  color: #ff758c; /* Make headings pop with the signature pink */
+}
+
+#birthday-invitation p {
+  margin: 0;
+}
+
+/* Sections */
+.birthday-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 10;
+}
+
+/* Buttons */
+.birthday-btn {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--birthday-text);
+  font-family: var(--font-birthday-body);
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 0.85rem 2.5rem;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+  backdrop-filter: blur(8px);
+}
+
+.birthday-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.birthday-btn:active {
+  transform: translateY(1px) scale(0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.birthday-btn.primary {
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  color: white;
+  border: none;
+  box-shadow: 0 8px 20px rgba(255, 117, 140, 0.4);
+  animation: pulse-glow 2s infinite;
+}
+
+.birthday-btn.primary:hover {
+  box-shadow: 0 12px 25px rgba(255, 117, 140, 0.6);
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(255, 117, 140, 0.5); }
+  70% { box-shadow: 0 0 0 15px rgba(255, 117, 140, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 117, 140, 0); }
+}
+
+/* Illustrations */
+.birthday-illustration {
+  max-width: 80%;
+  max-height: 40vh;
+  object-fit: contain;
+  margin: 2rem 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Balloon Specific */
+.balloon-container {
+  position: relative;
+  width: 100%;
+  flex: 1;
+}
+
+.balloon {
+  position: absolute;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.balloon-text {
+  font-family: var(--font-birthday-heading);
+  font-size: 1.8rem;
+  color: var(--birthday-text);
+}
+
+/* Bouquet Specific */
+.bouquet-message {
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-family: var(--font-birthday-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--birthday-text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: absolute;
+  white-space: nowrap;
+}
+
+/* Envelope */
+.envelope-wrapper {
+  position: relative;
+  width: 280px;
+  height: 180px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  perspective: 1000px;
+  margin: 2rem 0;
+}
+
+/* Letter */
+.letter-card {
+  background: var(--birthday-card-bg);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 15px 35px rgba(255, 117, 140, 0.15);
+  width: 90%;
+  max-width: 420px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+}
+
+.letter-content {
+  font-family: var(--font-birthday-heading);
+  font-size: 1.5rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+.letter-signature {
+  margin-top: 2rem;
+  text-align: right;
+  font-family: var(--font-birthday-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Music Player */
+.velvet-music-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  color: var(--birthday-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.velvet-music-btn:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.music-bars-icon {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  height: 16px;
+  width: 16px;
+}
+
+.music-bars-icon i {
+  width: 3px;
+  background-color: var(--birthday-text);
+  border-radius: 2px;
+  animation: equalize 1s infinite alternate ease-in-out;
+}
+
+.music-bars-icon i:nth-child(1) { height: 16px; animation-delay: 0s; }
+.music-bars-icon i:nth-child(2) { height: 10px; animation-delay: 0.3s; }
+.music-bars-icon i:nth-child(3) { height: 14px; animation-delay: 0.6s; }
+.music-bars-icon i:nth-child(4) { height: 8px; animation-delay: 0.9s; }
+
+@keyframes equalize {
+  0% { height: 4px; }
+  100% { height: 16px; }
+}
+
+/* ── Mobile-First Responsive Overrides ──────────────────────────────────── */
+
+/* Ensure full-screen section always fills viewport correctly */
+.birthday-section {
+  padding: clamp(1rem, 4vw, 2rem);
+  box-sizing: border-box;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fluid headings */
+#birthday-invitation h1 {
+  font-size: clamp(2rem, 8vw, 3rem);
+}
+#birthday-invitation h2 {
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
+}
+
+/* Buttons — thumb-friendly */
+.birthday-btn {
+  min-height: 48px;
+  padding: 0.75rem 2rem;
+  font-size: clamp(1rem, 4vw, 1.1rem);
+  touch-action: manipulation;
+}
+
+/* Letter card — prevent overflow on small screens */
+.letter-card {
+  max-height: min(80dvh, 600px);
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  overflow-y: auto;
+  width: 94%;
+}
+
+.letter-content {
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+}
+
+/* Envelope */
+.envelope-wrapper {
+  width: clamp(220px, 70vw, 280px);
+  height: clamp(140px, 42vw, 180px);
+}
+
+/* Illustration */
+.birthday-illustration {
+  max-height: min(38vh, 280px);
+  width: auto;
+  max-width: 85%;
+}
+
+/* Music button — keep in safe area */
+.velvet-music-btn {
+  top: max(16px, env(safe-area-inset-top, 16px));
+  right: max(16px, env(safe-area-inset-right, 16px));
+}
+
+/* Tiny phones (< 380px) */
+@media (max-width: 380px) {
+  .birthday-section {
+    padding: 0.75rem;
+  }
+  .letter-card {
+    padding: 1rem;
+  }
+  .birthday-btn {
+    padding: 0.65rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Landscape on mobile — limit heights */
+@media (max-height: 500px) and (orientation: landscape) {
+  .birthday-illustration {
+    max-height: 25vh;
+  }
+  .birthday-section {
+    padding: 0.5rem 1.5rem;
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
+  .envelope-wrapper {
+    width: 180px;
+    height: 115px;
+  }
+}
+
+/* Tablet and up */
+@media (min-width: 600px) {
+  .birthday-section {
+    padding: 2.5rem;
+  }
+  .letter-card {
+    max-width: 480px;
+  }
+}

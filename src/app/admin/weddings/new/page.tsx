@@ -4,22 +4,28 @@ import { useRouter } from 'next/navigation'
 import { getAllTemplates } from '@/templates/registry'
 import Link from 'next/link'
 
-type Step = 'basics' | 'couple' | 'family' | 'events' | 'music' | 'rsvp' | 'template' | 'publish'
+type Step = 'basics' | 'template' | 'birthday' | 'couple' | 'family' | 'events' | 'gallery' | 'music' | 'rsvp' | 'publish'
 
-const STEPS: { id: Step; label: string; icon: string }[] = [
+const ALL_STEPS: { id: Step; label: string; icon: string }[] = [
   { id: 'basics', label: 'Basics', icon: '📋' },
+  { id: 'template', label: 'Template', icon: '🎨' },
+  { id: 'birthday', label: 'Birthday', icon: '🎂' },
   { id: 'couple', label: 'Couple', icon: '💑' },
   { id: 'family', label: 'Family', icon: '👨‍👩‍👧' },
   { id: 'events', label: 'Events', icon: '📅' },
+  { id: 'gallery', label: 'Gallery', icon: '📸' },
   { id: 'music', label: 'Music', icon: '🎵' },
   { id: 'rsvp', label: 'RSVP', icon: '✅' },
-  { id: 'template', label: 'Template', icon: '🎨' },
   { id: 'publish', label: 'Publish', icon: '🚀' },
 ]
 
 interface EventForm {
   name: string; type: string; date: string; timeDisplay: string
   description: string; venueName: string; venueAddress: string; mapsUrl: string
+}
+
+interface GalleryForm {
+  url: string; caption: string; altText: string; isCover: boolean
 }
 
 const defaultEvent: EventForm = {
@@ -40,6 +46,20 @@ export default function NewWeddingPage() {
   const [slug, setSlug] = useState('')
   const [templateId, setTemplateId] = useState('velvet')
   const [status, setStatus] = useState('DRAFT')
+
+  // Birthday
+  const [bName, setBName] = useState('')
+  const [bAge, setBAge] = useState('')
+  const [bDate, setBDate] = useState('')
+  const [bSender, setBSender] = useState('')
+  const [bHeadline, setBHeadline] = useState('')
+  const [bIntro, setBIntro] = useState('')
+  const [bQuestion, setBQuestion] = useState('')
+  const [bBalloons, setBBalloons] = useState('4')
+  const [bBouquet, setBBouquet] = useState("Forever yours\nYou make my world beautiful\nYou are my sunshine\nHappy Birthday\nI'm lucky to have you\nMy favorite person")
+  const [bMessage, setBMessage] = useState("Happy Birthday to someone truly special! You bring so much warmth and sweetness into my life. Every moment with you is precious.")
+  const [bFinal, setBFinal] = useState("Lots of love for you ❤️")
+  const [bHero, setBHero] = useState('/templates/birthday/cute-bears.png')
 
   // Couple
   const [brideName, setBrideName] = useState('')
@@ -66,6 +86,9 @@ export default function NewWeddingPage() {
 
   // Events
   const [events, setEvents] = useState<EventForm[]>([{ ...defaultEvent }])
+  
+  // Gallery
+  const [gallery, setGallery] = useState<GalleryForm[]>([])
 
   // Music
   const [musicEnabled, setMusicEnabled] = useState(true)
@@ -75,6 +98,16 @@ export default function NewWeddingPage() {
   // RSVP
   const [rsvpEnabled, setRsvpEnabled] = useState(true)
   const [rsvpMsg, setRsvpMsg] = useState('We would be honoured by your presence. Please let us know if you can attend.')
+
+  const isBirthday = templateId.startsWith('birthday')
+  
+  const STEPS = ALL_STEPS.filter(s => {
+    if (isBirthday) {
+      return ['basics', 'template', 'birthday', 'gallery', 'music', 'publish'].includes(s.id)
+    } else {
+      return ['basics', 'template', 'couple', 'family', 'events', 'gallery', 'music', 'rsvp', 'publish'].includes(s.id)
+    }
+  })
 
   const loadSampleData = () => {
     setTitle('Iqra & Mohammed Mufassir')
@@ -113,6 +146,14 @@ export default function NewWeddingPage() {
     setEvents(copy)
   }
 
+  const addGalleryImage = () => setGallery([...gallery, { url: '', caption: '', altText: '', isCover: false }])
+  const removeGalleryImage = (i: number) => setGallery(gallery.filter((_, idx) => idx !== i))
+  const updateGalleryImage = (i: number, field: keyof GalleryForm, val: string | boolean) => {
+    const copy = [...gallery]
+    copy[i] = { ...copy[i], [field]: val }
+    setGallery(copy)
+  }
+
   const stepIndex = STEPS.findIndex((s) => s.id === step)
 
   const handleCreate = async () => {
@@ -124,11 +165,26 @@ export default function NewWeddingPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title, slug, templateId, status,
-          couple: { brideName, brideQualification: brideQual, groomName, groomQualification: groomQual, gregorianDate: gregorianDate ? new Date(gregorianDate) : null, gregorianDisplay, hijriDate, islamicVerse, invitationMessage: invitationMsg },
-          family: { brideParents, bridePaternalGrandfather: bridePGF, brideMaternalGrandfather: brideMGF, groomFather, groomPaternalGrandfather: groomPGF, groomMaternalGrandfather: groomMGF, invitationFromName: fromName, invitationFromOrg: fromOrg, invitationFromAddress: fromAddress, invitationFromPhone: fromPhone },
-          events: events.map((e, i) => ({ ...e, order: i + 1, enabled: true, date: e.date ? new Date(e.date + 'T00:00:00Z') : null })),
+          couple: isBirthday ? undefined : { brideName, brideQualification: brideQual, groomName, groomQualification: groomQual, gregorianDate: gregorianDate ? new Date(gregorianDate) : null, gregorianDisplay, hijriDate, islamicVerse, invitationMessage: invitationMsg },
+          family: isBirthday ? undefined : { brideParents, bridePaternalGrandfather: bridePGF, brideMaternalGrandfather: brideMGF, groomFather, groomPaternalGrandfather: groomPGF, groomMaternalGrandfather: groomMGF, invitationFromName: fromName, invitationFromOrg: fromOrg, invitationFromAddress: fromAddress, invitationFromPhone: fromPhone },
+          events: isBirthday ? undefined : events.map((e, i) => ({ ...e, order: i + 1, enabled: true, date: e.date ? new Date(e.date + 'T00:00:00Z') : null })),
+          birthday: isBirthday ? {
+            birthdayPersonName: bName || title,
+            age: bAge ? parseInt(bAge) : undefined,
+            birthdayDate: bDate ? new Date(bDate) : undefined,
+            senderName: bSender,
+            headline: bHeadline,
+            introMessage: bIntro,
+            questionText: bQuestion,
+            balloons: bBalloons ? parseInt(bBalloons) : 4,
+            bouquetMessages: bBouquet.split('\n').filter(Boolean),
+            birthdayMessage: bMessage,
+            finalMessage: bFinal,
+            heroImage: bHero,
+          } : undefined,
+          gallery: gallery.map((g, i) => ({ ...g, order: i + 1 })),
           music: musicEnabled ? { title: musicTitle, url: musicUrl, enabled: true } : undefined,
-          rsvpConfig: { enabled: rsvpEnabled, message: rsvpMsg },
+          rsvpConfig: isBirthday ? undefined : { enabled: rsvpEnabled, message: rsvpMsg },
         }),
       })
       if (!res.ok) {
@@ -167,84 +223,11 @@ export default function NewWeddingPage() {
               <button onClick={loadSampleData} style={{ padding: '0.5rem 1rem', background: 'rgba(201,151,26,0.1)', color: 'var(--admin-gold)', border: '1px solid var(--admin-gold)', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}>
                 Load Sample Data
               </button>
-              <button onClick={() => {
-                const data = prompt('Paste your complete wedding details JSON here:')
-                if (data) {
-                  try {
-                    const parsed = JSON.parse(data)
-                    // Basics
-                    if (parsed.title) setTitle(parsed.title)
-                    if (parsed.slug) setSlug(parsed.slug)
-                    if (parsed.templateId) setTemplateId(parsed.templateId)
-                    if (parsed.status) setStatus(parsed.status)
-                    
-                    // Couple
-                    if (parsed.couple) {
-                      if (parsed.couple.brideName) setBrideName(parsed.couple.brideName)
-                      if (parsed.couple.brideQualification) setBrideQual(parsed.couple.brideQualification)
-                      if (parsed.couple.groomName) setGroomName(parsed.couple.groomName)
-                      if (parsed.couple.groomQualification) setGroomQual(parsed.couple.groomQualification)
-                      if (parsed.couple.gregorianDate) setGregorianDate(parsed.couple.gregorianDate)
-                      if (parsed.couple.gregorianDisplay) setGregorianDisplay(parsed.couple.gregorianDisplay)
-                      if (parsed.couple.hijriDate) setHijriDate(parsed.couple.hijriDate)
-                      if (parsed.couple.islamicVerse) setIslamicVerse(parsed.couple.islamicVerse)
-                      if (parsed.couple.invitationMessage) setInvitationMsg(parsed.couple.invitationMessage)
-                    }
-
-                    // Family
-                    if (parsed.family) {
-                      if (parsed.family.brideParents) setBrideParents(parsed.family.brideParents)
-                      if (parsed.family.bridePaternalGrandfather) setBridePGF(parsed.family.bridePaternalGrandfather)
-                      if (parsed.family.brideMaternalGrandfather) setBrideMGF(parsed.family.brideMaternalGrandfather)
-                      if (parsed.family.groomFather) setGroomFather(parsed.family.groomFather)
-                      if (parsed.family.groomPaternalGrandfather) setGroomPGF(parsed.family.groomPaternalGrandfather)
-                      if (parsed.family.groomMaternalGrandfather) setGroomMGF(parsed.family.groomMaternalGrandfather)
-                      if (parsed.family.invitationFromName) setFromName(parsed.family.invitationFromName)
-                      if (parsed.family.invitationFromOrg) setFromOrg(parsed.family.invitationFromOrg)
-                      if (parsed.family.invitationFromAddress) setFromAddress(parsed.family.invitationFromAddress)
-                      if (parsed.family.invitationFromPhone) setFromPhone(parsed.family.invitationFromPhone)
-                    }
-
-                    // Events
-                    if (parsed.events && Array.isArray(parsed.events)) {
-                      setEvents(parsed.events.map((e: any) => ({
-                        name: e.name || '',
-                        type: e.type || 'CUSTOM',
-                        date: e.date || '',
-                        timeDisplay: e.timeDisplay || '',
-                        description: e.description || '',
-                        venueName: e.venueName || '',
-                        venueAddress: e.venueAddress || '',
-                        mapsUrl: e.mapsUrl || ''
-                      })))
-                    }
-
-                    // Music
-                    if (parsed.music) {
-                      if (parsed.music.enabled !== undefined) setMusicEnabled(parsed.music.enabled)
-                      if (parsed.music.title) setMusicTitle(parsed.music.title)
-                      if (parsed.music.url) setMusicUrl(parsed.music.url)
-                    }
-
-                    // RSVP
-                    if (parsed.rsvpConfig) {
-                      if (parsed.rsvpConfig.enabled !== undefined) setRsvpEnabled(parsed.rsvpConfig.enabled)
-                      if (parsed.rsvpConfig.message) setRsvpMsg(parsed.rsvpConfig.message)
-                    }
-
-                    alert('All data imported successfully!')
-                  } catch (e) {
-                    alert('Invalid JSON format. Please ensure it is properly formatted.')
-                  }
-                }
-              }} style={{ padding: '0.5rem 1rem', background: 'transparent', color: 'var(--admin-muted)', border: '1px solid var(--admin-border)', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}>
-                Quick Import JSON
-              </button>
             </div>
             
             <div style={fieldStyle}>
-              <label style={labelStyle}>Wedding Title</label>
-              <input style={inputStyle} value={title} onChange={(e) => { setTitle(e.target.value); setSlug(e.target.value.toLowerCase().replace(/\s+&\s+/g, '-').replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')) }} placeholder="e.g. Asfiya & Zuhaib" />
+              <label style={labelStyle}>Title</label>
+              <input style={inputStyle} value={title} onChange={(e) => { setTitle(e.target.value); setSlug(e.target.value.toLowerCase().replace(/\s+&\s+/g, '-').replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')) }} placeholder="e.g. Asfiya & Zuhaib or Sak's Birthday" />
             </div>
             <div style={fieldStyle}>
               <label style={labelStyle}>Public URL Slug</label>
@@ -261,6 +244,100 @@ export default function NewWeddingPage() {
                 <option value="PUBLISHED">Published</option>
               </select>
             </div>
+          </div>
+        )
+        
+      case 'template':
+        return (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+            {templates.map((t) => (
+              <div
+                key={t.id}
+                onClick={() => setTemplateId(t.id)}
+                style={{
+                  border: `2px solid ${templateId === t.id ? 'var(--admin-gold)' : 'var(--admin-border)'}`,
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  transition: 'border-color 0.2s',
+                  background: templateId === t.id ? 'rgba(201,151,26,0.05)' : 'transparent',
+                }}
+              >
+                <div style={{ height: 120, background: t.id === 'velvet' ? 'linear-gradient(135deg, #3D0A0A, #1A0404)' : (t.id.includes('birthday') ? 'linear-gradient(135deg, #fad2d9, #ffc1cc)' : 'linear-gradient(135deg, #FFFEF9, #F8F3E8)'), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', color: t.id === 'velvet' ? '#C9971A' : (t.id.includes('birthday') ? '#702f3c' : '#C9A96E') }}>{t.name}</span>
+                </div>
+                <div style={{ padding: '0.75rem 1rem' }}>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--admin-text)' }}>{t.name}</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--admin-muted)', marginTop: '0.2rem' }}>{t.tagline}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+
+      case 'birthday':
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <h3 style={{ fontFamily: 'var(--font-serif)', color: 'var(--admin-gold)', fontWeight: 400, fontSize: '1.2rem' }}>Birthday Configuration</h3>
+            <div style={gridStyle}>
+              <div style={fieldStyle}><label style={labelStyle}>Birthday Person's Name</label><input style={inputStyle} value={bName} onChange={(e) => setBName(e.target.value)} /></div>
+              <div style={fieldStyle}><label style={labelStyle}>Age Turning</label><input style={inputStyle} type="number" value={bAge} onChange={(e) => setBAge(e.target.value)} placeholder="e.g. 21" /></div>
+              <div style={fieldStyle}><label style={labelStyle}>Birthday Date</label><input style={inputStyle} type="date" value={bDate} onChange={(e) => setBDate(e.target.value)} /></div>
+              <div style={fieldStyle}><label style={labelStyle}>Sender Name</label><input style={inputStyle} value={bSender} onChange={(e) => setBSender(e.target.value)} placeholder="e.g. Your Special Someone" /></div>
+            </div>
+            
+            <div style={gridStyle}>
+              <div style={fieldStyle}><label style={labelStyle}>Headline</label><input style={inputStyle} value={bHeadline} onChange={(e) => setBHeadline(e.target.value)} placeholder="Happy Birthday," /></div>
+              <div style={fieldStyle}><label style={labelStyle}>Question Text</label><input style={inputStyle} value={bQuestion} onChange={(e) => setBQuestion(e.target.value)} placeholder="Are you excited for what's next?" /></div>
+            </div>
+            
+            <div style={gridStyle}>
+              <div style={fieldStyle}><label style={labelStyle}>Hero Image URL</label><input style={inputStyle} value={bHero} onChange={(e) => setBHero(e.target.value)} /></div>
+              <div style={fieldStyle}><label style={labelStyle}>Number of Balloons</label><input style={inputStyle} type="number" value={bBalloons} onChange={(e) => setBBalloons(e.target.value)} placeholder="4" /></div>
+            </div>
+            
+            <div style={fieldStyle}>
+              <label style={labelStyle}>Bouquet Floating Messages (One per line)</label>
+              <textarea style={{ ...inputStyle, height: 120, resize: 'vertical' }} value={bBouquet} onChange={(e) => setBBouquet(e.target.value)} />
+            </div>
+            
+            <div style={fieldStyle}>
+              <label style={labelStyle}>Heartfelt Letter Message</label>
+              <textarea style={{ ...inputStyle, height: 100, resize: 'vertical' }} value={bMessage} onChange={(e) => setBMessage(e.target.value)} />
+            </div>
+            
+            <div style={fieldStyle}>
+              <label style={labelStyle}>Final Closing Message</label>
+              <input style={inputStyle} value={bFinal} onChange={(e) => setBFinal(e.target.value)} placeholder="Lots of love for you ❤️" />
+            </div>
+          </div>
+        )
+
+      case 'gallery':
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <p style={{ color: 'var(--admin-muted)', fontSize: '0.9rem' }}>Add up to 10 images for the interactive slider.</p>
+            {gallery.map((g, i) => (
+              <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--admin-border)', borderRadius: '6px', padding: '1.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                  <span style={{ fontFamily: 'var(--font-serif)', color: 'var(--admin-gold)', fontSize: '1rem', fontWeight: 400 }}>Image {i + 1}</span>
+                  <button onClick={() => removeGalleryImage(i)} style={{ background: 'none', border: 'none', color: 'var(--admin-muted)', cursor: 'pointer', fontSize: '0.8rem' }}>Remove</button>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <div style={fieldStyle}>
+                    <label style={labelStyle}>Image URL</label>
+                    <input style={inputStyle} value={g.url} onChange={(e) => updateGalleryImage(i, 'url', e.target.value)} placeholder="https://..." />
+                  </div>
+                  <div style={fieldStyle}>
+                    <label style={labelStyle}>Caption (Optional)</label>
+                    <input style={inputStyle} value={g.caption} onChange={(e) => updateGalleryImage(i, 'caption', e.target.value)} placeholder="A beautiful memory..." />
+                  </div>
+                </div>
+              </div>
+            ))}
+            <button onClick={addGalleryImage} style={{ padding: '0.75rem', background: 'transparent', border: '1px dashed var(--admin-border)', color: 'var(--admin-gold)', borderRadius: '6px', cursor: 'pointer', fontSize: '0.875rem', fontFamily: 'var(--font-sans)', transition: 'border-color 0.2s' }}>
+              + Add Image
+            </button>
           </div>
         )
 
@@ -381,14 +458,11 @@ export default function NewWeddingPage() {
               <>
                 <div style={fieldStyle}>
                   <label style={labelStyle}>Track Title</label>
-                  <input style={inputStyle} value={musicTitle} onChange={(e) => setMusicTitle(e.target.value)} placeholder="e.g. Ya Nabi Salam Alayka" />
+                  <input style={inputStyle} value={musicTitle} onChange={(e) => setMusicTitle(e.target.value)} placeholder="e.g. Happy Birthday Song" />
                 </div>
                 <div style={fieldStyle}>
                   <label style={labelStyle}>Audio URL (direct link to MP3)</label>
                   <input style={inputStyle} value={musicUrl} onChange={(e) => setMusicUrl(e.target.value)} placeholder="https://..." />
-                  <p style={{ fontSize: '0.78rem', color: 'var(--admin-muted)', marginTop: '0.4rem' }}>
-                    Upload audio to a file host and paste the direct URL here, or use a local path like `/assets/audio/velvet-bgm.mp3`.
-                  </p>
                 </div>
               </>
             )}
@@ -411,44 +485,16 @@ export default function NewWeddingPage() {
           </div>
         )
 
-      case 'template':
-        return (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
-            {templates.map((t) => (
-              <div
-                key={t.id}
-                onClick={() => setTemplateId(t.id)}
-                style={{
-                  border: `2px solid ${templateId === t.id ? 'var(--admin-gold)' : 'var(--admin-border)'}`,
-                  borderRadius: '8px',
-                  overflow: 'hidden',
-                  cursor: 'pointer',
-                  transition: 'border-color 0.2s',
-                  background: templateId === t.id ? 'rgba(201,151,26,0.05)' : 'transparent',
-                }}
-              >
-                <div style={{ height: 120, background: t.id === 'velvet' ? 'linear-gradient(135deg, #3D0A0A, #1A0404)' : 'linear-gradient(135deg, #FFFEF9, #F8F3E8)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', color: t.id === 'velvet' ? '#C9971A' : '#C9A96E' }}>{t.name}</span>
-                </div>
-                <div style={{ padding: '0.75rem 1rem' }}>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--admin-text)' }}>{t.name}</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--admin-muted)', marginTop: '0.2rem' }}>{t.tagline}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )
-
       case 'publish':
         if (createdId) {
           return (
             <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
               <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎉</div>
-              <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', color: 'var(--admin-gold)', marginBottom: '1rem', fontWeight: 400 }}>Invitation Created!</h2>
-              <p style={{ color: 'var(--admin-muted)', marginBottom: '2rem' }}>Your invitation has been saved. Visit the live URL or edit further.</p>
+              <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', color: 'var(--admin-gold)', marginBottom: '1rem', fontWeight: 400 }}>Template Created!</h2>
+              <p style={{ color: 'var(--admin-muted)', marginBottom: '2rem' }}>Your {isBirthday ? 'birthday' : 'wedding'} template has been saved. Visit the live URL.</p>
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                 <Link href={`/i/${slug}`} target="_blank" style={{ padding: '0.9rem 2rem', background: 'var(--admin-gold)', color: 'var(--admin-bg)', borderRadius: '4px', textDecoration: 'none', fontWeight: 700, fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  View Live Invitation ↗
+                  View Live {isBirthday ? 'Birthday' : 'Invitation'} ↗
                 </Link>
                 <Link href="/admin/dashboard" style={{ padding: '0.9rem 2rem', background: 'transparent', color: 'var(--admin-text)', border: '1px solid var(--admin-border)', borderRadius: '4px', textDecoration: 'none', fontSize: '0.875rem' }}>
                   Back to Dashboard
@@ -465,9 +511,18 @@ export default function NewWeddingPage() {
                 <div><strong style={{ color: 'var(--admin-text)' }}>Title:</strong> {title}</div>
                 <div><strong style={{ color: 'var(--admin-text)' }}>URL:</strong> /i/{slug}</div>
                 <div><strong style={{ color: 'var(--admin-text)' }}>Template:</strong> {templateId}</div>
-                <div><strong style={{ color: 'var(--admin-text)' }}>Couple:</strong> {brideName} & {groomName}</div>
-                <div><strong style={{ color: 'var(--admin-text)' }}>Events:</strong> {events.length}</div>
-                <div><strong style={{ color: 'var(--admin-text)' }}>RSVP:</strong> {rsvpEnabled ? 'Enabled' : 'Disabled'}</div>
+                {isBirthday ? (
+                  <>
+                    <div><strong style={{ color: 'var(--admin-text)' }}>Birthday Person:</strong> {bName}</div>
+                    <div><strong style={{ color: 'var(--admin-text)' }}>Gallery Images:</strong> {gallery.length}</div>
+                  </>
+                ) : (
+                  <>
+                    <div><strong style={{ color: 'var(--admin-text)' }}>Couple:</strong> {brideName} & {groomName}</div>
+                    <div><strong style={{ color: 'var(--admin-text)' }}>Events:</strong> {events.length}</div>
+                    <div><strong style={{ color: 'var(--admin-text)' }}>RSVP:</strong> {rsvpEnabled ? 'Enabled' : 'Disabled'}</div>
+                  </>
+                )}
               </div>
             </div>
 
@@ -478,7 +533,7 @@ export default function NewWeddingPage() {
               disabled={loading}
               style={{ padding: '1rem', background: loading ? 'var(--admin-muted)' : 'var(--admin-gold)', color: 'var(--admin-bg)', border: 'none', borderRadius: '4px', fontWeight: 700, fontSize: '1rem', cursor: loading ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-sans)', textTransform: 'uppercase', letterSpacing: '0.05em' }}
             >
-              {loading ? 'Creating Invitation...' : '🚀 Create Invitation'}
+              {loading ? 'Creating...' : '🚀 Create'}
             </button>
           </div>
         )
@@ -491,7 +546,7 @@ export default function NewWeddingPage() {
         <h1 style={{ fontSize: '2rem', fontFamily: 'var(--font-serif)', color: 'var(--admin-gold)', fontWeight: 400, marginBottom: '0.25rem' }}>
           New Invitation
         </h1>
-        <p style={{ color: 'var(--admin-muted)', fontSize: '0.9rem' }}>Complete each step to build a personalised digital wedding invitation.</p>
+        <p style={{ color: 'var(--admin-muted)', fontSize: '0.9rem' }}>Complete each step to build a personalised digital invitation.</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: '2rem' }}>

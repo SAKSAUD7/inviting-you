@@ -35,6 +35,7 @@ model Wedding {
   gallery        GalleryImage[]
   music          WeddingMusic?
   rsvpConfig     RSVPConfig?
+  birthday       BirthdayConfig?
   rsvpResponses  RSVPResponse[]
   compliments    Compliment[]
   seo            WeddingSEO?
@@ -193,3 +194,32 @@ enum Status {
   PUBLISHED
   ARCHIVED
 }
+
+model BirthdayConfig {
+  id                 String   @id @default(uuid())
+  weddingId          String   @unique
+  wedding            Wedding  @relation(fields: [weddingId], references: [id], onDelete: Cascade)
+  birthdayPersonName String
+  age                Int?
+  birthdayDate       DateTime?
+  senderName         String?
+  headline           String?
+  introMessage       String?
+  questionText       String?
+  balloons               Int      @default(4)
+  balloonSectionTitle    String?
+  balloonSectionSubtitle String?
+  balloonRevealWords     String[]
+  bouquetMessages        String[]
+  bouquetTitle           String?
+  bouquetSubtitle        String?
+  bouquetReasons         String[]
+  birthdayMessage        String?
+  signature              String?
+  finalMessage           String?
+  heroImage              String?
+  theme                  String?
+  loveMessage            String?
+  giftMessage            String?
+}
+

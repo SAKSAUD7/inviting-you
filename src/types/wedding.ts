@@ -13,12 +13,13 @@ export interface WeddingData {
   gallery: GalleryImage[]
   music?: WeddingMusic | null
   rsvpConfig?: RSVPConfig | null
+  birthday?: BirthdayConfig | null
   compliments: Compliment[]
   seo?: WeddingSEO | null
 }
 
 /** Only templates with an available loader are valid TemplateIds. */
-export type TemplateId = 'velvet' | 'noor' | 'sultan' | 'walima'
+export type TemplateId = 'velvet' | 'noor' | 'sultan' | 'walima' | 'birthday-interactive-01'
 
 export interface WeddingCouple {
   id: string
@@ -122,4 +123,31 @@ export interface RSVPSubmission {
   attending: boolean
   guestCount: number
   message?: string
+}
+
+export interface BirthdayConfig {
+  id: string
+  weddingId: string
+  birthdayPersonName: string
+  age?: number | null
+  birthdayDate?: string | null
+  senderName?: string | null
+  headline?: string | null
+  introMessage?: string | null
+  questionText?: string | null
+  balloons: number
+  balloonSectionTitle?: string | null     // e.g. "Pop the Balloons"
+  balloonSectionSubtitle?: string | null  // e.g. "and reveal a message from my heart"
+  balloonRevealWords?: string[]           // Words that appear as balloons are popped
+  bouquetMessages: string[]
+  bouquetTitle?: string | null            // e.g. "For Ayman, who brings beauty to my world"
+  bouquetSubtitle?: string | null         // e.g. "Each button represents a reason..."
+  bouquetReasons?: string[]              // Reason cards shown when bouquet icons are clicked
+  birthdayMessage?: string | null
+  signature?: string | null
+  finalMessage?: string | null
+  heroImage?: string | null
+  theme?: string | null
+  loveMessage?: string | null             // Message shown after gift opens
+  giftMessage?: string | null             // Subtitle for the gift box screen
 }

@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { slug, title, templateId, status, couple, family, events, music, rsvpConfig } = body
+    const { slug, title, templateId, status, couple, family, events, music, rsvpConfig, birthday, gallery } = body
 
     if (!slug || !title || !templateId) {
       return NextResponse.json({ error: 'Missing required fields: title, slug, templateId' }, { status: 400 })
@@ -122,6 +122,40 @@ export async function POST(request: NextRequest) {
             },
           },
         }),
+
+        ...(birthday && {
+          birthday: {
+            create: {
+              birthdayPersonName: birthday.birthdayPersonName || title,
+              age: birthday.age ? parseInt(birthday.age) : null,
+              birthdayDate: birthday.birthdayDate ? new Date(birthday.birthdayDate) : null,
+              senderName: birthday.senderName || '',
+              headline: birthday.headline || 'Happy Birthday,',
+              introMessage: birthday.introMessage || '',
+              questionText: birthday.questionText || "Are you excited for what's next?",
+              balloons: birthday.balloons ? parseInt(birthday.balloons) : 4,
+              bouquetMessages: birthday.bouquetMessages || [],
+              birthdayMessage: birthday.birthdayMessage || '',
+              signature: birthday.signature || '',
+              finalMessage: birthday.finalMessage || '',
+              heroImage: birthday.heroImage || '',
+              theme: birthday.theme || '',
+            },
+          },
+        }),
+
+        ...(gallery &&
+          gallery.length > 0 && {
+            gallery: {
+              create: gallery.map((g: Record<string, unknown>, i: number) => ({
+                url: g.url,
+                caption: g.caption || '',
+                altText: g.altText || '',
+                isCover: g.isCover || false,
+                order: (g.order as number) || i,
+              })),
+            },
+          }),
 
         rsvpConfig: {
           create: {

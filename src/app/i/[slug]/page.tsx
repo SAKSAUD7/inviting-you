@@ -20,6 +20,7 @@ const weddingInclude = {
   music: true,
   rsvpConfig: true,
   compliments: { orderBy: { order: 'asc' } as const },
+  birthday: true,
   seo: true,
 } as const
 
@@ -114,6 +115,26 @@ function toWeddingData(record: Awaited<ReturnType<typeof fetchWeddingBySlug>>): 
       name: c.name,
       order: c.order,
     })),
+    birthday: record.birthday
+      ? {
+          id: record.birthday.id,
+          weddingId: record.birthday.weddingId,
+          birthdayPersonName: record.birthday.birthdayPersonName,
+          age: record.birthday.age,
+          birthdayDate: record.birthday.birthdayDate ? record.birthday.birthdayDate.toISOString() : null,
+          senderName: record.birthday.senderName,
+          headline: record.birthday.headline,
+          introMessage: record.birthday.introMessage,
+          questionText: record.birthday.questionText,
+          balloons: record.birthday.balloons,
+          bouquetMessages: record.birthday.bouquetMessages,
+          birthdayMessage: record.birthday.birthdayMessage,
+          signature: record.birthday.signature,
+          finalMessage: record.birthday.finalMessage,
+          heroImage: record.birthday.heroImage,
+          theme: record.birthday.theme,
+        }
+      : null,
     seo: record.seo
       ? {
           id: record.seo.id,
