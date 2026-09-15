@@ -41,32 +41,57 @@ export default function NoorEvents({ events }: Props) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
-                style={{ width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative', padding: '3rem 1.5rem' }}
+                style={{
+                  width: '100%', maxWidth: '560px', display: 'flex', flexDirection: 'column',
+                  alignItems: 'center', textAlign: 'center', position: 'relative',
+                  overflow: 'visible',
+                  /* top padding clears TL flower cluster; bottom clears bouquet blooms */
+                  padding: 'clamp(100px, 22vw, 140px) clamp(20px, 5vw, 36px) clamp(90px, 20vw, 130px)',
+                  backgroundColor: 'var(--noor-paper)',
+                }}
               >
-                {/* Botanical Corners replaced with lush watercolor bouquets */}
-                <motion.img 
-                  src="/images/noor_bouquet_isolated.png"
-                  alt=""
-                  style={{ 
-                    position: 'absolute', top: '-60px', left: '-60px', width: '220px', 
-                    pointerEvents: 'none', mixBlendMode: 'multiply', opacity: 0.9, zIndex: 0,
-                    maskImage: 'radial-gradient(circle at center, black 50%, transparent 95%)',
-                    WebkitMaskImage: 'radial-gradient(circle at center, black 50%, transparent 95%)'
+                {/* GOLD BORDER */}
+                <div style={{ position: 'absolute', inset: 0, border: '1px solid rgba(199,168,107,0.38)', zIndex: 1, pointerEvents: 'none' }} />
+
+                {/* TOP-LEFT — natural orientation */}
+                <img
+                  src="/images/noor-floral-tl.png"
+                  alt="" aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    top: 'clamp(-15px, -3vw, -8px)',
+                    left: 'clamp(-15px, -3vw, -8px)',
+                    width: 'clamp(110px, 30vw, 160px)',
+                    height: 'auto',
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                    opacity: 0.90,
+                    zIndex: 3,
+                    transformOrigin: 'top left',
+                    mixBlendMode: 'multiply',
+                    filter: 'contrast(1.4) brightness(1.15)',
                   }}
-                  animate={{ y: [0, 8, 0], rotate: [0, 1, 0] }}
-                  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
                 />
-                <motion.img 
-                  src="/images/noor_bouquet_isolated.png"
-                  alt=""
-                  style={{ 
-                    position: 'absolute', bottom: '-60px', right: '-60px', width: '220px', 
-                    pointerEvents: 'none', mixBlendMode: 'multiply', opacity: 0.9, transform: 'rotate(180deg)', zIndex: 0,
-                    maskImage: 'radial-gradient(circle at center, black 50%, transparent 95%)',
-                    WebkitMaskImage: 'radial-gradient(circle at center, black 50%, transparent 95%)'
+
+                {/* TOP-RIGHT — mirrored in place, symmetrical negative offset */}
+                <img
+                  src="/images/noor-floral-tl.png"
+                  alt="" aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    top: 'clamp(-15px, -3vw, -8px)',
+                    right: 'clamp(-15px, -3vw, -8px)',
+                    width: 'clamp(110px, 30vw, 160px)',
+                    height: 'auto',
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                    transform: 'scaleX(-1)',
+                    transformOrigin: 'center',
+                    mixBlendMode: 'multiply',
+                    filter: 'contrast(1.4) brightness(1.15)',
+                    opacity: 0.90,
+                    zIndex: 3,
                   }}
-                  animate={{ y: [0, -8, 0], rotate: [180, 179, 180] }}
-                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 />
 
                 <NoorBotanicalCrest style={{ marginBottom: '2rem', position: 'relative', zIndex: 1 }} />

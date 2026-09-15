@@ -40,8 +40,8 @@ export default function NoorClosing({ couple }: Props) {
             <motion.img 
               src="/images/noor_bouquet_isolated.png" 
               alt="" 
-              style={{ width: '260px', height: 'auto', mixBlendMode: 'multiply', pointerEvents: 'none', maskImage: 'radial-gradient(circle at center, black 50%, transparent 95%)', WebkitMaskImage: 'radial-gradient(circle at center, black 50%, transparent 95%)' }}
-              animate={{ y: [0, -10, 0], rotate: [0, 2, 0] }}
+              style={{ width: '260px', height: 'auto', mixBlendMode: 'multiply', pointerEvents: 'none' }}
+              animate={{ y: [0, -10, 0] }}
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
             />
           </motion.div>

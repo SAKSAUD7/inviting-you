@@ -174,50 +174,62 @@ export default function NoorScratchReveal({ dateDisplay, venueName }: Props) {
           <NoorBotanicalCrest />
         </div>
 
-        {/* Ornate Frame Container */}
-        <div style={{ position: 'relative', width: 'min(500px, 95vw)', margin: '0 auto', padding: '24px', background: 'var(--noor-paper)', border: '1px solid var(--noor-gold-soft)', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.02)' }}>
-          {/* Inner hairline border for double-frame effect */}
-          <div style={{ position: 'absolute', inset: '8px', border: '1px solid var(--noor-gold-whisper)', borderRadius: '10px', pointerEvents: 'none' }} />
-          
-          {/* Outline Design of Flowers on the Frame */}
-          <NoorBotanicalCorner position="top-left" style={{ top: '-10px', left: '-10px', width: '120px', opacity: 0.6, pointerEvents: 'none', zIndex: 5 }} />
-          <NoorBotanicalCorner position="bottom-right" style={{ bottom: '-10px', right: '-10px', width: '120px', opacity: 0.6, pointerEvents: 'none', zIndex: 5 }} />
+        {/* ── Ornamental Frame + Scratch Card ── */}
+        <div style={{ position: 'relative', width: 'min(360px, 92vw)', margin: '0 auto' }}>
 
-          
-          <div className="noor-scratch-wrap" style={{ 
-            position: 'relative', 
-            width: '100%', 
-            aspectRatio: '16/9',
-            borderRadius: '8px',
-            overflow: 'hidden',
-            backgroundColor: 'var(--noor-white)',
-            boxShadow: 'inset 0 0 20px rgba(193,160,99,0.1)'
+          {/* Outer golden border frame */}
+          <div style={{
+            position: 'relative',
+            border: '1.5px solid rgba(193,160,99,0.65)',
+            borderRadius: '18px',
+            padding: '22px',
+            background: 'linear-gradient(145deg, #fdf9f2 0%, #f8f1e2 100%)',
+            boxShadow: '0 8px 32px rgba(193,160,99,0.12), inset 0 0 0 1px rgba(255,255,255,0.6)',
           }}>
-            {/* Revealed Content */}
-            <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--noor-ivory)', padding: '1.5rem', position: 'relative' }}>
-              
-              <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--noor-emerald)', marginBottom: '1rem' }}>
-                Save the Date
-              </h3>
-              <div style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1.2rem, 4vw, 2.5rem)', color: 'var(--noor-emerald-deep)', lineHeight: 1.2, margin: '0.5rem 0' }}>
-                {dateDisplay}
-              </div>
-              
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '1rem', fontFamily: 'var(--font-serif)', fontSize: '0.9rem', color: 'var(--noor-gold-champagne)', fontStyle: 'italic' }}>
-                <span>{venueName || "Bangalore"}</span>
-                <span style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'var(--noor-gold-champagne)' }} />
-                <span>Insha Allah</span>
-              </div>
-            </div>
+            {/* Inner hairline border */}
+            <div style={{ position: 'absolute', inset: '8px', border: '1px solid rgba(193,160,99,0.25)', borderRadius: '12px', pointerEvents: 'none', zIndex: 0 }} />
 
-            {/* Canvas Cover */}
-            <canvas 
-              ref={canvasRef}
-              id="scratch-canvas"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', cursor: 'crosshair', zIndex: 10, touchAction: 'none' }}
-            />
+            {/* Corner ornaments — botanical bouquets */}
+            <img src="/images/noor_bouquet_top.png" alt="" style={{ position: 'absolute', top: '-18px', left: '-18px', width: '80px', opacity: 0.75, mixBlendMode: 'multiply', pointerEvents: 'none', zIndex: 5 }} />
+            <img src="/images/noor_bouquet_top.png" alt="" style={{ position: 'absolute', top: '-18px', right: '-18px', width: '80px', opacity: 0.75, mixBlendMode: 'multiply', pointerEvents: 'none', zIndex: 5, transform: 'scaleX(-1)' }} />
+            <img src="/images/noor_bouquet_top.png" alt="" style={{ position: 'absolute', bottom: '-18px', left: '-18px', width: '80px', opacity: 0.75, mixBlendMode: 'multiply', pointerEvents: 'none', zIndex: 5, transform: 'scaleY(-1)' }} />
+            <img src="/images/noor_bouquet_top.png" alt="" style={{ position: 'absolute', bottom: '-18px', right: '-18px', width: '80px', opacity: 0.75, mixBlendMode: 'multiply', pointerEvents: 'none', zIndex: 5, transform: 'scale(-1)' }} />
+
+            {/* Scratch canvas area */}
+            <div className="noor-scratch-wrap" style={{
+              position: 'relative',
+              width: '100%',
+              aspectRatio: '3/2',
+              borderRadius: '10px',
+              overflow: 'hidden',
+              backgroundColor: 'var(--noor-white)',
+              boxShadow: 'inset 0 0 20px rgba(193,160,99,0.08)',
+            }}>
+              {/* Revealed content */}
+              <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--noor-ivory)', padding: '1.2rem', position: 'relative' }}>
+                <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: '0.65rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--noor-emerald)', marginBottom: '0.8rem' }}>
+                  Save the Date
+                </h3>
+                <div style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1.1rem, 4vw, 2rem)', color: 'var(--noor-emerald-deep)', lineHeight: 1.2, margin: '0.3rem 0' }}>
+                  {dateDisplay}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginTop: '0.8rem', fontFamily: 'var(--font-serif)', fontSize: '0.85rem', color: 'var(--noor-gold-champagne)', fontStyle: 'italic' }}>
+                  <span>{venueName || 'Bangalore'}</span>
+                  <span style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'var(--noor-gold-champagne)', display: 'inline-block' }} />
+                  <span>Insha Allah</span>
+                </div>
+              </div>
+
+              {/* Gold foil canvas */}
+              <canvas
+                ref={canvasRef}
+                id="scratch-canvas"
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', cursor: 'crosshair', zIndex: 10, touchAction: 'none' }}
+              />
+            </div>
           </div>
         </div>
+
 
         {/* Hint text below card */}
         <p style={{ marginTop: '2rem', fontFamily: 'var(--font-serif)', fontSize: '0.9rem', fontStyle: 'italic', color: 'var(--noor-emerald)', letterSpacing: '0.05em' }}>
