@@ -236,11 +236,6 @@ export default function VelvetScratchReveal({ couple }: Props) {
             <div className={`date-reveal${revealed ? ' is-revealed' : ''}`} aria-live="polite">
               <span className="date-kicker">You&apos;re Invited!</span>
               <strong className="date-main">{dateDisplay}</strong>
-              <div className="date-day">
-                <span>{dayName}</span>
-                <a aria-hidden="true">⬩</a>
-                <span>04:00 PM</span>
-              </div>
             </div>
 
             {/* Scratch canvas overlay */}

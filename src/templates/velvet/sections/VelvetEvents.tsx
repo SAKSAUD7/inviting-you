@@ -38,10 +38,17 @@ export default function VelvetEvents({ events }: Props) {
               )}
 
               {ev.venueName && (
-                <small style={{ display: 'block', marginBottom: '1.5rem', color: 'var(--ivory)', opacity: 0.8, letterSpacing: '0.05em' }}>
+                <small style={{ display: 'block', marginBottom: ev.venueAddress ? '0.5rem' : '1.5rem', color: 'var(--ivory)', opacity: 0.8, letterSpacing: '0.05em' }}>
                   {ev.venueName}
                 </small>
               )}
+
+              {ev.venueAddress && (
+                <small style={{ display: 'block', marginBottom: '1.5rem', color: 'var(--ivory)', opacity: 0.65, letterSpacing: '0.04em', fontSize: '0.78rem', whiteSpace: 'pre-line', lineHeight: 1.6 }}>
+                  {ev.venueAddress}
+                </small>
+              )}
+
 
               {ev.mapsUrl && (
                 <a

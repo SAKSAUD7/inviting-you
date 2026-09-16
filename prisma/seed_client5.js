@@ -13,10 +13,10 @@ async function main() {
     })
   }
 
-  // Delete if exists (re-runnable)
-  const existing = await prisma.wedding.findUnique({ where: { slug: 'client5-yousuf-tazeen' } })
-  if (existing) {
-    await prisma.wedding.delete({ where: { id: existing.id } })
+  // Delete if exists (re-runnable) — handle both old and new slugs
+  for (const slugToDelete of ['client5-yousuf-tazeen', 'client5-Aman-Tazeen']) {
+    const existing = await prisma.wedding.findUnique({ where: { slug: slugToDelete } })
+    if (existing) await prisma.wedding.delete({ where: { id: existing.id } })
   }
 
   // ──────────────────────────────────────────────────────────────────────
@@ -41,7 +41,7 @@ async function main() {
 
   const wedding = await prisma.wedding.create({
     data: {
-      slug: 'client5-yousuf-tazeen',
+      slug: 'client5-Aman-Tazeen',
       title: 'Mohammed Yousuf Aman Arif & Syed Tazeen',
       templateId: 'velvet',
       status: 'PUBLISHED',
@@ -50,7 +50,7 @@ async function main() {
 
       seo: {
         create: {
-          title: 'Yousuf & Tazeen Wedding Invitation',
+          title: 'Aman & Tazeen Wedding Invitation',
           description: 'You are warmly invited to the wedding of Mohammed Yousuf Aman Arif and Syed Tazeen on Tuesday, 17th November 2026 at Royal Tripura Vasini, Palace Grounds, Bengaluru.',
         },
       },
@@ -58,12 +58,12 @@ async function main() {
       couple: {
         create: {
           // Groom listed first per the physical card convention
-          groomName: 'Mohammed Yousuf Aman Arif',
+          groomName: 'Aman Arif',
           groomQualification: 'B.Tech, ISB Alum',
           brideName: 'Syed Tazeen',
           brideQualification: 'B.Com',
-          // Monogram: Y (Yousuf) & T (Tazeen) — used for the opening mark
-          monogram: 'Y & T',
+          // Monogram: A (Aman) & T (Tazeen) — used for the opening mark
+          monogram: 'A & T',
           gregorianDate: new Date('2026-11-17'),
           // Used as the date-hint in VelvetOpening and footer
           gregorianDisplay: 'Tuesday, 17th November 2026',
@@ -71,7 +71,7 @@ async function main() {
           islamicVerse: 'In the Name of Allah\nthe Most Beneficent the Most Merciful',
           // Shown in VelvetWelcome as the main body paragraph
           invitationMessage:
-            'Mohammed Ajmal Ariff & Fazeelath Afza and Syed Basha Mohiuddin & Syed Parveen solicit your gracious presence with family and friends on the auspicious occasion of the wedding of their children.',
+            'Mr. Mohammed Ajmal Ariff & Mrs. Fazeelath Afza and Mr. Syed Basha Mohiuddin & Mrs. Syed Parveen solicit your gracious presence with family and friends on the auspicious occasion of the wedding of their children.',
         },
       },
 
@@ -79,7 +79,7 @@ async function main() {
         create: {
           // ── BRIDE (Syed Tazeen) ──
           // Shown as "Daughter of [brideParents]" in VelvetOpening hero
-          brideParents: 'Syed Basha Mohiuddin & Syed Parveen',
+          brideParents: 'Mr. Syed Basha Mohiuddin & Mrs. Syed Parveen',
           // Shown as "Paternal Grand D/o. [...]"
           bridePaternalGrandfather: 'Late Mrs. Syed Khursheed Begum & Late Mr. Syed Ahamed',
           // Shown as "Maternal Grand D/o. [...]"
@@ -87,14 +87,14 @@ async function main() {
 
           // ── GROOM (Mohammed Yousuf Aman Arif) ──
           // Shown as "Son of [groomFather]" in VelvetOpening hero
-          groomFather: 'Mohammed Ajmal Ariff & Fazeelath Afza',
+          groomFather: 'Mr. Mohammed Ajmal Ariff & Mrs. Fazeelath Afza',
           // Shown as "Paternal Grand S/o. [...]"
-          groomPaternalGrandfather: 'Late Mrs. Shahtaj Begum & Late Mr. K.F. Ariff',
+          groomPaternalGrandfather: 'Late Mr. K.F. Ariff & Late Mrs. Shahtaj Begum ',
           // Shown as "Maternal Grand S/o. [...]"
           groomMaternalGrandfather: 'Mrs. Zeenath Khanum & Late Mr. Syed Md. Hamid',
 
           // ── CLOSING FOOTER ──
-          invitationFromName: 'Mohammed Ajmal Ariff & Fazeelath Afza · Syed Basha Mohiuddin & Syed Parveen',
+          invitationFromName: 'Mr. Mohammed Ajmal Ariff & Mrs. Fazeelath Afza · Mr. Syed Basha Mohiuddin & Mrs. Syed Parveen',
           invitationFromOrg: '',
           invitationFromAddress: '',
           invitationFromPhone: '',
@@ -116,7 +116,7 @@ async function main() {
             enabled: true,
           },
           {
-            name: 'Walima',
+            name: 'Valima',
             type: 'VALIMA',
             date: new Date('2026-11-17T13:30:00.000Z'), // 7:00 PM IST
             timeDisplay: '7:00 PM onwards',

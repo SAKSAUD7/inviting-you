@@ -15,8 +15,8 @@ export default function VelvetProgram({ events }: Props) {
   )
   
   let dayTitle = 'The Celebration'
-  if (hasNikah && hasValima) dayTitle = 'Our Nikah & Walima'
-  else if (hasValima) dayTitle = 'Our Walima day'
+  if (hasNikah && hasValima) dayTitle = 'Our Nikah & Valima'
+  else if (hasValima) dayTitle = 'Our Valima day'
   else if (hasNikah) dayTitle = 'Our Nikah day'
   
   const eyebrow = 'The celebration'

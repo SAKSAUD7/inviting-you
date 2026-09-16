@@ -83,7 +83,7 @@ export default function VelvetInvitation({ wedding }: { wedding: WeddingData }) 
 
       {/* Main invitation content — always rendered so scrolling works */}
       <VelvetFloralDivider />
-      <VelvetWelcome couple={couple} />
+      {/* VelvetWelcome removed for this client */}
       <VelvetFloralDivider />
       <VelvetScratchReveal couple={couple} />
       <VelvetFloralDivider />

@@ -117,7 +117,7 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
 
         {/* Top label — dynamic based on event type */}
         <span className="opening-label-top">
-          {hasNikah && isValima ? 'Nikah & Walima Invitation' : isValima ? 'Walima Invitation' : 'Nikah Invitation'}
+          {hasNikah && isValima ? 'Nikah & Valima Invitation' : isValima ? 'Valima Invitation' : 'Nikah Invitation'}
         </span>
 
         {/* Premium SVG Monogram */}
@@ -162,7 +162,7 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
           </div>
         ) : (
           <p className="hero-welcome">
-            We request the honour of your{'\n'}presence at the {hasNikah && isValima ? 'Nikah & Walima' : isValima ? 'Walima' : 'Nikah'} of
+            We request the honour of your{'\n'}presence at the {hasNikah && isValima ? 'Nikah & Valima' : isValima ? 'Valima' : 'Nikah'} of
           </p>
         )}
 
