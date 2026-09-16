@@ -58,7 +58,7 @@ async function main() {
       couple: {
         create: {
           // Groom listed first per the physical card convention
-          groomName: 'Aman Arif',
+          groomName: 'Mohammed Yousuf Aman Arif',
           groomQualification: 'B.Tech, ISB Alum',
           brideName: 'Syed Tazeen',
           brideQualification: 'B.Com',
@@ -133,7 +133,7 @@ async function main() {
       music: {
         create: {
           title: 'Wedding Nasheed',
-          url: '/assets/audio/walima-mufassir-iqra.mp3',
+          url: '/assets/audio/aman-tazeen-nasheed.mp3',
           autoplay: true,
         },
       },
