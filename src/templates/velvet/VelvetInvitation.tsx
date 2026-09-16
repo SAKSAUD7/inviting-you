@@ -70,7 +70,8 @@ export default function VelvetInvitation({ wedding }: { wedding: WeddingData }) 
   const events = wedding.events.filter((e) => e.enabled).sort((a, b) => a.order - b.order)
   const nikahEvent = events.find((e) => e.type === 'NIKAH' || e.name.toLowerCase().includes('nikah'))
   const venueEvents = events.filter((e) => e.venueName)
-  const isValima = events.some((e) => e.type === 'VALIMA' || e.name.toLowerCase().includes('valima'))
+  const isValima = events.some((e) => e.type === 'VALIMA' || e.name.toLowerCase().includes('valima') || e.name.toLowerCase().includes('walima'))
+  const hasNikah = !!nikahEvent
 
   return (
     <main id="invitation" ref={mainRef}>
@@ -78,7 +79,7 @@ export default function VelvetInvitation({ wedding }: { wedding: WeddingData }) 
       <VelvetMusicPlayer musicUrl={wedding.music?.url} />
 
       {/* Opening / hero — always rendered, is-open class toggles visibility of content */}
-      <VelvetOpening couple={couple} family={family} onOpen={handleOpen} isOpened={opened} isValima={isValima} />
+      <VelvetOpening couple={couple} family={family} onOpen={handleOpen} isOpened={opened} isValima={isValima} hasNikah={hasNikah} />
 
       {/* Main invitation content — always rendered so scrolling works */}
       <VelvetFloralDivider />
@@ -104,12 +105,12 @@ export default function VelvetInvitation({ wedding }: { wedding: WeddingData }) 
           <VelvetFloralDivider />
         </>
       )}
-      {venueEvents.length > 0 && (
+      {/* venueEvents.length > 0 && (
         <>
           <VelvetVenue events={venueEvents} />
           <VelvetFloralDivider />
         </>
-      )}
+      ) */}
       <VelvetEvents events={events} />
       <VelvetFloralDivider />
       {wedding.rsvpConfig?.enabled && (

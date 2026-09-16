@@ -9,9 +9,10 @@ interface Props {
   onOpen: () => void
   isOpened: boolean
   isValima?: boolean
+  hasNikah?: boolean
 }
 
-export default function VelvetOpening({ couple, family, onOpen, isOpened, isValima }: Props) {
+export default function VelvetOpening({ couple, family, onOpen, isOpened, isValima, hasNikah }: Props) {
   // ── Parse monogram field if set (e.g. "Z & A" or "I & M") ──
   const monogramLetters = couple?.monogram
     ? couple.monogram.split(/\s*[&\/]\s*/).map(s => s.trim()).filter(s => s.length === 1)
@@ -116,7 +117,7 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
 
         {/* Top label — dynamic based on event type */}
         <span className="opening-label-top">
-          {isValima ? 'Valima Invitation' : 'Nikah Invitation'}
+          {hasNikah && isValima ? 'Nikah & Walima Invitation' : isValima ? 'Walima Invitation' : 'Nikah Invitation'}
         </span>
 
         {/* Premium SVG Monogram */}
@@ -146,43 +147,45 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
 
         <div className="hero-divider"><span>✦</span></div>
 
-        <p className="hero-welcome">
-          We request the honour of your{'\n'}presence at the Nikah of
-        </p>
+        {family?.groomFather && family?.brideParents ? (
+          <div className="hero-parents-invite" style={{ marginBottom: '2rem' }}>
+            <strong style={{ display: 'block', fontSize: '0.85rem', letterSpacing: '0.05em', color: 'var(--ivory)' }}>
+              {family.groomFather}
+            </strong>
+            <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--champagne)', margin: '4px 0' }}>&amp;</span>
+            <strong style={{ display: 'block', fontSize: '0.85rem', letterSpacing: '0.05em', color: 'var(--ivory)' }}>
+              {family.brideParents}
+            </strong>
+            <p className="hero-welcome" style={{ marginTop: '1rem', marginBottom: 0 }}>
+              solicit your gracious presence with family and friends on the auspicious occasion of the wedding of our children
+            </p>
+          </div>
+        ) : (
+          <p className="hero-welcome">
+            We request the honour of your{'\n'}presence at the {hasNikah && isValima ? 'Nikah & Walima' : isValima ? 'Walima' : 'Nikah'} of
+          </p>
+        )}
 
         <div className="couple-names">
+          {/* GROOM (Left) */}
           <div>
-            <h1 id="brideName">
-              <span>{brideFn}</span>
-              {brideParts.length > 1 ? ` ${brideParts.slice(1).join(' ')}` : ''}
-            </h1>
-            <p style={{ marginBottom: 8, letterSpacing: '0.2em' }}>Daughter of</p>
-            <strong style={{ display: 'block', fontSize: '0.8rem', letterSpacing: '0.05em' }}>
-              {family?.brideParents ?? ''}
-            </strong>
-            {family?.bridePaternalGrandfather && (
-              <small style={{ display: 'block', fontSize: '0.65rem', marginTop: 6, opacity: 0.8, fontStyle: 'italic' }}>
-                Paternal Grand D/o. {family.bridePaternalGrandfather}
-              </small>
-            )}
-            {family?.brideMaternalGrandfather && (
-              <small style={{ display: 'block', fontSize: '0.65rem', marginTop: 4, opacity: 0.8, fontStyle: 'italic' }}>
-                Maternal Grand D/o. {family.brideMaternalGrandfather}
-              </small>
-            )}
-          </div>
-
-          <span className="name-ampersand">&amp;</span>
-
-          <div>
-            <h1 id="groomName">
+            <h1 id="groomName" style={{ 
+              fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+              fontWeight: 400,
+              color: '#c9a96e', 
+              textShadow: '0 1px 8px rgba(201,169,110,0.4)',
+              letterSpacing: '0.04em',
+              lineHeight: 1.15,
+              fontSize: 'clamp(1.8rem, 5vw, 3.2rem)'
+            }}>
               <span>{groomFn}</span>
               {groomParts.length > 1 ? ` ${groomParts.slice(1).join(' ')}` : ''}
             </h1>
-            <p style={{ marginBottom: 8, letterSpacing: '0.2em' }}>Son of</p>
-            <strong style={{ display: 'block', fontSize: '0.8rem', letterSpacing: '0.05em' }}>
-              {family?.groomFather ?? ''}
-            </strong>
+            {couple?.groomQualification && (
+              <p style={{ marginBottom: 8, fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)' }}>
+                {couple.groomQualification}
+              </p>
+            )}
             {family?.groomPaternalGrandfather && (
               <small style={{ display: 'block', fontSize: '0.65rem', marginTop: 6, opacity: 0.8, fontStyle: 'italic' }}>
                 Paternal Grand S/o. {family.groomPaternalGrandfather}
@@ -191,6 +194,39 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
             {family?.groomMaternalGrandfather && (
               <small style={{ display: 'block', fontSize: '0.65rem', marginTop: 4, opacity: 0.8, fontStyle: 'italic' }}>
                 Maternal Grand S/o. {family.groomMaternalGrandfather}
+              </small>
+            )}
+          </div>
+
+          <span className="name-ampersand" style={{ color: '#c9a96e', fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>&amp;</span>
+
+          {/* BRIDE (Right) */}
+          <div>
+            <h1 id="brideName" style={{ 
+              fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+              fontWeight: 400,
+              color: '#c9a96e', 
+              textShadow: '0 1px 8px rgba(201,169,110,0.4)',
+              letterSpacing: '0.04em',
+              lineHeight: 1.15,
+              fontSize: 'clamp(1.8rem, 5vw, 3.2rem)'
+            }}>
+              <span>{brideFn}</span>
+              {brideParts.length > 1 ? ` ${brideParts.slice(1).join(' ')}` : ''}
+            </h1>
+            {couple?.brideQualification && (
+              <p style={{ marginBottom: 8, fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)' }}>
+                {couple.brideQualification}
+              </p>
+            )}
+            {family?.bridePaternalGrandfather && (
+              <small style={{ display: 'block', fontSize: '0.65rem', marginTop: 6, opacity: 0.8, fontStyle: 'italic' }}>
+                Paternal Grand D/o. {family.bridePaternalGrandfather}
+              </small>
+            )}
+            {family?.brideMaternalGrandfather && (
+              <small style={{ display: 'block', fontSize: '0.65rem', marginTop: 4, opacity: 0.8, fontStyle: 'italic' }}>
+                Maternal Grand D/o. {family.brideMaternalGrandfather}
               </small>
             )}
           </div>

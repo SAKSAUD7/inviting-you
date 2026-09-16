@@ -239,7 +239,7 @@ export default function VelvetScratchReveal({ couple }: Props) {
               <div className="date-day">
                 <span>{dayName}</span>
                 <a aria-hidden="true">⬩</a>
-                <span>05:00 PM</span>
+                <span>04:00 PM</span>
               </div>
             </div>
 

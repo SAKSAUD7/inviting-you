@@ -6,12 +6,20 @@ interface Props { events: WeddingEvent[] }
 export default function VelvetProgram({ events }: Props) {
   if (events.length === 0) return null
 
-  // Detect if this invitation is for a Valima
-  const hasValima = events.some(
-    (e) => e.type === 'VALIMA' || e.name?.toLowerCase().includes('valima')
+  // Detect event types
+  const hasNikah = events.some(
+    (e) => e.type === 'NIKAH' || e.name?.toLowerCase().includes('nikah')
   )
-  const dayTitle = hasValima ? 'Our Valima day' : 'Our Nikah day'
-  const eyebrow = hasValima ? 'The celebration' : 'The celebration'
+  const hasValima = events.some(
+    (e) => e.type === 'VALIMA' || e.name?.toLowerCase().includes('valima') || e.name?.toLowerCase().includes('walima')
+  )
+  
+  let dayTitle = 'The Celebration'
+  if (hasNikah && hasValima) dayTitle = 'Our Nikah & Walima'
+  else if (hasValima) dayTitle = 'Our Walima day'
+  else if (hasNikah) dayTitle = 'Our Nikah day'
+  
+  const eyebrow = 'The celebration'
 
   return (
     <section className="program-section section-pad">

@@ -13,7 +13,7 @@ export default function VelvetEvents({ events }: Props) {
       
       <div className="section-shell" style={{ position: 'relative', zIndex: 2 }}>
         <header className="section-heading reveal">
-          <span className="eyebrow">The Festivities</span>
+          <span className="eyebrow" style={{ fontSize: '0.85rem' }}>VENUE</span>
           <h2>Days filled with joy</h2>
           <span className="ornament" aria-hidden="true"><i /></span>
         </header>

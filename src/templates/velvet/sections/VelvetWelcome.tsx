@@ -46,9 +46,10 @@ export default function VelvetWelcome({ couple }: Props) {
           <span className="eyebrow">In The Name Of Allah</span>
           <h2>{welcomeTitle}</h2>
           <p>{welcomeBody}</p>
-          <div id="welcomeSignature" className="signature">
+
+          <div id="welcomeSignature" className="signature" style={{ color: '#c9a96e' }}>
             {leftName}
-            <span>&amp;</span>
+            <span style={{ color: '#c9a96e' }}>&amp;</span>
             {rightName}
           </div>
         </div>
