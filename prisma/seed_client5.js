@@ -14,7 +14,7 @@ async function main() {
   }
 
   // Delete if exists (re-runnable) — handle both old and new slugs
-  for (const slugToDelete of ['client5-yousuf-tazeen', 'client5-Aman-Tazeen']) {
+  for (const slugToDelete of ['client5-yousuf-tazeen', 'client5-Aman-Tazeen', 'Aman-weds-Tazeen']) {
     const existing = await prisma.wedding.findUnique({ where: { slug: slugToDelete } })
     if (existing) await prisma.wedding.delete({ where: { id: existing.id } })
   }
@@ -41,7 +41,7 @@ async function main() {
 
   const wedding = await prisma.wedding.create({
     data: {
-      slug: 'client5-Aman-Tazeen',
+      slug: 'Aman-weds-Tazeen',
       title: 'Mohammed Yousuf Aman Arif & Syed Tazeen',
       templateId: 'velvet',
       status: 'PUBLISHED',
