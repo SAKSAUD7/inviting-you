@@ -3,6 +3,7 @@ import '@/styles/globals.css'
 import Providers from './Providers'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://inviting-you-eta.vercel.app'),
   title: 'Inviting You - Premium Digital Wedding Invitations',
   description: 'Create unforgettable digital wedding invitations with cinematic luxury and elegance.',
 }

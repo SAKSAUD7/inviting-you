@@ -174,7 +174,7 @@ export async function generateMetadata(props: Props) {
     openGraph: {
       title,
       description,
-      images: record.seo?.ogImage ? [record.seo.ogImage] : [],
+      images: record.seo?.ogImage ? [record.seo.ogImage] : ['/assets/images/velvet-hero-poster.webp'],
     },
   }
 }
