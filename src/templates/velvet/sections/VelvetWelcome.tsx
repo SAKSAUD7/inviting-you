@@ -36,9 +36,12 @@ export default function VelvetWelcome({ couple }: Props) {
       <div className="velvet-garland tl" />
       <div className="velvet-garland br" />
       <div className="section-shell welcome-shell" style={{ position: 'relative', zIndex: 2 }}>
-        {/* Arch Emblem — exact reference element */}
         <div className="arch-emblem" aria-hidden="true">
-          <span>﷽</span>
+          {couple?.islamicVerse && couple.islamicVerse !== 'ENGLISH_ONLY' ? (
+            <span>﷽</span>
+          ) : (
+            <span style={{ fontSize: '1.5rem' }}>✦</span>
+          )}
           <i />
         </div>
 
