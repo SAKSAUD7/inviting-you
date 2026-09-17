@@ -195,6 +195,54 @@ export default function NoorInvitation({ wedding }: Props) {
 
           {/* Closing */}
           <NoorClosing couple={couple} />
+
+          {/* ── Call to Action / Branding ── */}
+          <div style={{
+            backgroundColor: '#fff',
+            padding: '3rem 1rem 4rem',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '1rem',
+            borderTop: '1px solid rgba(199, 168, 107, 0.15)'
+          }}>
+            <p style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.8rem',
+              color: '#8b8478',
+              letterSpacing: '0.05em',
+              margin: 0
+            }}>
+              Create your own premium digital invitation
+            </p>
+            <a
+              href="https://inviting-you-eta.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-block',
+                padding: '0.6rem 1.5rem',
+                border: '1px solid #c7a86b',
+                borderRadius: '4px',
+                color: '#c7a86b',
+                textDecoration: 'none',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.75rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                transition: 'all 0.3s ease',
+                background: 'transparent'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = 'rgba(199, 168, 107, 0.05)'
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = 'transparent'
+              }}
+            >
+              Visit Inviting You
+            </a>
+          </div>
         </motion.main>
       )}
 

@@ -55,6 +55,54 @@ export default function SultanInvitation({ wedding }: SultanInvitationProps) {
                 THANK YOU
               </div>
             </footer>
+
+            {/* ── Call to Action / Branding ── */}
+            <div style={{
+              backgroundColor: 'var(--sultan-crimson-dark)',
+              padding: '3rem 1rem 4rem',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '1rem',
+              borderTop: '1px solid rgba(193, 154, 91, 0.15)'
+            }}>
+              <p style={{
+                fontFamily: 'var(--font-sans, sans-serif)',
+                fontSize: '0.8rem',
+                color: 'rgba(255,255,255,0.6)',
+                letterSpacing: '0.05em',
+                margin: 0
+              }}>
+                Create your own premium digital invitation
+              </p>
+              <a
+                href="https://inviting-you-eta.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-block',
+                  padding: '0.6rem 1.5rem',
+                  border: '1px solid var(--sultan-gold)',
+                  borderRadius: '4px',
+                  color: 'var(--sultan-gold)',
+                  textDecoration: 'none',
+                  fontFamily: 'var(--font-sans, sans-serif)',
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  transition: 'all 0.3s ease',
+                  background: 'transparent'
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.background = 'rgba(193, 154, 91, 0.1)'
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.background = 'transparent'
+                }}
+              >
+                Visit Inviting You
+              </a>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

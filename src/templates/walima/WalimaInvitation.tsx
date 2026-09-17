@@ -146,6 +146,54 @@ export default function WalimaInvitation({ wedding }: { wedding: WeddingData }) 
       <WalimaSectionWrap withDivider={false}>
         <WalimaClosing couple={couple} family={family} />
       </WalimaSectionWrap>
+
+      {/* ── Call to Action / Branding ── */}
+      <div style={{
+        backgroundColor: 'var(--walima-white)',
+        padding: '3rem 1rem 4rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '1rem',
+        borderTop: '1px solid rgba(139, 102, 178, 0.15)'
+      }}>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '0.8rem',
+          color: 'var(--walima-purple-muted)',
+          letterSpacing: '0.05em',
+          margin: 0
+        }}>
+          Create your own premium digital invitation
+        </p>
+        <a
+          href="https://inviting-you-eta.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-block',
+            padding: '0.6rem 1.5rem',
+            border: '1px solid var(--walima-purple-dark)',
+            borderRadius: '4px',
+            color: 'var(--walima-purple-dark)',
+            textDecoration: 'none',
+            fontFamily: 'var(--font-sans)',
+            fontSize: '0.75rem',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            transition: 'all 0.3s ease',
+            background: 'transparent'
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.background = 'rgba(139, 102, 178, 0.05)'
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.background = 'transparent'
+          }}
+        >
+          Visit Inviting You
+        </a>
+      </div>
     </main>
   )
 }

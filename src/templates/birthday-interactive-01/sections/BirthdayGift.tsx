@@ -282,6 +282,59 @@ export default function BirthdayGift({ data, onComplete }: Props) {
                   >
                     Restart 🔄
                   </motion.button>
+
+                  {/* ── Call to Action / Branding ── */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 2.0 }}
+                    style={{
+                      marginTop: '4rem',
+                      padding: '2rem 1rem 1rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '0.8rem',
+                      borderTop: '1px solid rgba(224, 80, 112, 0.15)'
+                    }}
+                  >
+                    <p style={{
+                      fontFamily: 'var(--font-sans, sans-serif)',
+                      fontSize: '0.75rem',
+                      color: '#d06080',
+                      letterSpacing: '0.05em',
+                      margin: 0
+                    }}>
+                      Create your own premium digital invitation
+                    </p>
+                    <a
+                      href="https://inviting-you-eta.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-block',
+                        padding: '0.5rem 1.2rem',
+                        border: '1px solid #e05070',
+                        borderRadius: '4px',
+                        color: '#e05070',
+                        textDecoration: 'none',
+                        fontFamily: 'var(--font-sans, sans-serif)',
+                        fontSize: '0.7rem',
+                        letterSpacing: '0.15em',
+                        textTransform: 'uppercase',
+                        transition: 'all 0.3s ease',
+                        background: 'transparent'
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.background = 'rgba(224, 80, 112, 0.1)'
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.background = 'transparent'
+                      }}
+                    >
+                      Visit Inviting You
+                    </a>
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>
