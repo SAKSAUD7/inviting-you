@@ -236,7 +236,7 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
           </div>
         </div>
 
-        <p className="hero-closing">
+        <p className="hero-closing" style={{ marginTop: '2rem' }}>
           as they begin their forever in{'\n'}faith and love.
         </p>
 
