@@ -50,8 +50,8 @@ async function main() {
 
       seo: {
         create: {
-          title: 'Aman & Tazeen Wedding Invitation',
-          description: 'You are warmly invited to the wedding of Mohammed Yousuf Aman Arif and Syed Tazeen on Tuesday, 17th November 2026 at Royal Tripura Vasini, Palace Grounds, Bengaluru.',
+          title: 'Aman weds Tazeen | Nikah | Dawat-e-Valima',
+          description: 'You are warmly invited to the Dawat-e-Valima of Mohammed Yousuf Aman Arif & Syed Tazeen on Tuesday, 17th November 2026 at Royal Tripura Vasini, Palace Grounds, Bengaluru.',
         },
       },
 
@@ -89,7 +89,7 @@ async function main() {
           // Shown as "Son of [groomFather]" in VelvetOpening hero
           groomFather: 'Mr. Mohammed Ajmal Ariff & Mrs. Fazeelath Afza',
           // Shown as "Paternal Grand S/o. [...]"
-          groomPaternalGrandfather: 'Late Mr. K.F. Ariff & Late Mrs. Shahtaj Begum ',
+          groomPaternalGrandfather: 'Late Mrs. Shahtaj Begum & Late Mr. K.F. Ariff ',
           // Shown as "Maternal Grand S/o. [...]"
           groomMaternalGrandfather: 'Mrs. Zeenath Khanum & Late Mr. Syed Md. Hamid',
 
