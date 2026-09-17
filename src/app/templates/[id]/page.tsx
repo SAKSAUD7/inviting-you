@@ -91,8 +91,9 @@ export default async function TemplateDetailsPage({ params }: { params: Promise<
                   Pricing
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1rem', marginBottom: '1.5rem' }}>
+                  <span style={{ fontSize: '1.25rem', color: 'var(--muted)', textDecoration: 'line-through', marginBottom: '0.5rem' }}>₹1,999</span>
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: 'var(--brown)', lineHeight: 1 }}>
-                    ₹{template.price.toLocaleString('en-IN')}
+                    ₹1,499
                   </div>
                 </div>
 

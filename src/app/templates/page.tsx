@@ -68,7 +68,7 @@ export default function TemplatesPage() {
       </header>
 
       {/* ─── PAGE HERO ─── */}
-      <section className="iy-hero" style={{ minHeight: '50vh', paddingBottom: '3rem', paddingTop: '10rem', background: 'var(--surface-2)' }}>
+      <section className="iy-hero" style={{ minHeight: '50vh', paddingBottom: '3rem', paddingTop: '10rem', background: 'url("/images/mainwebsiteimages/cefeb567-0f0f-406d-b91b-4409fd15113f.png") center/cover no-repeat', display: 'block' }}>
         <div className="iy-hero__noise" aria-hidden />
         <div className="iy-wrap" style={{ textAlign: 'center', position: 'relative', zIndex: 2 }}>
           <span className="iy-hero__eyebrow" style={{ justifyContent: 'center' }}>The Collection</span>
