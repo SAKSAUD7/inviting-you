@@ -182,16 +182,17 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               textShadow: '0 1px 8px rgba(201,169,110,0.4)',
               letterSpacing: '0.04em',
               lineHeight: 1.15,
-              fontSize: 'clamp(1.8rem, 5vw, 3.2rem)'
+              fontSize: 'clamp(1.8rem, 5vw, 3.2rem)',
+              marginBottom: 8
             }}>
               <span>{groomFn}</span>
               {groomParts.length > 1 ? ` ${groomParts.slice(1).join(' ')}` : ''}
+              {couple?.groomQualification && (
+                <span style={{ fontSize: '0.35em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', marginLeft: '8px', verticalAlign: 'middle', fontFamily: 'var(--font-sans)' }}>
+                  , {couple.groomQualification}
+                </span>
+              )}
             </h1>
-            {couple?.groomQualification && (
-              <p style={{ marginBottom: 8, fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)' }}>
-                {couple.groomQualification}
-              </p>
-            )}
             {family?.groomPaternalGrandfather && (
               <small style={{ display: 'block', fontSize: '0.58rem', marginTop: 6, opacity: 0.8, fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 Paternal Grand S/o. {family.groomPaternalGrandfather}
@@ -215,16 +216,17 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               textShadow: '0 1px 8px rgba(201,169,110,0.4)',
               letterSpacing: '0.04em',
               lineHeight: 1.15,
-              fontSize: 'clamp(1.8rem, 5vw, 3.2rem)'
+              fontSize: 'clamp(1.8rem, 5vw, 3.2rem)',
+              marginBottom: 8
             }}>
               <span>{brideFn}</span>
               {brideParts.length > 1 ? ` ${brideParts.slice(1).join(' ')}` : ''}
+              {couple?.brideQualification && (
+                <span style={{ fontSize: '0.35em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', marginLeft: '8px', verticalAlign: 'middle', fontFamily: 'var(--font-sans)' }}>
+                  , {couple.brideQualification}
+                </span>
+              )}
             </h1>
-            {couple?.brideQualification && (
-              <p style={{ marginBottom: 8, fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)' }}>
-                {couple.brideQualification}
-              </p>
-            )}
             {family?.bridePaternalGrandfather && (
               <small style={{ display: 'block', fontSize: '0.58rem', marginTop: 6, opacity: 0.8, fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 Paternal Grand D/o. {family.bridePaternalGrandfather}
