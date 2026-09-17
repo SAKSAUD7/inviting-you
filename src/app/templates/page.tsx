@@ -143,7 +143,24 @@ export default function TemplatesPage() {
 
                     <div className="iy-tpl-card__actions">
                       {isLive ? (
-                        <a href={waLink(`Hi! I love the ${t.name} template. I want to order it for my wedding. Can you help me?`)} target="_blank" rel="noopener noreferrer" className="iy-tpl-card__action">Order Now</a>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', width: '100%' }}>
+                          <Link
+                            href={`/templates/${t.id}`}
+                            className="iy-tpl-card__action iy-tpl-card__action--outline"
+                            style={{ justifyContent: 'center' }}
+                          >
+                            Details
+                          </Link>
+                          <a
+                            href={waLink(`Hi! I love the ${t.name} template. I want to order it for my wedding. Can you help me?`)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="iy-tpl-card__action"
+                            style={{ justifyContent: 'center' }}
+                          >
+                            Order Now
+                          </a>
+                        </div>
                       ) : (
                         <div className="iy-tpl-card__action iy-tpl-card__action--outline" style={{ cursor: 'default', opacity: 0.6 }}>Coming Soon</div>
                       )}

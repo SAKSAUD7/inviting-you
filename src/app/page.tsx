@@ -179,15 +179,8 @@ export default function HomePage() {
       {/* ─── HERO ─── */}
       <section className="iy-hero">
         <div className="iy-hero__deco-tl">
-          <img src="/botanical-divider.png" alt="" />
+          <img src="/images/mainwebsiteimages/04-floating-fabric.jpg" alt="" style={{ mixBlendMode: 'multiply' }} />
         </div>
-        <div className="iy-hero__deco-br">
-          <img src="/botanical-divider.png" alt="" />
-        </div>
-        <div className="iy-hero__noise" aria-hidden />
-        <div className="iy-hero__orb iy-hero__orb--1" aria-hidden />
-        <div className="iy-hero__orb iy-hero__orb--2" aria-hidden />
-        <div className="iy-hero__orb iy-hero__orb--3" aria-hidden />
 
         <div className="iy-hero__content">
           <span className="iy-hero__eyebrow">Digital Invitations for your special moments</span>
@@ -347,16 +340,24 @@ export default function HomePage() {
 
                     <div className="iy-tpl-card__actions">
                       {isLive ? (
-                        <>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', width: '100%' }}>
+                          <Link
+                            href={`/templates/${t.id}`}
+                            className="iy-tpl-card__action iy-tpl-card__action--outline"
+                            style={{ justifyContent: 'center' }}
+                          >
+                            Details
+                          </Link>
                           <a
                             href={waLink(`Hi! I love the ${t.name} template. I want to order it for my wedding. Can you help me?`)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="iy-tpl-card__action"
+                            style={{ justifyContent: 'center' }}
                           >
                             Order Now
                           </a>
-                        </>
+                        </div>
                       ) : (
                         <div className="iy-tpl-card__action iy-tpl-card__action--outline" style={{ cursor: 'default', opacity: 0.6 }}>Coming Soon</div>
                       )}
@@ -429,101 +430,107 @@ export default function HomePage() {
 
       {/* ─── REVIEWS ─── */}
       <section className="iy-reviews" id="reviews">
-        <div className="iy-wrap">
-          <div className="iy-section-head iy-fade-in">
-            <span className="iy-kicker">Kind Words</span>
+        <div className="iy-wrap" style={{ maxWidth: '100%' }}>
+          <div className="iy-section-head iy-fade-in" style={{ textAlign: 'center' }}>
+            <span className="iy-kicker" style={{ justifyContent: 'center' }}>Kind Words</span>
             <h2 className="iy-heading">Loved by families, everywhere</h2>
           </div>
 
-          <div className="iy-reviews__grid">
-            <div className="iy-reviews__sidebar iy-fade-in">
-              <div className="iy-reviews__sidebar-icon">♡</div>
-              <p className="iy-reviews__sidebar-script">Small details create big memories.</p>
-              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem' }}>Join hundreds of happy couples.</p>
+          <div className="iy-reviews__trust iy-fade-in">
+            <div className="iy-reviews__trust-badge">
+              <span style={{ fontSize: '1.2rem' }}>🌍</span> Trusted across 15+ countries
             </div>
-            <div>
-              <div style={{ display: 'grid', gap: '1.5rem' }}>
-                {reviews.slice(0, 2).map((r, i) => (
-                  <div key={i} className="iy-review iy-fade-in" style={{ animationDelay: `${i * 0.15}s` }}>
-                    <div className="iy-review__stars">{'★'.repeat(r.rating)}</div>
-                    <blockquote className="iy-review__text">&ldquo;{r.text}&rdquo;</blockquote>
-                    <div className="iy-review__footer">
-                      <div className="iy-review__person">
-                        <strong>{r.name}</strong>
-                        <span>{r.city}</span>
-                      </div>
-                      <div className="iy-review__meta">
-                        <span className="iy-review__template">{r.template}</span>
-                        <span className="iy-review__date">{r.date}</span>
-                      </div>
+            <div className="iy-reviews__trust-badge">
+              <span style={{ fontSize: '1.2rem', color: 'var(--gold)' }}>★★★★★</span> 5-Star Rated Studio
+            </div>
+            <div className="iy-reviews__trust-badge">
+              <span style={{ fontSize: '1.2rem' }}>💖</span> Over 500+ Happy Couples
+            </div>
+          </div>
+
+          <div className="iy-reviews__marquee iy-fade-in" style={{ animationDelay: '0.2s' }}>
+            {/* We render the content twice to create an infinite scroll effect */}
+            <div className="iy-reviews__marquee-content">
+              {reviews.map((r, i) => (
+                <div key={`a-${i}`} className="iy-review">
+                  <div className="iy-review__stars">{'★'.repeat(r.rating)}</div>
+                  <blockquote className="iy-review__text">&ldquo;{r.text}&rdquo;</blockquote>
+                  <div className="iy-review__footer">
+                    <div className="iy-review__person">
+                      <strong>{r.name}</strong>
+                      <span>{r.city}</span>
+                    </div>
+                    <div className="iy-review__meta">
+                      <span className="iy-review__template">{r.template}</span>
+                      <span className="iy-review__date">{r.date}</span>
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
+            </div>
+            <div className="iy-reviews__marquee-content" aria-hidden="true">
+              {reviews.map((r, i) => (
+                <div key={`b-${i}`} className="iy-review">
+                  <div className="iy-review__stars">{'★'.repeat(r.rating)}</div>
+                  <blockquote className="iy-review__text">&ldquo;{r.text}&rdquo;</blockquote>
+                  <div className="iy-review__footer">
+                    <div className="iy-review__person">
+                      <strong>{r.name}</strong>
+                      <span>{r.city}</span>
+                    </div>
+                    <div className="iy-review__meta">
+                      <span className="iy-review__template">{r.template}</span>
+                      <span className="iy-review__date">{r.date}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* ─── PRICING ─── */}
-      <section className="iy-pricing">
-        <div className="iy-wrap">
-          <div className="iy-pricing__inner iy-fade-in">
-            <div className="iy-pricing__left">
-              <span className="iy-pricing__kicker">One Invitation. A Lifetime of Memories.</span>
-              <h2 className="iy-pricing__title">Start creating your beautiful invitation today.</h2>
-              <p className="iy-pricing__subtitle">Safe. Secure. Trusted by Thousands.</p>
+      <section className="iy-pricing" style={{ padding: 'clamp(5rem, 9vw, 9rem) 0', background: 'var(--ivory)', position: 'relative' }}>
+        <div className="iy-wrap" style={{ position: 'relative', zIndex: 2 }}>
+          <div className="iy-section-head iy-fade-in" style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <span className="iy-kicker" style={{ justifyContent: 'center' }}>Investment</span>
+            <h2 className="iy-heading">One Invitation.<br/><em>A Lifetime of Memories.</em></h2>
+          </div>
 
-              <div className="iy-pricing__big">
-                <span className="iy-pricing__sym">₹</span>
-                <span className="iy-pricing__num">1,999</span>
-                <span className="iy-pricing__per"></span>
+          <div className="iy-pricing-card iy-fade-in" style={{
+            maxWidth: '1000px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr',
+            background: 'var(--surface)', borderRadius: '16px', overflow: 'hidden',
+            boxShadow: '0 24px 60px rgba(36,24,22,0.08)', border: '1px solid var(--border-dark)'
+          }}>
+            <div style={{ padding: '4rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <span className="iy-kicker">The Premium Package</span>
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1rem', marginBottom: '0.5rem' }}>
+                <span style={{ fontSize: '1.25rem', color: 'var(--muted)', textDecoration: 'line-through' }}>₹1,999</span>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', color: 'var(--burgundy)', lineHeight: 1 }}>₹999</div>
               </div>
-              <div className="iy-pricing__advance">
-                <strong>₹999</strong> to begin
-              </div>
-
-              <ul className="iy-pricing__features">
+              <p style={{ color: 'var(--brown)', fontWeight: 500, marginBottom: '2.5rem' }}>Limited time launch offer.</p>
+              
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 3rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 {[
-                  'Your choice of template',
-                  'Full personalization',
-                  'Music & animations',
-                  'Photo gallery',
-                  'Countdown & RSVP form',
-                  'Unique sharing link',
-                  '2–3 day delivery',
-                ].map((f) => (
-                  <li key={f} className="iy-pricing__feat">
-                    <span className="iy-pricing__check">✓</span> {f}
+                  'Your choice of template', 'Full personalization', 'Music & animations',
+                  'Photo gallery', 'Countdown & RSVP', 'Unique sharing link'
+                ].map(f => (
+                  <li key={f} style={{ fontSize: '0.85rem', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <span style={{ color: 'var(--gold)', fontSize: '1.1rem' }}>✓</span> {f}
                   </li>
                 ))}
               </ul>
-
-              <a
-                href={waLink("Hi! I'd like to order a digital wedding invitation. Can you tell me how to get started?")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="iy-btn iy-btn--burg"
-                style={{ width: '100%', justifyContent: 'center' }}
-              >
+              
+              <a href={waLink("Hi! I'd like to order a digital wedding invitation.")} target="_blank" rel="noopener noreferrer" className="iy-btn iy-btn--burg" style={{ justifyContent: 'center', padding: '1rem' }}>
                 Order on WhatsApp →
               </a>
-              <p className="iy-pricing__note">
-                Need something custom? <a href={waLink("Hi! I need a fully custom invitation design. Can we discuss?")}>Let's talk →</a>
-              </p>
-            </div>
-            <div className="iy-pricing__right">
-              <div className="iy-pricing__deco">
-                <div className="iy-pricing__deco-card" style={{ position: 'relative', padding: '1rem' }}>
-                  <img src="/tpl-velvet.png" alt="Velvet Preview" style={{ marginBottom: '1.5rem' }} />
-                  <div style={{ fontFamily: 'var(--font-elegant)', fontSize: '1.4rem', color: 'var(--brown)' }}>
-                    Make it official.
-                  </div>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--muted)', marginTop: '0.2rem' }}>
-                    In just a few clicks.
-                  </p>
-                </div>
+              <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.8rem', color: 'var(--muted)' }}>
+                Need something custom? <a href={waLink("Hi! I need a fully custom invitation design.")} style={{ color: 'var(--brown)', fontWeight: 600, textDecoration: 'none' }}>Let's talk →</a>
               </div>
+            </div>
+            
+            <div style={{ background: `url('/images/mainwebsiteimages/10-product-showcase.jpg') center/cover no-repeat` }}>
             </div>
           </div>
         </div>

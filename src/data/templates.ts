@@ -64,3 +64,7 @@ export const celebrationTemplates = [
   { id: 'anniversary', name: 'Anniversary', tagline: 'A love that grows', desc: 'Celebrate years of togetherness with a cinematic digital anniversary card.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800' },
   { id: 'baby-shower', name: 'Baby Shower', tagline: 'Soft & Sweet', desc: 'Pastel clouds and gentle animations for your little one\'s arrival.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=800' },
 ]
+
+export const getTemplateById = (id: string) => {
+  return [...weddingTemplates, ...celebrationTemplates].find(t => t.id === id)
+}
