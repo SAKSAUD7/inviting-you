@@ -98,54 +98,6 @@ export default function VelvetClosing({ couple, family }: Props) {
           ))}
         </div>
 
-        {/* ── Call to Action / Branding ── */}
-        <div style={{
-          marginTop: '4rem',
-          paddingTop: '2rem',
-          borderTop: '1px solid rgba(201, 169, 110, 0.2)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '1rem'
-        }}>
-          <p style={{
-            fontFamily: 'var(--font-sans)',
-            fontSize: '0.75rem',
-            color: 'var(--admin-muted)',
-            letterSpacing: '0.05em',
-            margin: 0
-          }}>
-            Create your own premium digital invitation
-          </p>
-          <a
-            href="https://inviting-you-eta.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-block',
-              padding: '0.6rem 1.5rem',
-              border: '1px solid #c9a96e',
-              borderRadius: '4px',
-              color: '#c9a96e',
-              textDecoration: 'none',
-              fontFamily: 'var(--font-sans)',
-              fontSize: '0.75rem',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              transition: 'all 0.3s ease',
-              background: 'transparent'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.background = 'rgba(201, 169, 110, 0.1)'
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.background = 'transparent'
-            }}
-          >
-            Visit Inviting You
-          </a>
-        </div>
-
       </div>
     </footer>
   )
