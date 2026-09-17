@@ -43,10 +43,10 @@ export const weddingTemplates = [
     themeClass: 'iy-tpl-noor',
     previewImg: '/tpl-noor.png',
   },
-  { id: 'zariya', name: 'Zariya', tagline: 'Traditional & Graceful', desc: 'Stark contrasts, editorial typography, and precise design.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
-  { id: 'meher', name: 'Meher', tagline: 'Dreamy and romantic', desc: 'Soft blush, hand-drawn florals, and dreamy calligraphy.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
-  { id: 'sukoon', name: 'Sukoon', tagline: 'Minimal and meditative', desc: 'Clean lines, breathing space, and quiet sophistication.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
-  { id: 'pearl', name: 'Pearl', tagline: 'Classic white & gold', desc: 'Timeless pearl tones with gold flourishes for the grand reception.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
+  { id: 'zariya', name: 'Zariya', tagline: 'Traditional & Graceful', desc: 'Stark contrasts, editorial typography, and precise design.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800' },
+  { id: 'meher', name: 'Meher', tagline: 'Dreamy and romantic', desc: 'Soft blush, hand-drawn florals, and dreamy calligraphy.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800' },
+  { id: 'sukoon', name: 'Sukoon', tagline: 'Minimal and meditative', desc: 'Clean lines, breathing space, and quiet sophistication.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: 'https://images.unsplash.com/photo-1507504031003-b417219a0fde?q=80&w=800' },
+  { id: 'pearl', name: 'Pearl', tagline: 'Classic white & gold', desc: 'Timeless pearl tones with gold flourishes for the grand reception.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: 'https://images.unsplash.com/photo-1507676184212-d0330a151f88?q=80&w=800' },
 ]
 
 export const celebrationTemplates = [
@@ -59,8 +59,8 @@ export const celebrationTemplates = [
     demo: '/i/demo-birthday',
     badge: 'Live',
     themeClass: 'iy-tpl-birthday',
-    previewImg: null, 
+    previewImg: 'https://images.unsplash.com/photo-1530103862676-de8892cb86d3?q=80&w=800', 
   },
-  { id: 'anniversary', name: 'Anniversary', tagline: 'A love that grows', desc: 'Celebrate years of togetherness with a cinematic digital anniversary card.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
-  { id: 'baby-shower', name: 'Baby Shower', tagline: 'Soft & Sweet', desc: 'Pastel clouds and gentle animations for your little one\'s arrival.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
+  { id: 'anniversary', name: 'Anniversary', tagline: 'A love that grows', desc: 'Celebrate years of togetherness with a cinematic digital anniversary card.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800' },
+  { id: 'baby-shower', name: 'Baby Shower', tagline: 'Soft & Sweet', desc: 'Pastel clouds and gentle animations for your little one\'s arrival.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=800' },
 ]

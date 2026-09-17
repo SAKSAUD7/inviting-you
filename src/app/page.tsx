@@ -111,7 +111,7 @@ export default function HomePage() {
       observer.disconnect()
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [])
+  }, [activeCategory])
 
   // Fetch active offers
   useEffect(() => {
@@ -160,7 +160,7 @@ export default function HomePage() {
           </Link>
 
           <nav className="iy-nav">
-            <Link href="#templates" className="iy-nav__link">Templates</Link>
+            <Link href="/templates" className="iy-nav__link">Templates</Link>
             <Link href="#how-it-works" className="iy-nav__link">How It Works</Link>
             <Link href="#reviews" className="iy-nav__link">Reviews</Link>
             <Link href="#faq" className="iy-nav__link">FAQ</Link>
@@ -201,7 +201,7 @@ export default function HomePage() {
             Timeless designs. Modern experiences.
           </p>
           <div className="iy-hero__actions iy-fade-in">
-            <Link href="#templates" className="iy-btn iy-btn--burg">
+            <Link href="/templates" className="iy-btn iy-btn--burg">
               Explore Invitations →
             </Link>
             <a href={waLink("Hi! I'd like to order an invitation.")} className="iy-btn iy-btn--outline" target="_blank" rel="noopener noreferrer">
@@ -265,7 +265,7 @@ export default function HomePage() {
               <span className="iy-kicker">Our Signature Collection</span>
               <h2 className="iy-heading">Choose a design that tells your story</h2>
             </div>
-            <Link href="#templates" className="iy-templates__view-all">
+            <Link href="/templates" className="iy-templates__view-all">
               View All Templates →
             </Link>
           </div>
@@ -291,10 +291,19 @@ export default function HomePage() {
               const discountedPrice = offer ? getDiscountedPrice(t.price, offer.discountPct) : null
               const isLive = t.demo !== null
 
+              if (!isLive) {
+                return (
+                  <div key={t.id} className="iy-tpl-card-soon-thin iy-fade-in" style={{ animationDelay: `${i * 0.1}s` }}>
+                    <span className="iy-tpl-card-soon-thin__name">{t.name}</span>
+                    <span className="iy-tpl-card-soon-thin__badge">Coming Soon</span>
+                  </div>
+                )
+              }
+
               return (
                 <div
                   key={t.id}
-                  className={`iy-tpl-card iy-fade-in ${t.themeClass} ${isLive ? 'iy-tpl-card--live' : 'iy-tpl-card--soon'}`}
+                  className={`iy-tpl-card iy-fade-in ${t.themeClass} iy-tpl-card--live`}
                   style={{ animationDelay: `${i * 0.1}s` }}
                 >
                   {/* Offer badge */}
@@ -308,14 +317,16 @@ export default function HomePage() {
                     {t.previewImg && (
                       <img src={t.previewImg} alt={t.name} />
                     )}
-                    {isLive && (
-                      <div className="iy-tpl-card__overlay">
-                        <Link href={t.demo!} target="_blank" className="iy-tpl-card__overlay-btn">
-                          <span>Experience</span>
-                          <span>→</span>
-                        </Link>
-                      </div>
-                    )}
+                    <div className="iy-tpl-card__overlay">
+                      <Link href={t.demo!} target="_blank" className="iy-tpl-card__overlay-btn">
+                        <span>Experience</span>
+                        <span>→</span>
+                      </Link>
+                      <a href={t.previewImg || '#'} target="_blank" className="iy-tpl-card__overlay-btn iy-tpl-card__overlay-btn--outline">
+                        <span>Preview Image</span>
+                        <span>→</span>
+                      </a>
+                    </div>
                     <div className="iy-tpl-card__live">{t.badge}</div>
                   </div>
 

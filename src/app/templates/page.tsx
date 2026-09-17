@@ -29,7 +29,7 @@ export default function TemplatesPage() {
       observer.disconnect()
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [])
+  }, [activeCategory])
 
   useEffect(() => {
     fetch('/api/offers')
@@ -99,8 +99,17 @@ export default function TemplatesPage() {
               const discountedPrice = offer ? getDiscountedPrice(t.price, offer.discountPct) : null
               const isLive = t.demo !== null
 
+              if (!isLive) {
+                return (
+                  <div key={t.id} className="iy-tpl-card-soon-thin iy-fade-in" style={{ animationDelay: `${i * 0.1}s` }}>
+                    <span className="iy-tpl-card-soon-thin__name">{t.name}</span>
+                    <span className="iy-tpl-card-soon-thin__badge">Coming Soon</span>
+                  </div>
+                )
+              }
+
               return (
-                <div key={t.id} className={`iy-tpl-card iy-fade-in ${t.themeClass} ${isLive ? 'iy-tpl-card--live' : 'iy-tpl-card--soon'}`} style={{ animationDelay: `${i * 0.1}s` }}>
+                <div key={t.id} className={`iy-tpl-card iy-fade-in ${t.themeClass} iy-tpl-card--live`} style={{ animationDelay: `${i * 0.1}s` }}>
                   {offer && (
                     <div className="iy-template-card__offer-badge" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 15, background: 'linear-gradient(90deg, #B8860B, #C9971A, #E8C060, #C9971A, #B8860B)', backgroundSize: '200% auto', color: '#0A0A0C', fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', textAlign: 'center', padding: '0.28rem', animation: 'shimmerBadge 2.5s linear infinite' }}>
                       {offer.label} — {offer.discountPct}% OFF
@@ -109,13 +118,14 @@ export default function TemplatesPage() {
 
                   <div className="iy-tpl-card__preview">
                     {t.previewImg && <img src={t.previewImg} alt={t.name} />}
-                    {isLive && (
-                      <div className="iy-tpl-card__overlay">
-                        <Link href={t.demo!} target="_blank" className="iy-tpl-card__overlay-btn">
-                          <span>Experience</span><span>→</span>
-                        </Link>
-                      </div>
-                    )}
+                    <div className="iy-tpl-card__overlay">
+                      <Link href={t.demo!} target="_blank" className="iy-tpl-card__overlay-btn">
+                        <span>Experience</span><span>→</span>
+                      </Link>
+                      <a href={t.previewImg || '#'} target="_blank" className="iy-tpl-card__overlay-btn iy-tpl-card__overlay-btn--outline">
+                        <span>Preview Image</span><span>→</span>
+                      </a>
+                    </div>
                     <div className="iy-tpl-card__live">{t.badge}</div>
                   </div>
 
