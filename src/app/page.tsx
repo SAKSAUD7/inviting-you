@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './home.css'
 
 // ─── WhatsApp config ────────────────────────────────────────────────────────
@@ -14,90 +14,85 @@ const weddingTemplates = [
   {
     id: 'velvet',
     name: 'Velvet',
-    tagline: 'Cinematic midnight luxury',
+    tagline: 'A Royal Celebration',
     desc: 'Deep crimson and gold — a dramatic, immersive invitation that commands attention.',
-    color: '#1A0404',
-    accent: '#C9971A',
-    demo: '/i/demo-velvet',
-    badge: 'LIVE',
-    tags: ['Islamic', 'Luxury', 'Cinematic'],
     price: 1999,
+    demo: '/i/demo-velvet',
+    badge: 'Bestseller',
+    themeClass: 'iy-tpl-velvet',
+    previewImg: '/tpl-velvet.png',
   },
   {
     id: 'sultan',
     name: 'Sultan',
-    tagline: 'Royal, majestic, commanding',
+    tagline: 'Regal & Timeless',
     desc: 'Deep navy and gold with a palace door reveal — a declaration, not just an invitation.',
-    color: '#0A0A2D',
-    accent: '#D4AC5A',
-    demo: '/i/demo-sultan',
-    badge: 'LIVE',
-    tags: ['Islamic', 'Royal', 'Nikah'],
     price: 1999,
+    demo: '/i/demo-sultan',
+    badge: 'Live',
+    themeClass: 'iy-tpl-sultan',
+    previewImg: '/tpl-sultan.png',
   },
   {
     id: 'walima',
     name: 'Petal',
-    tagline: 'Soft floral elegance',
+    tagline: 'Soft & Romantic',
     desc: 'Blush pastels, floating petals, and a custom intertwined monogram — grace in every detail.',
-    color: '#1C0F14',
-    accent: '#D4A5A5',
-    demo: '/i/demo-petal',
-    badge: 'LIVE',
-    tags: ['Islamic', 'Romantic', 'Walima'],
     price: 1999,
+    demo: '/i/demo-petal',
+    badge: 'Live',
+    themeClass: 'iy-tpl-walima',
+    previewImg: '/tpl-petal.png',
   },
   {
     id: 'noor',
     name: 'Noor',
-    tagline: 'Light, elegant, serene',
+    tagline: 'Pure & Elegant',
     desc: 'Ivory and sage with Islamic arch motifs — graceful, editorial, and quietly beautiful.',
-    color: '#161210',
-    accent: '#C9A96E',
-    demo: '/i/demo-noor',
-    badge: 'LIVE',
-    tags: ['Islamic', 'Editorial', 'Elegant'],
     price: 1999,
+    demo: '/i/demo-noor',
+    badge: 'Live',
+    themeClass: 'iy-tpl-noor',
+    previewImg: '/tpl-noor.png',
   },
-  { id: 'zariya', name: 'Zariya', tagline: 'Modern editorial luxury', desc: 'Stark contrasts, editorial typography, and precise design.', color: '#0D0D0D', accent: '#E8E0D5', demo: null, badge: 'COMING SOON', tags: ['Modern', 'Editorial'], price: 1999 },
-  { id: 'meher', name: 'Meher', tagline: 'Dreamy and romantic', desc: 'Soft blush, hand-drawn florals, and dreamy calligraphy.', color: '#140A0A', accent: '#D4A5A5', demo: null, badge: 'COMING SOON', tags: ['Romantic', 'Floral'], price: 1999 },
-  { id: 'sukoon', name: 'Sukoon', tagline: 'Minimal and meditative', desc: 'Clean lines, breathing space, and quiet sophistication.', color: '#0C0C0A', accent: '#B8964A', demo: null, badge: 'COMING SOON', tags: ['Minimal', 'Modern'], price: 1999 },
-  { id: 'pearl', name: 'Pearl', tagline: 'Classic white & gold', desc: 'Timeless pearl tones with gold flourishes for the grand reception.', color: '#111008', accent: '#E8D5A0', demo: null, badge: 'COMING SOON', tags: ['Classic', 'Reception'], price: 1999 },
+  { id: 'zariya', name: 'Zariya', tagline: 'Traditional & Graceful', desc: 'Stark contrasts, editorial typography, and precise design.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
+  { id: 'meher', name: 'Meher', tagline: 'Dreamy and romantic', desc: 'Soft blush, hand-drawn florals, and dreamy calligraphy.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
+  { id: 'sukoon', name: 'Sukoon', tagline: 'Minimal and meditative', desc: 'Clean lines, breathing space, and quiet sophistication.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
+  { id: 'pearl', name: 'Pearl', tagline: 'Classic white & gold', desc: 'Timeless pearl tones with gold flourishes for the grand reception.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
 ]
 
 const celebrationTemplates = [
   {
     id: 'birthday-interactive-01',
     name: 'Birthday Surprise',
-    tagline: 'Playful, interactive, emotional',
-    desc: 'Balloon popping games, an interactive candle, and an emotional message reveal — a celebration your loved one will never forget.',
-    color: '#0A0A1A',
-    accent: '#7C6AFA',
-    demo: '/i/demo-birthday',
-    badge: 'LIVE',
-    tags: ['Birthday', 'Interactive', 'Playful'],
+    tagline: 'Playful & Emotional',
+    desc: 'Balloon popping games, an interactive candle, and an emotional message reveal.',
     price: 1999,
+    demo: '/i/demo-birthday',
+    badge: 'Live',
+    themeClass: 'iy-tpl-birthday',
+    previewImg: null, // Will fall back to CSS styling for now if no image
   },
-  { id: 'anniversary', name: 'Anniversary', tagline: 'A love that grows', desc: 'Celebrate years of togetherness with a cinematic digital anniversary card.', color: '#12080A', accent: '#F4A0B0', demo: null, badge: 'COMING SOON', tags: ['Anniversary', 'Romantic'], price: 1999 },
-  { id: 'baby-shower', name: 'Baby Shower', tagline: 'Soft, sweet, joyful', desc: 'Pastel clouds and gentle animations for your little one\'s arrival.', color: '#080C14', accent: '#A0C4F4', demo: null, badge: 'COMING SOON', tags: ['Baby Shower', 'Pastel'], price: 1999 },
+  { id: 'anniversary', name: 'Anniversary', tagline: 'A love that grows', desc: 'Celebrate years of togetherness with a cinematic digital anniversary card.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
+  { id: 'baby-shower', name: 'Baby Shower', tagline: 'Soft & Sweet', desc: 'Pastel clouds and gentle animations for your little one\'s arrival.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
 ]
 
 const features = [
-  { icon: '🎬', title: 'Cinematic Opening', desc: 'A dramatic animated reveal your guests will genuinely want to share.' },
+  { icon: '🎬', title: 'Cinematic Animations', desc: 'A dramatic animated reveal your guests will genuinely want to share.' },
   { icon: '🎵', title: 'Background Music', desc: 'Set the mood with a handpicked soundtrack that plays as they scroll.' },
   { icon: '📸', title: 'Photo Gallery', desc: 'Curated gallery of your most precious moments, beautifully presented.' },
+  { icon: '📍', title: 'All Events & Venues', desc: 'Every event, timing, venue and map link — all in one elegant page.' },
+  { icon: '✅', title: 'RSVP Collection', desc: 'Collect guest confirmations gracefully, without spreadsheets.' },
   { icon: '⏳', title: 'Live Countdown', desc: 'Real-time countdown to your big day builds the excitement.' },
-  { icon: '📍', title: 'All Events & Venues', desc: 'Every event, timing, venue and map link — all in one page.' },
-  { icon: '✅', title: 'RSVP Collection', desc: 'Collect guest confirmations elegantly, no spreadsheets needed.' },
   { icon: '💫', title: 'Scratch to Reveal', desc: 'Guests scratch to reveal your wedding date — an interactive moment.' },
-  { icon: '📱', title: 'WhatsApp Ready', desc: 'Share one link on WhatsApp — guests open it instantly on mobile.' },
+  { icon: '📱', title: 'WhatsApp Ready', desc: 'Share one link on WhatsApp — guests open it instantly on any device.' },
 ]
 
 const steps = [
-  { n: '01', title: 'Choose a template', desc: 'Browse our collection and find the aesthetic that speaks to your love story.' },
-  { n: '02', title: 'Share your details', desc: 'We collect names, photos, event details, music choice — everything we need.' },
-  { n: '03', title: 'We craft it', desc: 'Your invitation is built, personalised, and polished within 2–3 days.' },
-  { n: '04', title: 'Share the link', desc: 'Get your unique URL. Copy it to WhatsApp and let the excitement begin.' },
+  { n: '01', title: 'Choose a Template', desc: 'Pick your favourite design from our signature collection.' },
+  { n: '02', title: 'Share Your Details', desc: 'Send us your content, photos, and music choice.' },
+  { n: '03', title: 'We Personalize', desc: 'Our team crafts your invitation beautifully.' },
+  { n: '04', title: 'Receive & Share', desc: 'Get your unique link in 2-3 days, ready to send.' },
 ]
 
 const reviews = [
@@ -105,7 +100,7 @@ const reviews = [
     name: 'Aman & Tazeen',
     city: 'Bangalore',
     rating: 5,
-    text: 'Our guests were genuinely surprised — several called us just to say how beautiful the invitation was. Worth every rupee!',
+    text: 'Absolutely stunning! Our guests loved the invite. It felt so personal and premium. Highly recommended!',
     template: 'Velvet',
     date: 'November 2026',
   },
@@ -113,7 +108,7 @@ const reviews = [
     name: 'Zainab & Farhan',
     city: 'Hyderabad',
     rating: 5,
-    text: 'The cinematic opening literally gave me goosebumps the first time I saw it. Such a premium feel for a digital invitation.',
+    text: 'The whole process was smooth and super fast. The design was exactly what we wanted! The cinematic opening gave me goosebumps.',
     template: 'Sultan',
     date: 'October 2026',
   },
@@ -136,12 +131,12 @@ const reviews = [
 ]
 
 const faqs = [
-  { q: 'What is the price?', a: 'All templates are ₹1,999. A 50% advance (₹999) is required to begin. The remaining ₹1,000 is paid on delivery.' },
-  { q: 'How long does delivery take?', a: 'Your invitation is delivered within 2–3 days after you select a template, pay the advance, and share all details via WhatsApp.' },
-  { q: 'What does each invitation include?', a: 'A cinematic opening, couple reveal, interactive date scratch, photo gallery, event countdown, venue details, event schedule, and a personalised closing — all in one link.' },
-  { q: 'Can anything be personalised?', a: 'Almost everything. Names, photos, music, events, venues, colours — and any section you don\'t need can simply be removed.' },
-  { q: 'Do guests need to install an app?', a: 'No. The invitation opens directly in any browser — guests just tap the link on WhatsApp.' },
-  { q: 'Can I get a completely custom design?', a: 'Yes. Share your references and we\'ll quote based on the complexity of the custom request.' },
+  { q: 'How long does it take to deliver?', a: 'Your invitation is delivered within 2–3 days after you select a template, pay the advance, and share all details via WhatsApp.' },
+  { q: 'Can I request custom changes?', a: 'Yes! We can adjust colors, fonts, and layouts. For completely custom designs, contact us for a quote.' },
+  { q: 'Will it work on all devices?', a: 'Absolutely. Our invitations are mobile-first but look beautiful on tablets and desktops too.' },
+  { q: 'Can I share it on WhatsApp?', a: 'Yes, just copy the link and paste it into WhatsApp. Your guests tap the link and it opens instantly.' },
+  { q: 'Do you offer refunds?', a: 'Since these are personalized digital products, we don\'t offer full refunds once work begins. However, you only pay a ₹999 advance to start.' },
+  { q: 'Can you create invites for other events?', a: 'Yes! We have templates for birthdays, anniversaries, and baby showers. Check our Celebrations tab.' },
 ]
 
 const marqueeItems = [
@@ -160,21 +155,28 @@ const marqueeItems = [
 // ─── Offer type ───────────────────────────────────────────────────────────────
 interface TemplateOffer { label: string; discountPct: number; expiresAt: string | null }
 
-// ─── Main component ──────────────────────────────────────────────────────────
 export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [activeCategory, setActiveCategory] = useState<'wedding' | 'celebrations'>('wedding')
   const [offers, setOffers] = useState<Record<string, TemplateOffer>>({})
-  const heroRef = useRef<HTMLDivElement>(null)
+  const [scrolled, setScrolled] = useState(false)
 
-  // Scroll animations
+  // Scroll animations & Header states
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('in-view') }),
       { threshold: 0.1 }
     )
-    document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
+    document.querySelectorAll('.iy-fade-in').forEach((el) => observer.observe(el))
+
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   // Fetch active offers
@@ -192,7 +194,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="iy-home">
+    <div className="iy">
       {/* ─── FLOATING WHATSAPP ─── */}
       <a
         href={waLink("Hi! I'm interested in a digital wedding invitation. Can you help me choose a template?")}
@@ -205,11 +207,11 @@ export default function HomePage() {
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
           <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.118 1.528 5.847L.057 23.25a.75.75 0 00.916.916l5.403-1.471A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.713 9.713 0 01-4.932-1.349l-.354-.21-3.665.998.997-3.593-.228-.368A9.714 9.714 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
         </svg>
-        <span>Order Now</span>
+        <span>Order on WhatsApp</span>
       </a>
 
       {/* ─── HEADER ─── */}
-      <header className="iy-header">
+      <header className={`iy-header ${scrolled ? 'iy-header--scrolled' : ''}`}>
         <div className="iy-header__inner">
           <Link href="/" className="iy-brand">
             <svg className="iy-brand__mark" viewBox="0 0 48 48">
@@ -217,184 +219,135 @@ export default function HomePage() {
               <path d="M24 10.5 28.9 19.1 37.5 24l-8.6 4.9L24 37.5l-4.9-8.6L10.5 24l8.6-4.9L24 10.5Z" />
               <circle cx="24" cy="24" r="2.2" />
             </svg>
-            <span className="iy-brand__name">
-              <strong>Inviting</strong>
-              <em>You</em>
-            </span>
+            <div className="iy-brand__text">
+              <span className="iy-brand__name">Inviting <em>You</em></span>
+              <span className="iy-brand__sub">More than an invitation</span>
+            </div>
           </Link>
 
           <nav className="iy-nav">
-            <Link href="#templates">Templates</Link>
-            <Link href="#how-it-works">How It Works</Link>
-            <Link href="#reviews">Reviews</Link>
-            <Link href="#faq">FAQ</Link>
+            <Link href="#templates" className="iy-nav__link">Templates</Link>
+            <Link href="#how-it-works" className="iy-nav__link">How It Works</Link>
+            <Link href="#reviews" className="iy-nav__link">Reviews</Link>
+            <Link href="#faq" className="iy-nav__link">FAQ</Link>
             <a
               href={waLink("Hi! I'm interested in ordering a digital wedding invitation.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="iy-nav__wa"
+              className="iy-nav__cta"
             >
-              📲 Order on WhatsApp
+              Order on WhatsApp
             </a>
           </nav>
         </div>
       </header>
 
       {/* ─── HERO ─── */}
-      <section className="iy-hero" ref={heroRef}>
+      <section className="iy-hero">
+        <div className="iy-hero__deco-tl">
+          <img src="/botanical-divider.png" alt="" />
+        </div>
+        <div className="iy-hero__deco-br">
+          <img src="/botanical-divider.png" alt="" />
+        </div>
         <div className="iy-hero__noise" aria-hidden />
         <div className="iy-hero__orb iy-hero__orb--1" aria-hidden />
         <div className="iy-hero__orb iy-hero__orb--2" aria-hidden />
+        <div className="iy-hero__orb iy-hero__orb--3" aria-hidden />
 
         <div className="iy-hero__content">
-          <p className="iy-hero__eyebrow">Premium Digital Wedding Invitations</p>
-          <h1 className="iy-hero__title">
+          <span className="iy-hero__eyebrow">Digital Invitations for your special moments</span>
+          <h1 className="iy-hero__title iy-fade-in">
             Designed to be<br />
             <em>opened, felt,</em><br />
             and remembered.
           </h1>
-          <p className="iy-hero__lead">
-            Beautiful cinematic digital invitations personalised with your names,
-            photos, music, and every event detail — delivered in 2–3 days, shared via WhatsApp.
+          <p className="iy-hero__lead iy-fade-in">
+            Beautiful, personalized digital invitations for weddings and special occasions.
+            Timeless designs. Modern experiences.
           </p>
-          <div className="iy-hero__actions">
-            <Link href="#templates" className="iy-btn iy-btn--gold">
-              Explore Templates
+          <div className="iy-hero__actions iy-fade-in">
+            <Link href="#templates" className="iy-btn iy-btn--burg">
+              Explore Invitations →
             </Link>
-            <Link href="/i/demo-velvet" className="iy-btn iy-btn--ghost" target="_blank">
-              See a Live Demo ↗
-            </Link>
+            <a href={waLink("Hi! I'd like to order an invitation.")} className="iy-btn iy-btn--outline" target="_blank" rel="noopener noreferrer">
+              Order on WhatsApp
+            </a>
           </div>
 
-          <div className="iy-hero__trust">
-            <span>📱 Mobile-first</span>
-            <span>·</span>
-            <span>⚡ 2–3 day delivery</span>
-            <span>·</span>
-            <span>💬 WhatsApp support</span>
-            <span>·</span>
-            <span>⭐ 5-star rated</span>
+          <div className="iy-hero__trust iy-fade-in">
+            <div className="iy-hero__trust-item">
+              <div className="iy-hero__trust-icon">📱</div>
+              <div>
+                <strong>Mobile First</strong>
+                <span>Beautiful on every device</span>
+              </div>
+            </div>
+            <div className="iy-hero__trust-item">
+              <div className="iy-hero__trust-icon">⚡</div>
+              <div>
+                <strong>2-3 Day Delivery</strong>
+                <span>Fast & reliable</span>
+              </div>
+            </div>
+            <div className="iy-hero__trust-item">
+              <div className="iy-hero__trust-icon">💬</div>
+              <div>
+                <strong>WhatsApp Ready</strong>
+                <span>Share with loved ones</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="iy-hero__preview">
-          <div className="iy-phone-mockup">
-            <div className="iy-phone-mockup__screen">
-              <div className="iy-phone-mockup__velvet">
-                <div className="iy-phone-velvet__bg" />
-                <p className="iy-phone-velvet__eyebrow">Wedding Invitation</p>
-                <h3 className="iy-phone-velvet__names">Zara<br />&<br />Aryan</h3>
-                <p className="iy-phone-velvet__date">15 · 03 · 2025</p>
-                <button className="iy-phone-velvet__open">Tap to Open</button>
-              </div>
-            </div>
-            <div className="iy-phone-mockup__notch" />
+        <div className="iy-hero__visual">
+          <div className="iy-hero__img-wrap iy-fade-in">
+            <img src="/hero-phone.png" alt="Luxury digital invitation preview" className="iy-hero__phone-img" />
+            <Link href="/i/demo-velvet" target="_blank" className="iy-hero__play-btn">
+              <div className="iy-hero__play-circle">▶</div>
+              <span className="iy-hero__play-label">Play Preview</span>
+            </Link>
           </div>
-          <div className="iy-hero__price-pill">
-            Starting at <strong>₹1,999</strong>
+          <div className="iy-hero__side-copy">
+            More than an Invitation. A Memory to Share.
           </div>
         </div>
       </section>
 
       {/* ─── MARQUEE ─── */}
-      <div className="iy-marquee" aria-hidden>
-        <div className="iy-marquee__track">
+      <div className="iy-ticker" aria-hidden>
+        <div className="iy-ticker__track">
           {[...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span key={i} className="iy-marquee__item">{item}</span>
+            <span key={i} className="iy-ticker__item">{item}</span>
           ))}
         </div>
       </div>
 
-      {/* ─── STATS ─── */}
-      <section className="iy-stats-bar animate-on-scroll">
-        {[
-          { n: '5+', label: 'Live Templates' },
-          { n: '₹1,999', label: 'Flat Price, All Templates' },
-          { n: '2–3', label: 'Day Delivery' },
-          { n: '100%', label: 'Mobile Optimised' },
-        ].map((s) => (
-          <div key={s.label} className="iy-stats-bar__item">
-            <strong>{s.n}</strong>
-            <span>{s.label}</span>
-          </div>
-        ))}
-      </section>
-
-      {/* ─── FEATURED SPOTLIGHT ─── */}
-      <section className="iy-spotlight animate-on-scroll">
-        <div className="iy-container">
-          <div className="iy-spotlight__inner">
-            <div className="iy-spotlight__content">
-              <p className="iy-kicker">Featured Template</p>
-              <h2 className="iy-spotlight__title">
-                Velvet — <em>Cinematic Midnight Luxury</em>
-              </h2>
-              <p className="iy-spotlight__desc">
-                Deep crimson and gold, a dramatic immersive experience that opens like a film.
-                Used by couples across India who want their invitation to feel like an event.
-              </p>
-              <div className="iy-spotlight__tags">
-                <span>Islamic Wedding</span>
-                <span>Cinematic</span>
-                <span>Luxury</span>
-                <span>Mobile First</span>
-              </div>
-              <div className="iy-spotlight__actions">
-                <Link href="/i/demo-velvet" target="_blank" className="iy-btn iy-btn--gold">
-                  Experience Live ↗
-                </Link>
-                <a
-                  href={waLink('Hi! I love the Velvet template and want to order it for my wedding.')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="iy-btn iy-btn--wa"
-                >
-                  Order on WhatsApp
-                </a>
-              </div>
-            </div>
-            <div className="iy-spotlight__preview">
-              <div className="iy-phone-mockup iy-phone-mockup--small">
-                <div className="iy-phone-mockup__screen">
-                  <div className="iy-phone-mockup__velvet">
-                    <div className="iy-phone-velvet__bg" />
-                    <p className="iy-phone-velvet__eyebrow">The Wedding of</p>
-                    <h3 className="iy-phone-velvet__names">Zara<br />&<br />Aryan</h3>
-                    <p className="iy-phone-velvet__date">15 · 03 · 2025</p>
-                    <button className="iy-phone-velvet__open">Tap to Open</button>
-                  </div>
-                </div>
-                <div className="iy-phone-mockup__notch" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ─── TEMPLATES ─── */}
-      <section className="iy-section" id="templates">
-        <div className="iy-container">
-          <div className="iy-section-head animate-on-scroll">
-            <p className="iy-kicker">Choose your experience</p>
-            <h2>The Inviting You Collection</h2>
-            <p className="iy-section-head__sub">
-              Every template is ₹1,999 — fully personalised, delivered in 2–3 days.
-            </p>
+      <section className="iy-templates" id="templates">
+        <div className="iy-wrap">
+          <div className="iy-templates__head iy-fade-in">
+            <div>
+              <span className="iy-kicker">Our Signature Collection</span>
+              <h2 className="iy-heading">Choose a design that tells your story</h2>
+            </div>
+            <Link href="#templates" className="iy-templates__view-all">
+              View All Templates →
+            </Link>
           </div>
 
-          {/* Category tabs */}
-          <div className="iy-cat-tabs animate-on-scroll">
+          <div className="iy-cat-tabs iy-fade-in">
             <button
               className={`iy-cat-tab ${activeCategory === 'wedding' ? 'active' : ''}`}
               onClick={() => setActiveCategory('wedding')}
             >
-              💍 Wedding Invitations
+              Wedding Invitations
             </button>
             <button
               className={`iy-cat-tab ${activeCategory === 'celebrations' ? 'active' : ''}`}
               onClick={() => setActiveCategory('celebrations')}
             >
-              🎉 Celebrations
+              Celebrations
             </button>
           </div>
 
@@ -402,68 +355,65 @@ export default function HomePage() {
             {templates.map((t, i) => {
               const offer = offers[t.id]
               const discountedPrice = offer ? getDiscountedPrice(t.price, offer.discountPct) : null
-              const isDark = ['velvet', 'sultan', 'zariya', 'anniversary', 'birthday-interactive-01'].includes(t.id)
+              const isLive = t.demo !== null
 
               return (
                 <div
                   key={t.id}
-                  className={`iy-template-card animate-on-scroll ${t.demo ? 'iy-template-card--live' : ''}`}
-                  style={{ animationDelay: `${i * 0.08}s`, '--card-color': t.color, '--card-accent': t.accent } as React.CSSProperties}
+                  className={`iy-tpl-card iy-fade-in ${t.themeClass} ${isLive ? 'iy-tpl-card--live' : 'iy-tpl-card--soon'}`}
+                  style={{ animationDelay: `${i * 0.1}s` }}
                 >
                   {/* Offer badge */}
                   {offer && (
-                    <div className="iy-template-card__offer-badge">
+                    <div className="iy-template-card__offer-badge" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 15, background: 'linear-gradient(90deg, #B8860B, #C9971A, #E8C060, #C9971A, #B8860B)', backgroundSize: '200% auto', color: '#0A0A0C', fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', textAlign: 'center', padding: '0.28rem', animation: 'shimmerBadge 2.5s linear infinite' }}>
                       {offer.label} — {offer.discountPct}% OFF
                     </div>
                   )}
 
-                  <div className="iy-template-card__preview" style={{ background: t.color }}>
-                    <div className="iy-template-card__inner">
-                      <div className="iy-template-card__badge" style={{ color: t.accent, borderColor: `${t.accent}66` }}>
-                        {t.badge}
+                  <div className="iy-tpl-card__preview">
+                    {t.previewImg && (
+                      <img src={t.previewImg} alt={t.name} />
+                    )}
+                    {isLive && (
+                      <div className="iy-tpl-card__overlay">
+                        <Link href={t.demo!} target="_blank" className="iy-tpl-card__overlay-btn">
+                          <span>Experience</span>
+                          <span>→</span>
+                        </Link>
                       </div>
-                      <h3 className="iy-template-card__name" style={{ color: t.accent }}>{t.name}</h3>
-                      <p className="iy-template-card__tagline" style={{ color: isDark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.45)' }}>
-                        {t.tagline}
-                      </p>
-                    </div>
+                    )}
+                    <div className="iy-tpl-card__live">{t.badge}</div>
                   </div>
 
-                  <div className="iy-template-card__info">
-                    <div className="iy-template-card__tags">
-                      {t.tags.map(tag => <span key={tag} className="iy-tag">{tag}</span>)}
-                    </div>
-                    <p>{t.desc}</p>
+                  <div className="iy-tpl-card__body">
+                    <h3 className="iy-tpl-card__name">{t.name}</h3>
+                    <p className="iy-tpl-card__sub">{t.tagline}</p>
 
-                    {/* Pricing */}
-                    <div className="iy-template-card__price">
+                    <div className="iy-tpl-card__price">
                       {offer ? (
                         <>
-                          <span className="iy-price--original">₹{t.price.toLocaleString('en-IN')}</span>
-                          <span className="iy-price--discounted">₹{discountedPrice?.toLocaleString('en-IN')}</span>
+                          <span className="iy-tpl-card__price--original">₹{t.price.toLocaleString('en-IN')}</span>
+                          <span>₹{discountedPrice?.toLocaleString('en-IN')}</span>
                         </>
                       ) : (
-                        <span className="iy-price--regular">₹{t.price.toLocaleString('en-IN')}</span>
+                        <span>₹{t.price.toLocaleString('en-IN')}</span>
                       )}
                     </div>
 
-                    <div className="iy-template-card__actions">
-                      {t.demo ? (
+                    <div className="iy-tpl-card__actions">
+                      {isLive ? (
                         <>
-                          <Link href={t.demo} target="_blank" className="iy-template-card__btn iy-template-card__btn--demo">
-                            View Demo ↗
-                          </Link>
                           <a
                             href={waLink(`Hi! I love the ${t.name} template. I want to order it for my wedding. Can you help me?`)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="iy-template-card__btn iy-template-card__btn--order"
+                            className="iy-tpl-card__action"
                           >
                             Order Now
                           </a>
                         </>
                       ) : (
-                        <span className="iy-template-card__soon">Coming soon</span>
+                        <div className="iy-tpl-card__action iy-tpl-card__action--outline" style={{ cursor: 'default', opacity: 0.6 }}>Coming Soon</div>
                       )}
                     </div>
                   </div>
@@ -474,256 +424,294 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── FEATURES ─── */}
-      <section className="iy-section iy-section--dark">
-        <div className="iy-container">
-          <div className="iy-section-head animate-on-scroll">
-            <p className="iy-kicker">What's inside every invitation</p>
-            <h2>Made to feel special.</h2>
+      {/* ─── HOW IT WORKS ─── */}
+      <section className="iy-how" id="how-it-works">
+        <div className="iy-wrap">
+          <div className="iy-how__head iy-fade-in">
+            <span className="iy-kicker">How it works</span>
+            <h2 className="iy-how__tagline">Simple. Beautiful. Hassle-Free.</h2>
           </div>
 
-          <div className="iy-features-grid">
-            {features.map((f, i) => (
-              <div key={i} className="iy-feature-card animate-on-scroll" style={{ animationDelay: `${i * 0.08}s` }}>
-                <span className="iy-feature-card__icon">{f.icon}</span>
-                <h3>{f.title}</h3>
-                <p>{f.desc}</p>
+          <div className="iy-steps iy-fade-in">
+            {steps.map((s, i) => (
+              <div key={i} className="iy-step">
+                <div className="iy-step__icon">
+                  {i === 0 && '📋'}
+                  {i === 1 && '📝'}
+                  {i === 2 && '✨'}
+                  {i === 3 && '💌'}
+                </div>
+                <span className="iy-step__num">{s.n}</span>
+                <h3>{s.title}</h3>
+                <p>{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── HOW IT WORKS ─── */}
-      <section className="iy-section" id="how-it-works">
-        <div className="iy-container">
-          <div className="iy-section-head animate-on-scroll">
-            <p className="iy-kicker">Simple by design</p>
-            <h2>How it works</h2>
-          </div>
-
-          <div className="iy-steps">
-            {steps.map((s, i) => (
-              <div key={i} className="iy-step animate-on-scroll" style={{ animationDelay: `${i * 0.15}s` }}>
-                <span className="iy-step__num">{s.n}</span>
-                <div className="iy-step__content">
-                  <h3>{s.title}</h3>
-                  <p>{s.desc}</p>
-                </div>
-                {i < steps.length - 1 && <div className="iy-step__line" aria-hidden />}
+      {/* ─── FEELING DIVIDER ─── */}
+      <section className="iy-feeling">
+        <div className="iy-wrap">
+          <h2 className="iy-feeling__quote iy-fade-in">
+            Not just an invitation.<br /><em>A feeling.</em>
+          </h2>
+          <div className="iy-feeling__features iy-fade-in">
+            <div className="iy-feeling__feature">
+              <div className="iy-feeling__feature-icon">🎬</div>
+              <div style={{ textAlign: 'center' }}>
+                <strong>Cinematic Animations</strong>
+                <br /><span>That tell your story</span>
               </div>
-            ))}
+            </div>
+            <div className="iy-feeling__feature">
+              <div className="iy-feeling__feature-icon">✨</div>
+              <div style={{ textAlign: 'center' }}>
+                <strong>Personalized for You</strong>
+                <br /><span>Names, photos, events & more</span>
+              </div>
+            </div>
+            <div className="iy-feeling__feature">
+              <div className="iy-feeling__feature-icon">🚀</div>
+              <div style={{ textAlign: 'center' }}>
+                <strong>Share Instantly</strong>
+                <br /><span>On WhatsApp & social media</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ─── REVIEWS ─── */}
-      <section className="iy-section iy-section--dark" id="reviews">
-        <div className="iy-container">
-          <div className="iy-section-head animate-on-scroll">
-            <p className="iy-kicker">What couples are saying</p>
-            <h2>Words from our families</h2>
+      <section className="iy-reviews" id="reviews">
+        <div className="iy-wrap">
+          <div className="iy-section-head iy-fade-in">
+            <span className="iy-kicker">Kind Words</span>
+            <h2 className="iy-heading">Loved by families, everywhere</h2>
           </div>
 
-          <div className="iy-reviews-grid">
-            {reviews.map((r, i) => (
-              <div key={i} className="iy-review-card animate-on-scroll" style={{ animationDelay: `${i * 0.1}s` }}>
-                <div className="iy-review-card__stars">
-                  {'★'.repeat(r.rating)}
-                </div>
-                <blockquote className="iy-review-card__text">
-                  &ldquo;{r.text}&rdquo;
-                </blockquote>
-                <div className="iy-review-card__footer">
-                  <div className="iy-review-card__couple">
-                    <strong>{r.name}</strong>
-                    <span>{r.city}</span>
+          <div className="iy-reviews__grid">
+            <div className="iy-reviews__sidebar iy-fade-in">
+              <div className="iy-reviews__sidebar-icon">♡</div>
+              <p className="iy-reviews__sidebar-script">Small details create big memories.</p>
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem' }}>Join hundreds of happy couples.</p>
+            </div>
+            <div>
+              <div style={{ display: 'grid', gap: '1.5rem' }}>
+                {reviews.slice(0, 2).map((r, i) => (
+                  <div key={i} className="iy-review iy-fade-in" style={{ animationDelay: `${i * 0.15}s` }}>
+                    <div className="iy-review__stars">{'★'.repeat(r.rating)}</div>
+                    <blockquote className="iy-review__text">&ldquo;{r.text}&rdquo;</blockquote>
+                    <div className="iy-review__footer">
+                      <div className="iy-review__person">
+                        <strong>{r.name}</strong>
+                        <span>{r.city}</span>
+                      </div>
+                      <div className="iy-review__meta">
+                        <span className="iy-review__template">{r.template}</span>
+                        <span className="iy-review__date">{r.date}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="iy-review-card__meta">
-                    <span className="iy-tag">{r.template}</span>
-                    <span>{r.date}</span>
-                  </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-
-          <div className="iy-reviews-cta animate-on-scroll">
-            <p>Join hundreds of couples who made their invitation unforgettable.</p>
-            <a
-              href={waLink("Hi! I want to create a digital wedding invitation. Can you help?")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="iy-btn iy-btn--gold"
-            >
-              Start Your Invitation
-            </a>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ─── PRICING ─── */}
-      <section className="iy-section">
-        <div className="iy-container iy-container--narrow">
-          <div className="iy-section-head animate-on-scroll">
-            <p className="iy-kicker">Simple, transparent pricing</p>
-            <h2>One price. Everything included.</h2>
-          </div>
+      <section className="iy-pricing">
+        <div className="iy-wrap">
+          <div className="iy-pricing__inner iy-fade-in">
+            <div className="iy-pricing__left">
+              <span className="iy-pricing__kicker">One Invitation. A Lifetime of Memories.</span>
+              <h2 className="iy-pricing__title">Start creating your beautiful invitation today.</h2>
+              <p className="iy-pricing__subtitle">Safe. Secure. Trusted by Thousands.</p>
 
-          <div className="iy-pricing-card animate-on-scroll">
-            <div className="iy-pricing-card__badge">Most Popular</div>
-            <div className="iy-pricing-card__price">
-              <span className="iy-pricing-card__currency">₹</span>
-              <span className="iy-pricing-card__amount">1,999</span>
-              <span className="iy-pricing-card__note">per invitation</span>
+              <div className="iy-pricing__big">
+                <span className="iy-pricing__sym">₹</span>
+                <span className="iy-pricing__num">1,999</span>
+                <span className="iy-pricing__per"></span>
+              </div>
+              <div className="iy-pricing__advance">
+                <strong>₹999</strong> to begin
+              </div>
+
+              <ul className="iy-pricing__features">
+                {[
+                  'Your choice of template',
+                  'Full personalization',
+                  'Music & animations',
+                  'Photo gallery',
+                  'Countdown & RSVP form',
+                  'Unique sharing link',
+                  '2–3 day delivery',
+                ].map((f) => (
+                  <li key={f} className="iy-pricing__feat">
+                    <span className="iy-pricing__check">✓</span> {f}
+                  </li>
+                ))}
+              </ul>
+
+              <a
+                href={waLink("Hi! I'd like to order a digital wedding invitation. Can you tell me how to get started?")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="iy-btn iy-btn--burg"
+                style={{ width: '100%', justifyContent: 'center' }}
+              >
+                Order on WhatsApp →
+              </a>
+              <p className="iy-pricing__note">
+                Need something custom? <a href={waLink("Hi! I need a fully custom invitation design. Can we discuss?")}>Let's talk →</a>
+              </p>
             </div>
-            <p className="iy-pricing-card__desc">
-              Pay ₹999 advance to begin. Remaining ₹1,000 on delivery.
-            </p>
-            <ul className="iy-pricing-card__features">
-              {[
-                'Your choice of any live template',
-                'Full personalisation (names, photos, music)',
-                'All events, venues & map links',
-                'Interactive opening & date reveal',
-                'Photo gallery (up to 10 photos)',
-                'Live countdown timer',
-                'RSVP collection',
-                'Unique shareable link',
-                '2–3 day delivery',
-                '1 round of revisions',
-              ].map((f) => (
-                <li key={f}>
-                  <span className="iy-pricing-card__check">✓</span>
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <a
-              href={waLink("Hi! I'd like to order a digital wedding invitation. Can you tell me how to get started?")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="iy-btn iy-btn--gold"
-              style={{ width: '100%', textAlign: 'center', display: 'block' }}
-            >
-              Order on WhatsApp — ₹1,999
-            </a>
-            <p className="iy-pricing-card__footer">
-              Need something custom? <a href={waLink("Hi! I need a fully custom invitation design. Can we discuss?")}>Let's talk →</a>
-            </p>
+            <div className="iy-pricing__right">
+              <div className="iy-pricing__deco">
+                <div className="iy-pricing__deco-card" style={{ position: 'relative' }}>
+                  <div className="iy-pricing__badge">
+                    <strong>₹999</strong>
+                    <span>to begin</span>
+                  </div>
+                  <img src="/tpl-velvet.png" alt="Velvet Preview" />
+                  <h4>Make it official.</h4>
+                  <p>In just a few clicks.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ─── CTA BANNER ─── */}
-      <section className="iy-cta-banner animate-on-scroll">
-        <div className="iy-cta-banner__orb" aria-hidden />
-        <div className="iy-cta-banner__content">
-          <p className="iy-kicker">Ready to begin?</p>
-          <h2>Found a template you love?</h2>
-          <p>Message us with your chosen template and wedding date. We'll handle everything.</p>
-          <div className="iy-cta-banner__actions">
-            <a
-              href={waLink("Hi! I'm interested in a digital wedding invitation. I've seen your templates and would like to order one.")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="iy-btn iy-btn--gold"
-            >
-              📲 Enquire on WhatsApp
-            </a>
-            <Link href="#templates" className="iy-btn iy-btn--ghost">
-              Explore Templates
-            </Link>
+      <section className="iy-cta">
+        <div className="iy-wrap iy-cta__inner">
+          <div>
+            <span className="iy-cta__eyebrow">Ready to begin?</span>
+            <h2 className="iy-cta__title">Ready to create your invitation?</h2>
+            <p className="iy-cta__sub">Let's make your special moment unforgettable. Message us with your chosen template and we'll handle the rest.</p>
+            <div className="iy-cta__actions">
+              <a
+                href={waLink("Hi! I'm interested in a digital wedding invitation.")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="iy-btn iy-btn--burg"
+              >
+                Order on WhatsApp
+              </a>
+            </div>
+            <div className="iy-cta__trust-note">
+              <span>🔒 Secure Process</span> · <span>💯 100% Satisfaction</span>
+            </div>
+          </div>
+          <div className="iy-cta__right">
+            <div className="iy-cta__right-num">2-3</div>
+            <div className="iy-cta__right-label">Days to Deliver</div>
           </div>
         </div>
       </section>
 
       {/* ─── FAQ ─── */}
-      <section className="iy-section iy-section--dark" id="faq">
-        <div className="iy-container iy-container--narrow">
-          <div className="iy-section-head animate-on-scroll">
-            <p className="iy-kicker">Good to know</p>
-            <h2>Frequently asked</h2>
+      <section className="iy-faq" id="faq">
+        <div className="iy-wrap">
+          <div className="iy-faq__head iy-fade-in">
+            <div>
+              <span className="iy-kicker">Frequently Asked Questions</span>
+              <h2 className="iy-heading">You have questions.<br />We have answers.</h2>
+            </div>
           </div>
 
-          <div className="iy-faq animate-on-scroll">
-            {faqs.map((f, i) => (
-              <div key={i} className={`iy-faq__item ${openFaq === i ? 'open' : ''}`}>
-                <button className="iy-faq__q" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                  <span>{f.q}</span>
-                  <span className="iy-faq__icon">{openFaq === i ? '−' : '+'}</span>
-                </button>
-                <div className="iy-faq__a">
-                  <p>{f.a}</p>
+          <div className="iy-faq__grid iy-fade-in">
+            <div className="iy-faq__col">
+              {faqs.slice(0, 3).map((f, i) => (
+                <div key={i} className={`iy-faq__item ${openFaq === i ? 'open' : ''}`}>
+                  <button className="iy-faq__q" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                    <span>{f.q}</span>
+                    <span className="iy-faq__icon">{openFaq === i ? '−' : '+'}</span>
+                  </button>
+                  <div className="iy-faq__a">
+                    <p>{f.a}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <div className="iy-faq__col">
+              {faqs.slice(3).map((f, i) => {
+                const idx = i + 3;
+                return (
+                  <div key={idx} className={`iy-faq__item ${openFaq === idx ? 'open' : ''}`}>
+                    <button className="iy-faq__q" onClick={() => setOpenFaq(openFaq === idx ? null : idx)}>
+                      <span>{f.q}</span>
+                      <span className="iy-faq__icon">{openFaq === idx ? '−' : '+'}</span>
+                    </button>
+                    <div className="iy-faq__a">
+                      <p>{f.a}</p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
       </section>
 
       {/* ─── FOOTER ─── */}
       <footer className="iy-footer">
-        <div className="iy-container">
+        <div className="iy-wrap">
           <div className="iy-footer__top">
             <div className="iy-footer__brand">
               <svg className="iy-brand__mark" viewBox="0 0 48 48">
                 <path d="M24 3 31.2 16.8 45 24l-13.8 7.2L24 45l-7.2-13.8L3 24l13.8-7.2L24 3Z" />
+                <path d="M24 10.5 28.9 19.1 37.5 24l-8.6 4.9L24 37.5l-4.9-8.6L10.5 24l8.6-4.9L24 10.5Z" />
                 <circle cx="24" cy="24" r="2.2" />
               </svg>
-              <div>
-                <strong>Inviting You</strong>
-                <p>Premium digital wedding invitations</p>
-                <p className="iy-footer__tagline">
-                  Designed to be opened, felt, and remembered.
-                </p>
+              <strong className="iy-brand__name">Inviting You</strong>
+              <span className="iy-brand__sub">More than an invitation</span>
+              <p className="iy-footer__tagline">Because every love story deserves to be beautifully told.</p>
+            </div>
+
+            <div>
+              <span className="iy-footer__col-title">Explore</span>
+              <div className="iy-footer__col-links">
+                <Link href="/">Home</Link>
+                <Link href="#templates">Templates</Link>
+                <Link href="#how-it-works">How It Works</Link>
+                <Link href="#reviews">Reviews</Link>
+                <Link href="#faq">FAQ</Link>
               </div>
             </div>
 
-            <div className="iy-footer__links">
-              <div className="iy-footer__link-col">
-                <span>Templates</span>
-                <nav>
-                  <Link href="#templates">Wedding Collection</Link>
-                  <Link href="#templates" onClick={() => setActiveCategory('celebrations')}>Celebrations</Link>
-                  <a href={waLink("Hi! I want to see your templates and order a custom one.")}>Custom Design</a>
-                </nav>
-              </div>
-              <div className="iy-footer__link-col">
-                <span>Company</span>
-                <nav>
-                  <Link href="#how-it-works">How It Works</Link>
-                  <Link href="#reviews">Reviews</Link>
-                  <Link href="#faq">FAQ</Link>
-                  <Link href="/admin/login">Studio Login</Link>
-                </nav>
+            <div>
+              <span className="iy-footer__col-title">Studio</span>
+              <div className="iy-footer__col-links">
+                <a href={waLink("Hi! I'd like to discuss a custom invitation.")}>Custom Design</a>
+                <Link href="/admin/login">Admin Login</Link>
               </div>
             </div>
 
-            <div className="iy-footer__social">
-              <span>Get in touch</span>
-              <div className="iy-footer__social-links">
+            <div>
+              <span className="iy-footer__col-title">Connect</span>
+              <div className="iy-footer__col-links">
                 <a
                   href={waLink("Hi! I'm interested in a digital wedding invitation.")}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="iy-social-btn iy-social-btn--wa"
-                  aria-label="WhatsApp"
+                  className="iy-footer__wa"
                 >
-                  <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.118 1.528 5.847L.057 23.25a.75.75 0 00.916.916l5.403-1.471A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.713 9.713 0 01-4.932-1.349l-.354-.21-3.665.998.997-3.593-.228-.368A9.714 9.714 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.118 1.528 5.847L.057 23.25a.75.75 0 00.916.916l5.403-1.471A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.713 9.713 0 01-4.932-1.349l-.354-.21-3.665.998.997-3.593-.228-.368A9.714 9.714 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
                   </svg>
-                  WhatsApp: +91 74110 91256
+                  +91 74110 91256
                 </a>
               </div>
             </div>
           </div>
 
           <div className="iy-footer__bottom">
-            <p>© {new Date().getFullYear()} Inviting You. All rights reserved.</p>
-            <p className="iy-footer__bottom-links">
-              <span>Made with ❤️ for beautiful weddings</span>
-            </p>
+            <p className="iy-footer__copy">© {new Date().getFullYear()} Inviting You. All rights reserved.</p>
+            <p className="iy-footer__made">Designed with ❤️ for your special moments.</p>
           </div>
         </div>
       </footer>
