@@ -55,7 +55,11 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
 
   // Name parts for the HERO CONTENT (after tap) — always derived from actual full names
   const brideParts = couple?.brideName?.split(' ') ?? ['Iqra', 'Bismi']
-  const groomParts = couple?.groomName?.split(' ')  ?? ['Mohammed', 'Mufassir']
+  const rawGroomParts = couple?.groomName?.split(' ')  ?? ['Mohammed', 'Mufassir']
+  // Abbreviate 'Mohammed' prefix to 'Md.' for display so the name fits on mobile
+  const groomParts = rawGroomParts[0]?.toLowerCase() === 'mohammed'
+    ? ['Md.', ...rawGroomParts.slice(1)]
+    : rawGroomParts
   const brideFn = brideParts[0]
   const groomFn = groomParts[0]
 
@@ -184,29 +188,13 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               lineHeight: 1.2,
               fontSize: 'clamp(1.8rem, 5vw, 3.2rem)',
               marginBottom: 8,
-              textAlign: 'center'
+              textAlign: 'center',
+              whiteSpace: 'nowrap'
             }}>
-              {groomParts.length > 2 ? (
-                <>
-                  <span style={{ whiteSpace: 'nowrap' }}>{groomParts.slice(0, -1).join(' ')}</span>
-                  <br />
-                  <span style={{ whiteSpace: 'nowrap', fontSize: '1em' }}>
-                    {groomParts[groomParts.length - 1]}
-                    {couple?.groomQualification && (
-                      <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
-                        , {couple.groomQualification}
-                      </span>
-                    )}
-                  </span>
-                </>
-              ) : (
-                <span style={{ whiteSpace: 'nowrap' }}>
-                  {groomParts.join(' ')}
-                  {couple?.groomQualification && (
-                    <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
-                      , {couple.groomQualification}
-                    </span>
-                  )}
+              {groomParts.join(' ')}
+              {couple?.groomQualification && (
+                <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
+                  , {couple.groomQualification}
                 </span>
               )}
             </h1>
@@ -235,29 +223,13 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               lineHeight: 1.2,
               fontSize: 'clamp(1.8rem, 5vw, 3.2rem)',
               marginBottom: 8,
-              textAlign: 'center'
+              textAlign: 'center',
+              whiteSpace: 'nowrap'
             }}>
-              {brideParts.length > 2 ? (
-                <>
-                  <span style={{ whiteSpace: 'nowrap' }}>{brideParts.slice(0, -1).join(' ')}</span>
-                  <br />
-                  <span style={{ whiteSpace: 'nowrap', fontSize: '1em' }}>
-                    {brideParts[brideParts.length - 1]}
-                    {couple?.brideQualification && (
-                      <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
-                        , {couple.brideQualification}
-                      </span>
-                    )}
-                  </span>
-                </>
-              ) : (
-                <span style={{ whiteSpace: 'nowrap' }}>
-                  {brideParts.join(' ')}
-                  {couple?.brideQualification && (
-                    <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
-                      , {couple.brideQualification}
-                    </span>
-                  )}
+              {brideParts.join(' ')}
+              {couple?.brideQualification && (
+                <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
+                  , {couple.brideQualification}
                 </span>
               )}
             </h1>
