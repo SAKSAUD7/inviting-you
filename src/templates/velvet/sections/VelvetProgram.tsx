@@ -16,7 +16,7 @@ export default function VelvetProgram({ events }: Props) {
   
   let dayTitle = 'The Celebration'
   if (hasNikah && hasValima) dayTitle = 'Our Nikah & Valima'
-  else if (hasValima) dayTitle = 'Our Valima day'
+  else if (hasValima) dayTitle = 'Our Reception day'
   else if (hasNikah) dayTitle = 'Our Nikah day'
   
   const eyebrow = 'The celebration'
@@ -24,6 +24,8 @@ export default function VelvetProgram({ events }: Props) {
   return (
     <section className="program-section section-pad">
       <div className="section-shell program-shell">
+        {/* In The Name Of Allah */}
+        <p className="eyebrow" style={{ textAlign: 'center', marginBottom: '0.5rem' }}>In The Name Of Allah</p>
         <header className="section-heading reveal">
           <span className="eyebrow">{eyebrow}</span>
           <h2>{dayTitle}</h2>
