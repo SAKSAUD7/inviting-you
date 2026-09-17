@@ -498,40 +498,39 @@ export default function HomePage() {
             <h2 className="iy-heading">One Invitation.<br/><em>A Lifetime of Memories.</em></h2>
           </div>
 
-          <div className="iy-pricing-card iy-fade-in" style={{
-            maxWidth: '1000px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr',
-            background: 'var(--surface)', borderRadius: '16px', overflow: 'hidden',
-            boxShadow: '0 24px 60px rgba(36,24,22,0.08)', border: '1px solid var(--border-dark)'
-          }}>
-            <div style={{ padding: '4rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div className="iy-pricing-card iy-fade-in">
+            <div className="iy-pricing-card__content">
               <span className="iy-kicker">The Premium Package</span>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1rem', marginBottom: '0.5rem' }}>
                 <span style={{ fontSize: '1.25rem', color: 'var(--muted)', textDecoration: 'line-through' }}>₹1,999</span>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', color: 'var(--burgundy)', lineHeight: 1 }}>₹999</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', color: 'var(--burgundy)', lineHeight: 1 }}>₹1,499</div>
               </div>
-              <p style={{ color: 'var(--brown)', fontWeight: 500, marginBottom: '2.5rem' }}>Limited time launch offer.</p>
+              <p style={{ color: 'var(--brown)', fontWeight: 500, marginBottom: '2.5rem' }}>Welcome Offer — 25% OFF.</p>
               
               <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 3rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 {[
-                  'Your choice of template', 'Full personalization', 'Music & animations',
-                  'Photo gallery', 'Countdown & RSVP', 'Unique sharing link'
-                ].map(f => (
-                  <li key={f} style={{ fontSize: '0.85rem', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <span style={{ color: 'var(--gold)', fontSize: '1.1rem' }}>✓</span> {f}
+                  'Your choice of template',
+                  'Full personalization',
+                  'Music & animations',
+                  'Photo gallery',
+                  'Countdown & RSVP',
+                  'Unique sharing link'
+                ].map((f, i) => (
+                  <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem', color: 'var(--muted)' }}>
+                    <span style={{ color: 'var(--gold)' }}>✓</span> {f}
                   </li>
                 ))}
               </ul>
               
-              <a href={waLink("Hi! I'd like to order a digital wedding invitation.")} target="_blank" rel="noopener noreferrer" className="iy-btn iy-btn--burg" style={{ justifyContent: 'center', padding: '1rem' }}>
+              <a href={waLink("Hi! I want to order the Premium Package digital invitation for ₹999.")} target="_blank" rel="noopener noreferrer" className="iy-btn iy-btn--burg" style={{ width: '100%', justifyContent: 'center' }}>
                 Order on WhatsApp →
               </a>
-              <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.8rem', color: 'var(--muted)' }}>
-                Need something custom? <a href={waLink("Hi! I need a fully custom invitation design.")} style={{ color: 'var(--brown)', fontWeight: 600, textDecoration: 'none' }}>Let's talk →</a>
+              <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.85rem', color: 'var(--muted)' }}>
+                Need something custom? <a href={waLink("Hi! I need a custom designed invitation.")} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--brown)', fontWeight: 600 }}>Let's talk →</a>
               </div>
             </div>
             
-            <div style={{ background: `url('/images/mainwebsiteimages/10-product-showcase.jpg') center/cover no-repeat` }}>
-            </div>
+            <div className="iy-pricing-card__img"></div>
           </div>
         </div>
       </section>

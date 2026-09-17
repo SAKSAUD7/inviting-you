@@ -70,12 +70,12 @@
    ════════════════════════════════════ */
 .iy-header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-  transition: background 0.4s, box-shadow 0.4s, backdrop-filter 0.4s;
+  background: var(--ivory);
+  border-bottom: 1px solid var(--border-dark);
+  transition: box-shadow 0.4s;
 }
 .iy-header--scrolled {
-  background: rgba(248,243,234,0.94);
-  backdrop-filter: blur(20px) saturate(1.3);
-  box-shadow: 0 1px 0 var(--border-dark);
+  box-shadow: 0 4px 20px rgba(36,24,22,0.05);
 }
 .iy-header__inner {
   max-width: 1300px; margin: 0 auto;
@@ -189,6 +189,11 @@
   align-items: center; gap: 0;
   position: relative; overflow: hidden;
   padding-top: 6rem;
+}
+.iy-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(248, 243, 234, 0.95) 0%, rgba(248, 243, 234, 0.6) 100%);
+  z-index: 0;
 }
 /* Botanical corner decorations */
 .iy-hero__deco-tl {
@@ -337,6 +342,18 @@
   margin-bottom: 0.35rem;
 }
 .iy-stats__label { font-size: 0.75rem; color: var(--muted); }
+
+/* ════════════════════════════════════
+   PRICING
+   ════════════════════════════════════ */
+.iy-pricing { padding: clamp(5rem, 9vw, 9rem) 0; background: var(--ivory); position: relative; }
+.iy-pricing-card {
+  max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr;
+  background: var(--surface); border-radius: 16px; overflow: hidden;
+  box-shadow: 0 24px 60px rgba(36,24,22,0.08); border: 1px solid var(--border-dark);
+}
+.iy-pricing-card__content { padding: 4rem; display: flex; flex-direction: column; justify-content: center; }
+.iy-pricing-card__img { background: url('/images/mainwebsiteimages/10-product-showcase.jpg') center/cover no-repeat; min-height: 400px; }
 
 /* ════════════════════════════════════
    TEMPLATES SECTION
@@ -525,7 +542,17 @@
 /* ════════════════════════════════════
    HOW IT WORKS
    ════════════════════════════════════ */
-.iy-how { background: url('/images/mainwebsiteimages/12-section-background.jpg') center/cover no-repeat; padding: clamp(5rem, 9vw, 9rem) 0; }
+.iy-how {
+  background: url('/images/mainwebsiteimages/12-section-background.jpg') center/cover no-repeat;
+  padding: clamp(5rem, 9vw, 9rem) 0;
+  position: relative;
+}
+.iy-how::before {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(248, 243, 234, 0.85);
+  z-index: 0;
+}
+.iy-how .iy-wrap { position: relative; z-index: 2; }
 .iy-how__head { text-align: center; margin-bottom: 0.5rem; }
 .iy-how__tagline {
   text-align: center; font-family: var(--font-display); font-style: italic;
@@ -819,6 +846,9 @@
   .iy-cta__right { display: none; }
   .iy-faq__grid { grid-template-columns: 1fr; }
   .iy-reviews__grid { grid-template-columns: 1fr; }
+  .iy-pricing-card { grid-template-columns: 1fr; }
+  .iy-pricing-card__img { min-height: 300px; order: -1; }
+  .iy-pricing-card__content { padding: 3rem 2rem; }
 }
 @media (max-width: 768px) {
   .iy-template-grid { grid-template-columns: 1fr 1fr; }
@@ -840,5 +870,9 @@
   .iy-step:first-child { border-top: none; }
   .iy-features__grid { grid-template-columns: 1fr; }
   .iy-hero__actions { flex-direction: column; }
-  .iy-hero__trust { flex-direction: row; flex-wrap: wrap; }
+  .iy-hero__actions .iy-btn { width: 100%; justify-content: center; }
+  .iy-hero__trust { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .iy-reviews__trust { flex-direction: column; align-items: center; gap: 1rem; }
+  .iy-review { width: 85vw; padding: 1.5rem; }
+  .iy-pricing-card__content ul { grid-template-columns: 1fr !important; }
 }
