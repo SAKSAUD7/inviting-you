@@ -191,12 +191,12 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               </p>
             )}
             {family?.groomPaternalGrandfather && (
-              <small style={{ display: 'block', fontSize: '0.65rem', marginTop: 6, opacity: 0.8, fontStyle: 'italic' }}>
+              <small style={{ display: 'block', fontSize: '0.58rem', marginTop: 6, opacity: 0.8, fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 Paternal Grand S/o. {family.groomPaternalGrandfather}
               </small>
             )}
             {family?.groomMaternalGrandfather && (
-              <small style={{ display: 'block', fontSize: '0.65rem', marginTop: 4, opacity: 0.8, fontStyle: 'italic' }}>
+              <small style={{ display: 'block', fontSize: '0.58rem', marginTop: 4, opacity: 0.8, fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 Maternal Grand S/o. {family.groomMaternalGrandfather}
               </small>
             )}
@@ -224,12 +224,12 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               </p>
             )}
             {family?.bridePaternalGrandfather && (
-              <small style={{ display: 'block', fontSize: '0.65rem', marginTop: 6, opacity: 0.8, fontStyle: 'italic' }}>
+              <small style={{ display: 'block', fontSize: '0.58rem', marginTop: 6, opacity: 0.8, fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 Paternal Grand D/o. {family.bridePaternalGrandfather}
               </small>
             )}
             {family?.brideMaternalGrandfather && (
-              <small style={{ display: 'block', fontSize: '0.65rem', marginTop: 4, opacity: 0.8, fontStyle: 'italic' }}>
+              <small style={{ display: 'block', fontSize: '0.58rem', marginTop: 4, opacity: 0.8, fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 Maternal Grand D/o. {family.brideMaternalGrandfather}
               </small>
             )}
