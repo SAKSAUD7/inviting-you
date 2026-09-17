@@ -53,11 +53,13 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
   const leftName  = getPrimaryName(allNames, monogramLetters ? leftInitial : '', couple?.brideName ?? 'Iqra')
   const rightName = getPrimaryName(allNames, monogramLetters ? rightInitial : '', couple?.groomName ?? 'Mufassir')
 
+  const isAman = couple?.groomName === 'Mohammed Yousuf Aman Arif'
+
   // Name parts for the HERO CONTENT (after tap) — always derived from actual full names
   const brideParts = couple?.brideName?.split(' ') ?? ['Iqra', 'Bismi']
   const rawGroomParts = couple?.groomName?.split(' ')  ?? ['Mohammed', 'Mufassir']
-  // Abbreviate 'Mohammed' prefix to 'Md.' for display so the name fits on mobile
-  const groomParts = rawGroomParts[0]?.toLowerCase() === 'mohammed'
+  // Only abbreviate 'Mohammed' to 'Md.' for the Aman weds Tazeen client to fit on mobile
+  const groomParts = (isAman && rawGroomParts[0]?.toLowerCase() === 'mohammed')
     ? ['Md.', ...rawGroomParts.slice(1)]
     : rawGroomParts
   const brideFn = brideParts[0]
@@ -186,16 +188,44 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               textShadow: '0 1px 8px rgba(201,169,110,0.4)',
               letterSpacing: '0.04em',
               lineHeight: 1.2,
-              fontSize: 'clamp(1.8rem, 5vw, 3.2rem)',
+              fontSize: isAman ? 'clamp(1rem, 3.8vw, 2.4rem)' : 'clamp(1.8rem, 5vw, 3.2rem)',
               marginBottom: 8,
               textAlign: 'center',
-              whiteSpace: 'nowrap'
+              whiteSpace: isAman ? 'nowrap' : 'normal'
             }}>
-              {groomParts.join(' ')}
-              {couple?.groomQualification && (
-                <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
-                  , {couple.groomQualification}
-                </span>
+              {isAman ? (
+                <>
+                  {groomParts.join(' ')}
+                  {couple?.groomQualification && (
+                    <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
+                      , {couple.groomQualification}
+                    </span>
+                  )}
+                </>
+              ) : (
+                groomParts.length > 2 ? (
+                  <>
+                    <span style={{ whiteSpace: 'nowrap' }}>{groomParts.slice(0, -1).join(' ')}</span>
+                    <br />
+                    <span style={{ whiteSpace: 'nowrap', fontSize: '1em' }}>
+                      {groomParts[groomParts.length - 1]}
+                      {couple?.groomQualification && (
+                        <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
+                          , {couple.groomQualification}
+                        </span>
+                      )}
+                    </span>
+                  </>
+                ) : (
+                  <span style={{ whiteSpace: 'nowrap' }}>
+                    {groomParts.join(' ')}
+                    {couple?.groomQualification && (
+                      <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
+                        , {couple.groomQualification}
+                      </span>
+                    )}
+                  </span>
+                )
               )}
             </h1>
             {family?.groomPaternalGrandfather && (
@@ -221,16 +251,44 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               textShadow: '0 1px 8px rgba(201,169,110,0.4)',
               letterSpacing: '0.04em',
               lineHeight: 1.2,
-              fontSize: 'clamp(1.8rem, 5vw, 3.2rem)',
+              fontSize: isAman ? 'clamp(1rem, 3.8vw, 2.4rem)' : 'clamp(1.8rem, 5vw, 3.2rem)',
               marginBottom: 8,
               textAlign: 'center',
-              whiteSpace: 'nowrap'
+              whiteSpace: isAman ? 'nowrap' : 'normal'
             }}>
-              {brideParts.join(' ')}
-              {couple?.brideQualification && (
-                <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
-                  , {couple.brideQualification}
-                </span>
+              {isAman ? (
+                <>
+                  {brideParts.join(' ')}
+                  {couple?.brideQualification && (
+                    <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
+                      , {couple.brideQualification}
+                    </span>
+                  )}
+                </>
+              ) : (
+                brideParts.length > 2 ? (
+                  <>
+                    <span style={{ whiteSpace: 'nowrap' }}>{brideParts.slice(0, -1).join(' ')}</span>
+                    <br />
+                    <span style={{ whiteSpace: 'nowrap', fontSize: '1em' }}>
+                      {brideParts[brideParts.length - 1]}
+                      {couple?.brideQualification && (
+                        <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
+                          , {couple.brideQualification}
+                        </span>
+                      )}
+                    </span>
+                  </>
+                ) : (
+                  <span style={{ whiteSpace: 'nowrap' }}>
+                    {brideParts.join(' ')}
+                    {couple?.brideQualification && (
+                      <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
+                        , {couple.brideQualification}
+                      </span>
+                    )}
+                  </span>
+                )
               )}
             </h1>
             {family?.bridePaternalGrandfather && (
