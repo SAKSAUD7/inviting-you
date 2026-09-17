@@ -97,18 +97,18 @@ export default function OffersPage() {
 
   return (
     <div>
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.8rem', fontWeight: 400, color: 'var(--admin-text)', marginBottom: '0.5rem' }}>
+      <div style={{ marginBottom: '3rem' }}>
+        <h1 className="admin-header-title">
           Template Offers
         </h1>
-        <p style={{ color: 'var(--admin-muted)', fontSize: '0.9rem' }}>
+        <p className="admin-header-desc" style={{ marginBottom: 0 }}>
           Set percentage discounts on templates. Active offers appear as badges on the public website.
         </p>
       </div>
 
       {/* ── Create Offer Form ── */}
-      <div style={{ background: 'var(--admin-surface)', border: '1px solid var(--admin-border)', borderRadius: '8px', padding: '2rem', marginBottom: '2.5rem' }}>
-        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.2rem', fontWeight: 400, color: 'var(--admin-text)', marginBottom: '1.5rem' }}>
+      <div className="admin-card" style={{ marginBottom: '2.5rem' }}>
+        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', fontWeight: 400, color: 'var(--admin-gold)', marginBottom: '1.5rem' }}>
           Create New Offer
         </h2>
         <form onSubmit={handleCreate}>
@@ -136,21 +136,16 @@ export default function OffersPage() {
           {error && <p style={{ color: '#f87171', fontSize: '0.85rem', marginBottom: '1rem' }}>{error}</p>}
           {success && <p style={{ color: '#4ade80', fontSize: '0.85rem', marginBottom: '1rem' }}>{success}</p>}
 
-          <button type="submit" disabled={saving} style={{
-            padding: '0.7rem 1.8rem', background: 'var(--admin-gold)', color: '#0C0C0E',
-            fontWeight: 700, border: 'none', borderRadius: '4px', cursor: 'pointer',
-            fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em',
-            opacity: saving ? 0.6 : 1,
-          }}>
+          <button type="submit" disabled={saving} className="admin-btn" style={{ opacity: saving ? 0.6 : 1, marginTop: '0.5rem' }}>
             {saving ? 'Creating…' : 'Create Offer'}
           </button>
         </form>
       </div>
 
       {/* ── Offers Table ── */}
-      <div style={{ background: 'var(--admin-surface)', border: '1px solid var(--admin-border)', borderRadius: '8px', overflow: 'hidden' }}>
-        <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid var(--admin-border)' }}>
-          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.2rem', fontWeight: 400, color: 'var(--admin-text)' }}>
+      <div className="admin-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid var(--admin-border)', background: 'rgba(255,255,255,0.02)' }}>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', fontWeight: 400, color: 'var(--admin-gold)', margin: 0 }}>
             Active &amp; Past Offers
           </h2>
         </div>

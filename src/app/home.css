@@ -607,7 +607,7 @@
 .iy-pricing { background: var(--ivory); padding: clamp(5rem, 9vw, 9rem) 0; }
 .iy-pricing__inner {
   display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
-  border: 1px solid var(--border-dark); border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border-dark); border-radius: 12px;
 }
 .iy-pricing__left {
   padding: 4rem 3.5rem;
@@ -621,9 +621,9 @@
 .iy-pricing__title { font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 400; line-height: 1.1; color: var(--brown); margin-bottom: 0.75rem; }
 .iy-pricing__subtitle { font-size: 0.9rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.6; }
 .iy-pricing__big {
-  display: flex; align-items: baseline; gap: 0.2rem; margin-bottom: 0.4rem;
+  display: flex; align-items: center; gap: 0.3rem; margin-bottom: 0.4rem;
 }
-.iy-pricing__sym { font-size: 1.5rem; color: var(--burgundy); font-family: var(--font-display); }
+.iy-pricing__sym { font-size: 1.8rem; color: var(--burgundy); font-family: var(--font-body); font-weight: 500; }
 .iy-pricing__num {
   font-family: var(--font-display); font-size: clamp(3.5rem, 6vw, 5.5rem);
   font-weight: 400; color: var(--burgundy); line-height: 1;
@@ -658,8 +658,8 @@
 .iy-pricing__badge {
   width: 80px; height: 80px; border-radius: 50%;
   background: var(--gold); display: flex; flex-direction: column;
-  align-items: center; justify-content: center; position: absolute; right: -1.5rem; top: 1rem;
-  box-shadow: 0 4px 20px rgba(184,154,98,0.4);
+  align-items: center; justify-content: center; position: absolute; right: -2rem; top: -1.5rem;
+  box-shadow: 0 4px 20px rgba(184,154,98,0.4); z-index: 10;
 }
 .iy-pricing__badge strong { font-family: var(--font-display); font-size: 1.1rem; color: var(--brown); line-height: 1; }
 .iy-pricing__badge span { font-size: 0.58rem; color: var(--brown); font-weight: 600; opacity: 0.7; }

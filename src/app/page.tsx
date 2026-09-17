@@ -9,73 +9,7 @@ const WA_NUMBER = '917411091256'
 const waLink = (msg: string) =>
   `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`
 
-// ─── Template catalogue ──────────────────────────────────────────────────────
-const weddingTemplates = [
-  {
-    id: 'velvet',
-    name: 'Velvet',
-    tagline: 'A Royal Celebration',
-    desc: 'Deep crimson and gold — a dramatic, immersive invitation that commands attention.',
-    price: 1999,
-    demo: '/i/demo-velvet',
-    badge: 'Bestseller',
-    themeClass: 'iy-tpl-velvet',
-    previewImg: '/tpl-velvet.png',
-  },
-  {
-    id: 'sultan',
-    name: 'Sultan',
-    tagline: 'Regal & Timeless',
-    desc: 'Deep navy and gold with a palace door reveal — a declaration, not just an invitation.',
-    price: 1999,
-    demo: '/i/demo-sultan',
-    badge: 'Live',
-    themeClass: 'iy-tpl-sultan',
-    previewImg: '/tpl-sultan.png',
-  },
-  {
-    id: 'walima',
-    name: 'Petal',
-    tagline: 'Soft & Romantic',
-    desc: 'Blush pastels, floating petals, and a custom intertwined monogram — grace in every detail.',
-    price: 1999,
-    demo: '/i/demo-petal',
-    badge: 'Live',
-    themeClass: 'iy-tpl-walima',
-    previewImg: '/tpl-petal.png',
-  },
-  {
-    id: 'noor',
-    name: 'Noor',
-    tagline: 'Pure & Elegant',
-    desc: 'Ivory and sage with Islamic arch motifs — graceful, editorial, and quietly beautiful.',
-    price: 1999,
-    demo: '/i/demo-noor',
-    badge: 'Live',
-    themeClass: 'iy-tpl-noor',
-    previewImg: '/tpl-noor.png',
-  },
-  { id: 'zariya', name: 'Zariya', tagline: 'Traditional & Graceful', desc: 'Stark contrasts, editorial typography, and precise design.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
-  { id: 'meher', name: 'Meher', tagline: 'Dreamy and romantic', desc: 'Soft blush, hand-drawn florals, and dreamy calligraphy.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
-  { id: 'sukoon', name: 'Sukoon', tagline: 'Minimal and meditative', desc: 'Clean lines, breathing space, and quiet sophistication.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
-  { id: 'pearl', name: 'Pearl', tagline: 'Classic white & gold', desc: 'Timeless pearl tones with gold flourishes for the grand reception.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
-]
-
-const celebrationTemplates = [
-  {
-    id: 'birthday-interactive-01',
-    name: 'Birthday Surprise',
-    tagline: 'Playful & Emotional',
-    desc: 'Balloon popping games, an interactive candle, and an emotional message reveal.',
-    price: 1999,
-    demo: '/i/demo-birthday',
-    badge: 'Live',
-    themeClass: 'iy-tpl-birthday',
-    previewImg: null, // Will fall back to CSS styling for now if no image
-  },
-  { id: 'anniversary', name: 'Anniversary', tagline: 'A love that grows', desc: 'Celebrate years of togetherness with a cinematic digital anniversary card.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
-  { id: 'baby-shower', name: 'Baby Shower', tagline: 'Soft & Sweet', desc: 'Pastel clouds and gentle animations for your little one\'s arrival.', price: 1999, demo: null, badge: 'Soon', themeClass: 'iy-tpl-coming', previewImg: null },
-]
+import { weddingTemplates, celebrationTemplates } from '@/data/templates'
 
 const features = [
   { icon: '🎬', title: 'Cinematic Animations', desc: 'A dramatic animated reveal your guests will genuinely want to share.' },
