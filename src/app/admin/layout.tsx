@@ -45,6 +45,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           {[
             { href: '/admin/dashboard', icon: '📊', label: 'Dashboard' },
             { href: '/admin/weddings/new', icon: '✨', label: 'New Invitation', highlight: true },
+            { href: '/admin/offers', icon: '🏷️', label: 'Offers & Discounts' },
             { href: '/', icon: '🌐', label: 'Public Site', newTab: true },
           ].map((item) => (
             <Link

@@ -195,6 +195,20 @@ enum Status {
   ARCHIVED
 }
 
+model TemplateOffer {
+  id          String    @id @default(uuid())
+  templateId  String    // e.g. "velvet", "walima", "sultan"
+  label       String    // e.g. "Launch Offer", "Eid Special"
+  discountPct Int       // 0–100
+  active      Boolean   @default(true)
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([templateId])
+  @@index([active])
+}
+
 model BirthdayConfig {
   id                 String   @id @default(uuid())
   weddingId          String   @unique
