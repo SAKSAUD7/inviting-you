@@ -182,13 +182,16 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               textShadow: '0 1px 8px rgba(201,169,110,0.4)',
               letterSpacing: '0.04em',
               lineHeight: 1.15,
-              fontSize: 'clamp(1.8rem, 5vw, 3.2rem)',
-              marginBottom: 8
+              fontSize: 'clamp(1.1rem, 4.2vw, 3.2rem)',
+              marginBottom: 8,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'baseline',
+              whiteSpace: 'nowrap'
             }}>
-              <span>{groomFn}</span>
-              {groomParts.length > 1 ? ` ${groomParts.slice(1).join(' ')}` : ''}
+              <span>{groomFn}{groomParts.length > 1 ? ` ${groomParts.slice(1).join(' ')}` : ''}</span>
               {couple?.groomQualification && (
-                <span style={{ fontSize: '0.35em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', marginLeft: '8px', verticalAlign: 'middle', fontFamily: 'var(--font-sans)', whiteSpace: 'nowrap' }}>
+                <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', whiteSpace: 'nowrap' }}>
                   , {couple.groomQualification}
                 </span>
               )}
@@ -216,13 +219,16 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               textShadow: '0 1px 8px rgba(201,169,110,0.4)',
               letterSpacing: '0.04em',
               lineHeight: 1.15,
-              fontSize: 'clamp(1.8rem, 5vw, 3.2rem)',
-              marginBottom: 8
+              fontSize: 'clamp(1.1rem, 4.2vw, 3.2rem)',
+              marginBottom: 8,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'baseline',
+              whiteSpace: 'nowrap'
             }}>
-              <span>{brideFn}</span>
-              {brideParts.length > 1 ? ` ${brideParts.slice(1).join(' ')}` : ''}
+              <span>{brideFn}{brideParts.length > 1 ? ` ${brideParts.slice(1).join(' ')}` : ''}</span>
               {couple?.brideQualification && (
-                <span style={{ fontSize: '0.35em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', marginLeft: '8px', verticalAlign: 'middle', fontFamily: 'var(--font-sans)', whiteSpace: 'nowrap' }}>
+                <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', whiteSpace: 'nowrap' }}>
                   , {couple.brideQualification}
                 </span>
               )}
