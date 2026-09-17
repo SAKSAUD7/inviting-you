@@ -182,17 +182,30 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               textShadow: '0 1px 8px rgba(201,169,110,0.4)',
               letterSpacing: '0.04em',
               lineHeight: 1.15,
-              fontSize: 'clamp(1.1rem, 4.2vw, 3.2rem)',
+              fontSize: 'clamp(1.8rem, 5vw, 3.2rem)',
               marginBottom: 8,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'baseline',
-              whiteSpace: 'nowrap'
+              textAlign: 'center'
             }}>
-              <span>{groomFn}{groomParts.length > 1 ? ` ${groomParts.slice(1).join(' ')}` : ''}</span>
-              {couple?.groomQualification && (
-                <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', whiteSpace: 'nowrap' }}>
-                  , {couple.groomQualification}
+              {groomParts.length > 1 ? (
+                <>
+                  <span>{groomParts.slice(0, -1).join(' ')} </span>
+                  <span style={{ whiteSpace: 'nowrap' }}>
+                    {groomParts[groomParts.length - 1]}
+                    {couple?.groomQualification && (
+                      <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '4px' }}>
+                        , {couple.groomQualification}
+                      </span>
+                    )}
+                  </span>
+                </>
+              ) : (
+                <span style={{ whiteSpace: 'nowrap' }}>
+                  {groomFn}
+                  {couple?.groomQualification && (
+                    <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '4px' }}>
+                      , {couple.groomQualification}
+                    </span>
+                  )}
                 </span>
               )}
             </h1>
@@ -219,17 +232,30 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               textShadow: '0 1px 8px rgba(201,169,110,0.4)',
               letterSpacing: '0.04em',
               lineHeight: 1.15,
-              fontSize: 'clamp(1.1rem, 4.2vw, 3.2rem)',
+              fontSize: 'clamp(1.8rem, 5vw, 3.2rem)',
               marginBottom: 8,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'baseline',
-              whiteSpace: 'nowrap'
+              textAlign: 'center'
             }}>
-              <span>{brideFn}{brideParts.length > 1 ? ` ${brideParts.slice(1).join(' ')}` : ''}</span>
-              {couple?.brideQualification && (
-                <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', whiteSpace: 'nowrap' }}>
-                  , {couple.brideQualification}
+              {brideParts.length > 1 ? (
+                <>
+                  <span>{brideParts.slice(0, -1).join(' ')} </span>
+                  <span style={{ whiteSpace: 'nowrap' }}>
+                    {brideParts[brideParts.length - 1]}
+                    {couple?.brideQualification && (
+                      <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '4px' }}>
+                        , {couple.brideQualification}
+                      </span>
+                    )}
+                  </span>
+                </>
+              ) : (
+                <span style={{ whiteSpace: 'nowrap' }}>
+                  {brideFn}
+                  {couple?.brideQualification && (
+                    <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '4px' }}>
+                      , {couple.brideQualification}
+                    </span>
+                  )}
                 </span>
               )}
             </h1>
