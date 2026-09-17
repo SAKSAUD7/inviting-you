@@ -14,7 +14,7 @@ async function main() {
   }
 
   // Delete if exists (re-runnable) — handle both old and new slugs
-  for (const slugToDelete of ['Aman-weds-Tazeen-Valima']) {
+  for (const slugToDelete of ['Aman-weds-Tazeen-Valima', 'Aman-weds-Tazeen-Reception']) {
     const existing = await prisma.wedding.findUnique({ where: { slug: slugToDelete } })
     if (existing) await prisma.wedding.delete({ where: { id: existing.id } })
   }
@@ -41,7 +41,7 @@ async function main() {
 
   const wedding = await prisma.wedding.create({
     data: {
-      slug: 'Aman-weds-Tazeen-Valima',
+      slug: 'Aman-weds-Tazeen-Reception',
       title: 'Mohammed Yousuf Aman Arif & Syed Tazeen',
       templateId: 'velvet',
       status: 'PUBLISHED',
@@ -50,8 +50,8 @@ async function main() {
 
       seo: {
         create: {
-          title: 'Aman weds Tazeen | Dawat-e-Valima',
-          description: 'You are warmly invited to the Dawat-e-Valima of Mohammed Yousuf Aman Arif & Syed Tazeen on Tuesday, 17th November 2026 at Royal Tripura Vasini, Palace Grounds, Bengaluru.',
+          title: 'Aman weds Tazeen | Reception',
+          description: 'You are warmly invited to the Reception of Mohammed Yousuf Aman Arif & Syed Tazeen on Tuesday, 17th November 2026 at Royal Tripura Vasini, Palace Grounds, Bengaluru.',
         },
       },
 
