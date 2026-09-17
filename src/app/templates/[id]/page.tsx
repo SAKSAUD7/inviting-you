@@ -8,8 +8,9 @@ function waLink(text: string) {
   return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
 }
 
-export default function TemplateDetailsPage({ params }: { params: { id: string } }) {
-  const template = getTemplateById(params.id)
+export default async function TemplateDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const template = getTemplateById(id)
 
   if (!template) {
     notFound()
