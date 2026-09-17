@@ -503,14 +503,14 @@ export default function HomePage() {
             </div>
             <div className="iy-pricing__right">
               <div className="iy-pricing__deco">
-                <div className="iy-pricing__deco-card" style={{ position: 'relative' }}>
-                  <div className="iy-pricing__badge">
-                    <strong>₹999</strong>
-                    <span>to begin</span>
+                <div className="iy-pricing__deco-card" style={{ position: 'relative', padding: '1rem' }}>
+                  <img src="/tpl-velvet.png" alt="Velvet Preview" style={{ marginBottom: '1.5rem' }} />
+                  <div style={{ fontFamily: 'var(--font-elegant)', fontSize: '1.4rem', color: 'var(--brown)' }}>
+                    Make it official.
                   </div>
-                  <img src="/tpl-velvet.png" alt="Velvet Preview" />
-                  <h4>Make it official.</h4>
-                  <p>In just a few clicks.</p>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--muted)', marginTop: '0.2rem' }}>
+                    In just a few clicks.
+                  </p>
                 </div>
               </div>
             </div>
