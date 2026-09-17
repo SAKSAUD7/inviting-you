@@ -188,7 +188,7 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               <span>{groomFn}</span>
               {groomParts.length > 1 ? ` ${groomParts.slice(1).join(' ')}` : ''}
               {couple?.groomQualification && (
-                <span style={{ fontSize: '0.35em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', marginLeft: '8px', verticalAlign: 'middle', fontFamily: 'var(--font-sans)' }}>
+                <span style={{ fontSize: '0.35em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', marginLeft: '8px', verticalAlign: 'middle', fontFamily: 'var(--font-sans)', whiteSpace: 'nowrap' }}>
                   , {couple.groomQualification}
                 </span>
               )}
@@ -222,7 +222,7 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               <span>{brideFn}</span>
               {brideParts.length > 1 ? ` ${brideParts.slice(1).join(' ')}` : ''}
               {couple?.brideQualification && (
-                <span style={{ fontSize: '0.35em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', marginLeft: '8px', verticalAlign: 'middle', fontFamily: 'var(--font-sans)' }}>
+                <span style={{ fontSize: '0.35em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', marginLeft: '8px', verticalAlign: 'middle', fontFamily: 'var(--font-sans)', whiteSpace: 'nowrap' }}>
                   , {couple.brideQualification}
                 </span>
               )}
