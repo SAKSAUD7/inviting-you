@@ -34,7 +34,7 @@ export default function VelvetClosing({ couple, family }: Props) {
   const dateStr = couple?.gregorianDisplay ?? '2 October 2026'
   const fromName = family?.invitationFromName ?? ''
   // Show Dua only if the client has an islamicVerse set
-  const showDua = !!couple?.islamicVerse
+  const showDua = !!couple?.islamicVerse && couple.islamicVerse !== 'ENGLISH_ONLY'
 
   // Split fromName at ' · ' to get individual family lines
   const fromLines = fromName ? fromName.split(/\s*·\s*/).filter(Boolean) : []

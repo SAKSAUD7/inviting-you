@@ -24,8 +24,6 @@ export default function VelvetProgram({ events }: Props) {
   return (
     <section className="program-section section-pad">
       <div className="section-shell program-shell">
-        {/* In The Name Of Allah */}
-        <p className="eyebrow" style={{ textAlign: 'center', marginBottom: '0.5rem' }}>In The Name Of Allah</p>
         <header className="section-heading reveal">
           <span className="eyebrow">{eyebrow}</span>
           <h2>{dayTitle}</h2>

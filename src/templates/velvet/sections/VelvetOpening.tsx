@@ -142,12 +142,14 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
           ══════════════════════════════════════════════ */}
       <div className="hero-content">
         {/* Bismillah — only shown if islamicVerse is set */}
-        {couple?.islamicVerse && (
+        {couple?.islamicVerse === 'ENGLISH_ONLY' ? (
+          <p className="translation">In The Name of Allah, The Most Beneficent, The Most Merciful</p>
+        ) : couple?.islamicVerse ? (
           <>
             <p className="bismillah" lang="ar" aria-label="Bismillah">﷽</p>
             <p className="translation">In The Name of Allah, The Most Beneficent, The Most Merciful</p>
           </>
-        )}
+        ) : null}
 
         <div className="hero-divider"><span>✦</span></div>
 
