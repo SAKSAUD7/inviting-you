@@ -181,18 +181,19 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               color: '#c9a96e', 
               textShadow: '0 1px 8px rgba(201,169,110,0.4)',
               letterSpacing: '0.04em',
-              lineHeight: 1.15,
+              lineHeight: 1.2,
               fontSize: 'clamp(1.8rem, 5vw, 3.2rem)',
               marginBottom: 8,
               textAlign: 'center'
             }}>
               {groomParts.length > 1 ? (
                 <>
-                  <span>{groomParts.slice(0, -1).join(' ')} </span>
-                  <span style={{ whiteSpace: 'nowrap' }}>
+                  <span style={{ whiteSpace: 'nowrap' }}>{groomParts.slice(0, -1).join(' ')}</span>
+                  <br />
+                  <span style={{ whiteSpace: 'nowrap', fontSize: '1em' }}>
                     {groomParts[groomParts.length - 1]}
                     {couple?.groomQualification && (
-                      <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '4px' }}>
+                      <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
                         , {couple.groomQualification}
                       </span>
                     )}
@@ -202,7 +203,7 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
                 <span style={{ whiteSpace: 'nowrap' }}>
                   {groomFn}
                   {couple?.groomQualification && (
-                    <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '4px' }}>
+                    <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
                       , {couple.groomQualification}
                     </span>
                   )}
@@ -231,18 +232,19 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
               color: '#c9a96e', 
               textShadow: '0 1px 8px rgba(201,169,110,0.4)',
               letterSpacing: '0.04em',
-              lineHeight: 1.15,
+              lineHeight: 1.2,
               fontSize: 'clamp(1.8rem, 5vw, 3.2rem)',
               marginBottom: 8,
               textAlign: 'center'
             }}>
               {brideParts.length > 1 ? (
                 <>
-                  <span>{brideParts.slice(0, -1).join(' ')} </span>
-                  <span style={{ whiteSpace: 'nowrap' }}>
+                  <span style={{ whiteSpace: 'nowrap' }}>{brideParts.slice(0, -1).join(' ')}</span>
+                  <br />
+                  <span style={{ whiteSpace: 'nowrap', fontSize: '1em' }}>
                     {brideParts[brideParts.length - 1]}
                     {couple?.brideQualification && (
-                      <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '4px' }}>
+                      <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
                         , {couple.brideQualification}
                       </span>
                     )}
@@ -252,7 +254,7 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
                 <span style={{ whiteSpace: 'nowrap' }}>
                   {brideFn}
                   {couple?.brideQualification && (
-                    <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '4px' }}>
+                    <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
                       , {couple.brideQualification}
                     </span>
                   )}
