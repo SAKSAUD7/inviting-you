@@ -117,7 +117,7 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
 
         {/* Top label — dynamic based on event type */}
         <span className="opening-label-top">
-          {hasNikah && isValima ? 'Nikah & Valima Invitation' : isValima ? 'Valima Invitation' : 'Nikah Invitation'}
+          {hasNikah && isValima ? 'Nikah & Reception Invitation' : isValima ? 'Reception Invitation' : 'Nikah Invitation'}
         </span>
 
         {/* Premium SVG Monogram */}
@@ -141,9 +141,13 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
           HERO CONTENT — shows AFTER the user taps.
           ══════════════════════════════════════════════ */}
       <div className="hero-content">
-        {/* Bismillah */}
-        <p className="bismillah" lang="ar" aria-label="Bismillah">﷽</p>
-        <p className="translation">In The Name of Allah, The Most Beneficent, The Most Merciful</p>
+        {/* Bismillah — only shown if islamicVerse is set */}
+        {couple?.islamicVerse && (
+          <>
+            <p className="bismillah" lang="ar" aria-label="Bismillah">﷽</p>
+            <p className="translation">In The Name of Allah, The Most Beneficent, The Most Merciful</p>
+          </>
+        )}
 
         <div className="hero-divider"><span>✦</span></div>
 

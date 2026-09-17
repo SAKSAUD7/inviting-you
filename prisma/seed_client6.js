@@ -68,7 +68,7 @@ async function main() {
           // Used as the date-hint in VelvetOpening and footer
           gregorianDisplay: 'Tuesday, 17th November 2026',
           hijriDate: null,
-          islamicVerse: 'In the Name of Allah\nthe Most Beneficent the Most Merciful',
+          islamicVerse: null,
           // Shown in VelvetWelcome as the main body paragraph
           invitationMessage:
             'Mr. Mohammed Ajmal Ariff & Mrs. Fazeelath Afza and Mr. Syed Basha Mohiuddin & Mrs. Syed Parveen solicit your gracious presence with family and friends on the auspicious occasion of the wedding of their children.',
@@ -105,7 +105,7 @@ async function main() {
         create: [
 
           {
-            name: 'Valima',
+            name: 'Reception',
             type: 'VALIMA',
             date: new Date('2026-11-17T13:30:00.000Z'), // 7:00 PM IST
             timeDisplay: '7:00 PM onwards',
