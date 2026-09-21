@@ -62,6 +62,7 @@ export default function TemplatesPage() {
           <nav className="iy-nav">
             <Link href="/" className="iy-nav__link">Home</Link>
             <Link href="/templates" className="iy-nav__link">Templates</Link>
+            <Link href="/contact" className="iy-nav__link">Contact</Link>
             <a href={waLink("Hi! I'm interested in ordering a digital wedding invitation.")} target="_blank" rel="noopener noreferrer" className="iy-nav__cta">Order on WhatsApp</a>
           </nav>
         </div>

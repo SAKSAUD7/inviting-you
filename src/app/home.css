@@ -832,10 +832,10 @@
   .iy-footer__wa { grid-column: 1 / -1; }
 }
 @media (max-width: 1000px) {
-  .iy-hero { grid-template-columns: 1fr; min-height: auto; padding-top: 7rem; padding-bottom: 4rem; }
-  .iy-hero__visual { display: none; }
-  .iy-hero__content { padding: 2rem 2.5rem; }
-  .iy-hero__lead { max-width: 100%; }
+  .iy-hero { grid-template-columns: 1fr; min-height: auto; padding-top: 7rem; padding-bottom: 4rem; gap: 4rem; }
+  .iy-hero__visual { justify-content: center; }
+  .iy-hero__content { padding: 2rem 2.5rem; text-align: center; }
+  .iy-hero__lead { max-width: 100%; margin: 0 auto; }
   .iy-steps { grid-template-columns: 1fr 1fr; }
   .iy-step:nth-child(2)::after { display: none; }
   .iy-step:nth-child(2) { border-right: none; }

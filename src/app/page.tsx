@@ -164,6 +164,7 @@ export default function HomePage() {
             <Link href="#how-it-works" className="iy-nav__link">How It Works</Link>
             <Link href="#reviews" className="iy-nav__link">Reviews</Link>
             <Link href="#faq" className="iy-nav__link">FAQ</Link>
+            <Link href="/contact" className="iy-nav__link">Contact</Link>
             <a
               href={waLink("Hi! I'm interested in ordering a digital wedding invitation.")}
               target="_blank"
@@ -632,6 +633,7 @@ export default function HomePage() {
                 <Link href="#how-it-works">How It Works</Link>
                 <Link href="#reviews">Reviews</Link>
                 <Link href="#faq">FAQ</Link>
+                <Link href="/contact">Contact</Link>
               </div>
             </div>
 
