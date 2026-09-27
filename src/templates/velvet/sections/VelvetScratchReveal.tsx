@@ -215,13 +215,15 @@ export default function VelvetScratchReveal({ couple }: Props) {
     return { x: e.clientX, y: e.clientY }
   }
 
+  const isAqhib = couple?.groomName?.includes('Aqhib') || false
+
   return (
     <section id="date" className="scratch-section section-pad">
       <div className="section-shell">
         <header className="section-heading reveal">
           <span className="eyebrow">A date to hold close</span>
           <h2 id="scratchHeading" className={revealed ? 'scratch-revealed-title' : ''}>
-            {revealed ? 'Our Special Day ✦' : 'Scratch to Reveal'}
+            {revealed ? 'Our Special Days ✦' : 'Scratch to Reveal'}
           </h2>
           <span className="ornament" aria-hidden="true"><i /></span>
         </header>
@@ -235,7 +237,14 @@ export default function VelvetScratchReveal({ couple }: Props) {
             {/* Date revealed beneath */}
             <div className={`date-reveal${revealed ? ' is-revealed' : ''}`} aria-live="polite">
               <span className="date-kicker">You&apos;re Invited!</span>
-              <strong className="date-main">{dateDisplay}</strong>
+              {isAqhib ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center', marginTop: '10px' }}>
+                  <strong className="date-main" style={{ fontSize: 'clamp(1.2rem, 3vw, 1.8rem)' }}>Nikah: 16 October 2026</strong>
+                  <strong className="date-main" style={{ fontSize: 'clamp(1.2rem, 3vw, 1.8rem)' }}>Valima: 17 October 2026</strong>
+                </div>
+              ) : (
+                <strong className="date-main">{dateDisplay}</strong>
+              )}
             </div>
 
             {/* Scratch canvas overlay */}

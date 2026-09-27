@@ -64,6 +64,8 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
     : rawGroomParts
   const brideFn = brideParts[0]
   const groomFn = groomParts[0]
+  
+  const isAqhib = couple?.groomName?.includes('Aqhib') || false
 
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -210,9 +212,15 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
                     <span style={{ whiteSpace: 'nowrap', fontSize: '1em' }}>
                       {groomParts[groomParts.length - 1]}
                       {couple?.groomQualification && (
-                        <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
-                          , {couple.groomQualification}
-                        </span>
+                        isAqhib ? (
+                          <div style={{ display: 'block', fontSize: '0.35em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginTop: '12px' }}>
+                            {couple.groomQualification}
+                          </div>
+                        ) : (
+                          <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
+                            , {couple.groomQualification}
+                          </span>
+                        )
                       )}
                     </span>
                   </>
@@ -220,9 +228,15 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
                   <span style={{ whiteSpace: 'nowrap' }}>
                     {groomParts.join(' ')}
                     {couple?.groomQualification && (
-                      <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
-                        , {couple.groomQualification}
-                      </span>
+                      isAqhib ? (
+                        <div style={{ display: 'block', fontSize: '0.35em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginTop: '12px' }}>
+                          {couple.groomQualification}
+                        </div>
+                      ) : (
+                        <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
+                          , {couple.groomQualification}
+                        </span>
+                      )
                     )}
                   </span>
                 )
@@ -273,9 +287,15 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
                     <span style={{ whiteSpace: 'nowrap', fontSize: '1em' }}>
                       {brideParts[brideParts.length - 1]}
                       {couple?.brideQualification && (
-                        <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
-                          , {couple.brideQualification}
-                        </span>
+                        isAqhib ? (
+                          <div style={{ display: 'block', fontSize: '0.35em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginTop: '12px' }}>
+                            {couple.brideQualification}
+                          </div>
+                        ) : (
+                          <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
+                            , {couple.brideQualification}
+                          </span>
+                        )
                       )}
                     </span>
                   </>
@@ -283,9 +303,15 @@ export default function VelvetOpening({ couple, family, onOpen, isOpened, isVali
                   <span style={{ whiteSpace: 'nowrap' }}>
                     {brideParts.join(' ')}
                     {couple?.brideQualification && (
-                      <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
-                        , {couple.brideQualification}
-                      </span>
+                      isAqhib ? (
+                        <div style={{ display: 'block', fontSize: '0.35em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginTop: '12px' }}>
+                          {couple.brideQualification}
+                        </div>
+                      ) : (
+                        <span style={{ fontSize: '0.45em', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--champagne)', fontFamily: 'var(--font-sans)', marginLeft: '6px' }}>
+                          , {couple.brideQualification}
+                        </span>
+                      )
                     )}
                   </span>
                 )
