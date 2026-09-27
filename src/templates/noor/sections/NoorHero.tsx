@@ -130,9 +130,9 @@ export default function NoorHero({ wedding, onOpen, opened }: Props) {
                 <motion.div animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: 'linear' }} style={{ position: 'absolute', inset: 0, border: '1px dashed rgba(199,168,107,0.35)', borderRadius: '50%' }} />
                 <div style={{ position: 'absolute', inset: '8px', border: '1px solid rgba(199,168,107,0.2)', borderRadius: '50%' }} />
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.05rem', position: 'relative', zIndex: 1 }}>
-                  <span style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(2.6rem, 11vw, 4rem)', lineHeight: 1, background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))' }}>{brideInitial}</span>
+                  <span style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(2.6rem, 11vw, 4rem)', lineHeight: 1, background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))' }}>{isAqhib ? groomInitial : brideInitial}</span>
                   <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1rem', color: 'var(--noor-gold-champagne)', fontStyle: 'italic', margin: '0 0.15rem', lineHeight: 1, opacity: 0.6 }}>&</span>
-                  <span style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(2.6rem, 11vw, 4rem)', lineHeight: 1, background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))' }}>{groomInitial}</span>
+                  <span style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(2.6rem, 11vw, 4rem)', lineHeight: 1, background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.12))' }}>{isAqhib ? brideInitial : groomInitial}</span>
                 </div>
               </motion.div>
 
