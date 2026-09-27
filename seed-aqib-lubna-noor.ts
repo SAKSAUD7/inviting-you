@@ -42,7 +42,7 @@ async function main() {
           brideQualification: 'B.Com',
           gregorianDate: new Date('2026-10-16T00:00:00Z'),
           gregorianDisplay: '16 October 2026',
-          islamicVerse: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
+          islamicVerse: 'ENGLISH_ONLY',
           monogram: 'A&L',
         }
       },
