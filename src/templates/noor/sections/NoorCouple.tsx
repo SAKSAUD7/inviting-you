@@ -19,6 +19,7 @@ const getInitial = (name?: string | null) => {
 
 export default function NoorCouple({ couple }: Props) {
   if (!couple) return null
+  const isAqhib = couple.groomName?.includes('Aqhib') || false
 
   const hasPhoto = !!couple.imageUrl
 
@@ -39,17 +40,19 @@ export default function NoorCouple({ couple }: Props) {
         padding: '4rem 1rem 4rem',
         position: 'relative',
         overflow: 'hidden',
-        backgroundColor: 'var(--noor-paper)',
+        backgroundColor: isAqhib ? '#ffffff' : 'var(--noor-paper)',
       }}
     >
       {/* Ivory paper texture */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        backgroundImage: 'url(/images/noor-ivory-paper.png)',
-        backgroundSize: 'cover',
-        opacity: 0.15,
-        pointerEvents: 'none',
-      }} />
+      {!isAqhib && (
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'url(/images/noor-ivory-paper.png)',
+          backgroundSize: 'cover',
+          opacity: 0.15,
+          pointerEvents: 'none',
+        }} />
+      )}
 
       <motion.div
         variants={containerVariants}
@@ -105,11 +108,11 @@ export default function NoorCouple({ couple }: Props) {
             </div>
             {/* Names — photo mode */}
             <div style={{ textAlign: 'center', width: '100%' }}>
-              <motion.h2 variants={itemVariants} style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1.7rem,6.5vw,3.5rem)', lineHeight: 1, margin: '0 0 0.4rem', fontWeight: 400, background: 'linear-gradient(135deg,#bd9a33 0%,#e8d070 40%,#a68427 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{couple.brideName}</motion.h2>
-              {couple.brideQualification && <motion.div variants={itemVariants} style={{ fontFamily: 'var(--font-sans)', fontSize: '0.6rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--noor-emerald)', opacity: 0.8, marginBottom: '1rem' }}>{couple.brideQualification}</motion.div>}
+              <motion.h2 variants={itemVariants} style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1.7rem,6.5vw,3.5rem)', lineHeight: 1, margin: '0 0 0.4rem', fontWeight: 400, background: 'linear-gradient(135deg,#bd9a33 0%,#e8d070 40%,#a68427 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{isAqhib ? couple.groomName : couple.brideName}</motion.h2>
+              {(isAqhib ? couple.groomQualification : couple.brideQualification) && <motion.div variants={itemVariants} style={{ fontFamily: 'var(--font-sans)', fontSize: '0.6rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--noor-emerald)', opacity: 0.8, marginBottom: '1rem' }}>{isAqhib ? couple.groomQualification : couple.brideQualification}</motion.div>}
               <motion.div variants={itemVariants} style={{ margin: '0.6rem 0 1rem', display: 'flex', justifyContent: 'center' }}><NoorBotanicalCrest /></motion.div>
-              <motion.h2 variants={itemVariants} style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1.7rem,6.5vw,3.5rem)', lineHeight: 1, margin: '0 0 0.4rem', fontWeight: 400, background: 'linear-gradient(135deg,#bd9a33 0%,#e8d070 40%,#a68427 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{couple.groomName}</motion.h2>
-              {couple.groomQualification && <motion.div variants={itemVariants} style={{ fontFamily: 'var(--font-sans)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--noor-emerald)', opacity: 0.8 }}>{couple.groomQualification}</motion.div>}
+              <motion.h2 variants={itemVariants} style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1.7rem,6.5vw,3.5rem)', lineHeight: 1, margin: '0 0 0.4rem', fontWeight: 400, background: 'linear-gradient(135deg,#bd9a33 0%,#e8d070 40%,#a68427 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{isAqhib ? couple.brideName : couple.groomName}</motion.h2>
+              {(isAqhib ? couple.brideQualification : couple.groomQualification) && <motion.div variants={itemVariants} style={{ fontFamily: 'var(--font-sans)', fontSize: '0.65rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--noor-emerald)', opacity: 0.8 }}>{isAqhib ? couple.brideQualification : couple.groomQualification}</motion.div>}
             </div>
           </motion.div>
         ) : (
@@ -256,7 +259,7 @@ export default function NoorCouple({ couple }: Props) {
                   backgroundClip: 'text',
                   filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.08))',
                 }}>
-                  {getInitial(couple?.brideName)}
+                  {isAqhib ? getInitial(couple?.groomName) : getInitial(couple?.brideName)}
                 </span>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
                   <div style={{ width: '18px', height: '1px', background: 'var(--noor-gold-champagne)', opacity: 0.5 }} />
@@ -273,14 +276,14 @@ export default function NoorCouple({ couple }: Props) {
                   backgroundClip: 'text',
                   filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.08))',
                 }}>
-                  {getInitial(couple?.groomName)}
+                  {isAqhib ? getInitial(couple?.brideName) : getInitial(couple?.groomName)}
                 </span>
               </div>
 
               {/* Divider */}
               <div style={{ width: '50px', height: '1px', background: 'var(--noor-gold-champagne)', opacity: 0.3, marginBottom: '1.4rem' }} />
 
-              {/* Bride name */}
+              {/* First Name */}
               <h2 style={{
                 fontFamily: 'var(--font-names)',
                 fontSize: 'clamp(1.4rem, 5vw, 2.6rem)',
@@ -292,11 +295,11 @@ export default function NoorCouple({ couple }: Props) {
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
               }}>
-                {couple.brideName}
+                {isAqhib ? couple.groomName : couple.brideName}
               </h2>
-              {couple.brideQualification && (
+              {(isAqhib ? couple.groomQualification : couple.brideQualification) && (
                 <div style={{ fontFamily: 'var(--font-sans)', fontSize: '0.57rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--noor-emerald)', opacity: 0.75, marginBottom: '0.8rem' }}>
-                  {couple.brideQualification}
+                  {isAqhib ? couple.groomQualification : couple.brideQualification}
                 </div>
               )}
 
@@ -304,7 +307,7 @@ export default function NoorCouple({ couple }: Props) {
                 <NoorBotanicalCrest />
               </div>
 
-              {/* Groom name */}
+              {/* Second Name */}
               <h2 style={{
                 fontFamily: 'var(--font-names)',
                 fontSize: 'clamp(1.4rem, 5vw, 2.6rem)',
@@ -316,11 +319,11 @@ export default function NoorCouple({ couple }: Props) {
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
               }}>
-                {couple.groomName}
+                {isAqhib ? couple.brideName : couple.groomName}
               </h2>
-              {couple.groomQualification && (
+              {(isAqhib ? couple.brideQualification : couple.groomQualification) && (
                 <div style={{ fontFamily: 'var(--font-sans)', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--noor-emerald)', opacity: 0.75 }}>
-                  {couple.groomQualification}
+                  {isAqhib ? couple.brideQualification : couple.groomQualification}
                 </div>
               )}
 

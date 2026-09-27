@@ -158,7 +158,7 @@ export default function NoorInvitation({ wedding }: Props) {
           )}
 
           {/* Events */}
-          {events && events.length > 0 && (
+          {events && events.length > 0 && wedding.slug !== 'aqhib-weds-lubna-noor' && (
             <>
               <NoorDivider />
               <NoorEvents events={events} />

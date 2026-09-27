@@ -34,6 +34,7 @@ export default function NoorHero({ wedding, onOpen, opened }: Props) {
 
   const brideInitial = getInitial(couple?.brideName)
   const groomInitial = getInitial(couple?.groomName)
+  const isAqhib = couple?.groomName?.includes('Aqhib') || false
 
   // Allow open button after 2.5s on intro
   useEffect(() => {
@@ -142,9 +143,9 @@ export default function NoorHero({ wedding, onOpen, opened }: Props) {
 
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.8, duration: 1 }}
                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.15rem', marginBottom: '1.5rem' }}>
-                <span style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1.3rem, 5.5vw, 2rem)', background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{couple?.brideName}</span>
+                <span style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1.3rem, 5.5vw, 2rem)', background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{isAqhib ? couple?.groomName : couple?.brideName}</span>
                 <span style={{ fontFamily: 'var(--font-serif)', color: 'var(--noor-gold-antique)', fontStyle: 'italic', fontSize: '0.85rem' }}>&</span>
-                <span style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1.3rem, 5.5vw, 2rem)', background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{couple?.groomName}</span>
+                <span style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1.3rem, 5.5vw, 2rem)', background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{isAqhib ? couple?.brideName : couple?.groomName}</span>
               </motion.div>
 
               <motion.div initial={{ width: 0, opacity: 0 }} animate={{ width: '36px', opacity: 1 }} transition={{ delay: 2.4, duration: 0.9 }}
@@ -200,9 +201,9 @@ export default function NoorHero({ wedding, onOpen, opened }: Props) {
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.8rem' }}>
                 <div style={{ width: '30px', height: '1px', background: 'rgba(199,168,107,0.5)' }} />
-                <span style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1rem, 4vw, 1.5rem)', background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{couple?.brideName}</span>
+                <span style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1rem, 4vw, 1.5rem)', background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{isAqhib ? couple?.groomName : couple?.brideName}</span>
                 <span style={{ fontFamily: 'var(--font-serif)', color: 'var(--noor-gold-champagne)', fontStyle: 'italic', opacity: 0.7, fontSize: '0.9rem' }}>&</span>
-                <span style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1rem, 4vw, 1.5rem)', background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{couple?.groomName}</span>
+                <span style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1rem, 4vw, 1.5rem)', background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{isAqhib ? couple?.brideName : couple?.groomName}</span>
                 <div style={{ width: '30px', height: '1px', background: 'rgba(199,168,107,0.5)' }} />
               </div>
             </motion.div>
@@ -271,6 +272,16 @@ export default function NoorHero({ wedding, onOpen, opened }: Props) {
           }}
         >
 
+          {/* Bismillah */}
+          {couple?.islamicVerse === 'ENGLISH_ONLY' ? (
+            <p style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(0.65rem, 2.5vw, 0.8rem)', color: '#4a5e3a', fontStyle: 'italic', marginBottom: '0.5rem', textShadow: '0 1px 3px rgba(255,255,255,0.8)' }}>In The Name of Allah, The Most Beneficent, The Most Merciful</p>
+          ) : couple?.islamicVerse ? (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <p style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(1.2rem, 5vw, 1.8rem)', color: '#4a5e3a', margin: '0 0 4px', textShadow: '0 1px 3px rgba(255,255,255,0.8)' }} lang="ar" aria-label="Bismillah">﷽</p>
+              <p style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(0.65rem, 2.5vw, 0.8rem)', color: '#4a5e3a', fontStyle: 'italic', margin: 0, textShadow: '0 1px 3px rgba(255,255,255,0.8)' }}>In The Name of Allah, The Most Beneficent, The Most Merciful</p>
+            </div>
+          ) : null}
+
           {/* Invitation message */}
           <p style={{
             fontFamily: 'var(--font-serif)',
@@ -291,13 +302,13 @@ export default function NoorHero({ wedding, onOpen, opened }: Props) {
             <div style={{ width: '28px', height: '1px', background: 'var(--noor-gold-champagne)', opacity: 0.7 }} />
           </div>
 
-          {/* Bride */}
+          {/* First Person */}
           <div style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1.55rem, 8vw, 2.4rem)', lineHeight: 1.0, background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', filter: 'drop-shadow(0 2px 6px rgba(255,255,255,0.7))' }}>
-            {couple?.brideName}
+            {isAqhib ? couple?.groomName : couple?.brideName}
           </div>
-          {couple?.brideQualification && (
+          {(isAqhib ? couple?.groomQualification : couple?.brideQualification) && (
             <div style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(0.55rem, 2.2vw, 0.68rem)', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#4a5e3a', opacity: 0.85, textShadow: '0 1px 3px rgba(255,255,255,0.8)' }}>
-              {couple.brideQualification}
+              {isAqhib ? couple?.groomQualification : couple?.brideQualification}
             </div>
           )}
 
@@ -306,13 +317,13 @@ export default function NoorHero({ wedding, onOpen, opened }: Props) {
             &amp;
           </div>
 
-          {/* Groom */}
+          {/* Second Person */}
           <div style={{ fontFamily: 'var(--font-names)', fontSize: 'clamp(1.55rem, 8vw, 2.4rem)', lineHeight: 1.0, background: GOLD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', filter: 'drop-shadow(0 2px 6px rgba(255,255,255,0.7))' }}>
-            {couple?.groomName}
+            {isAqhib ? couple?.brideName : couple?.groomName}
           </div>
-          {couple?.groomQualification && (
+          {(isAqhib ? couple?.brideQualification : couple?.groomQualification) && (
             <div style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(0.55rem, 2.2vw, 0.68rem)', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#4a5e3a', opacity: 0.85, textShadow: '0 1px 3px rgba(255,255,255,0.8)' }}>
-              {couple.groomQualification}
+              {isAqhib ? couple?.brideQualification : couple?.groomQualification}
             </div>
           )}
 
