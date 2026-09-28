@@ -6,7 +6,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://inviting-you-eta.vercel.app'
 
   // 1. Static Public Pages
-  const staticRoutes = ['', '/templates', '/contact'].map((route) => ({
+  const staticRoutes = [
+    '', 
+    '/templates', 
+    '/contact',
+    '/wedding-invitations',
+    '/muslim-wedding-invitations',
+    '/islamic-wedding-invitations',
+    '/nikah-invitations',
+    '/walima-invitations'
+  ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
