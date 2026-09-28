@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import '@/styles/globals.css'
 import Providers from './Providers'
+import PublicAnalytics from '@/components/PublicAnalytics'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://inviting-you-eta.vercel.app'),
@@ -17,6 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>{children}</Providers>
+        <PublicAnalytics />
       </body>
     </html>
   )
