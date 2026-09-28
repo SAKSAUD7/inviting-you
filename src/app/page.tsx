@@ -224,7 +224,7 @@ export default function HomePage() {
 
         <div className="iy-hero__visual">
           <div className="iy-hero__img-wrap iy-fade-in">
-            <img src="/hero-phone.png" alt="Luxury digital invitation preview" className="iy-hero__phone-img" />
+            <img src="/hero-phone.png" alt="Digital wedding invitation template displayed on a smartphone" className="iy-hero__phone-img" />
             <Link href="/i/demo-velvet" target="_blank" className="iy-hero__play-btn" onClick={() => trackEvent('template_demo_view', { template_name: 'Velvet', template_slug: 'velvet' })}>
               <div className="iy-hero__play-circle">▶</div>
               <span className="iy-hero__play-label">Play Preview</span>
