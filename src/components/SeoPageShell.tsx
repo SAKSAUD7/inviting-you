@@ -102,6 +102,7 @@ export default function SeoPageShell({ children, pageName }: { children: React.R
               <span className="iy-footer__col-title">Company</span>
               <div className="iy-footer__col-links">
                 <Link href="/about">About</Link>
+                <Link href="/blog">Guides</Link>
                 <Link href="/contact">Contact</Link>
               </div>
             </div>

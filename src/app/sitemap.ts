@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma'
 import { weddingTemplates, celebrationTemplates } from '@/data/templates'
+import { blogPosts } from '@/data/blog'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://inviting-you-eta.vercel.app'
@@ -17,7 +18,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/muslim-wedding-invitations',
     '/islamic-wedding-invitations',
     '/nikah-invitations',
-    '/walima-invitations'
+    '/walima-invitations',
+    '/blog'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
@@ -36,7 +38,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }))
 
-  // 3. Public Demo Invitations (/i/[slug])
+  // 3. Public Blog Articles (/blog/[slug])
+  const blogRoutes = blogPosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.modified || post.date),
+    changeFrequency: 'weekly' as const,
+    priority: 0.7,
+  }))
+
+  // 4. Public Demo Invitations (/i/[slug])
   // NEVER INCLUDE PRIVATE INVITATIONS HERE!
   const publicDemos = await prisma.wedding.findMany({
     where: {
@@ -56,5 +66,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  return [...staticRoutes, ...templateDetailRoutes, ...demoRoutes]
+  return [...staticRoutes, ...templateDetailRoutes, ...blogRoutes, ...demoRoutes]
 }
