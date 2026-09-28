@@ -9,7 +9,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     '', 
     '/templates', 
+    '/about',
     '/contact',
+    '/privacy',
+    '/terms',
     '/wedding-invitations',
     '/muslim-wedding-invitations',
     '/islamic-wedding-invitations',

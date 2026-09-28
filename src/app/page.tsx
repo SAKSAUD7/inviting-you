@@ -592,22 +592,36 @@ export default function HomePage() {
             </div>
 
             <div>
-              <span className="iy-footer__col-title">Explore</span>
+              <span className="iy-footer__col-title">Company</span>
               <div className="iy-footer__col-links">
-                <Link href="/">Home</Link>
-                <Link href="#templates">Templates</Link>
-                <Link href="#how-it-works">How It Works</Link>
-                <Link href="#reviews">Reviews</Link>
-                <Link href="#faq">FAQ</Link>
+                <Link href="/about">About</Link>
                 <Link href="/contact">Contact</Link>
               </div>
             </div>
 
             <div>
-              <span className="iy-footer__col-title">Studio</span>
+              <span className="iy-footer__col-title">Legal</span>
               <div className="iy-footer__col-links">
-                <a href={waLink("Hi! I'd like to discuss a custom invitation.")} onClick={() => trackEvent('whatsapp_click', { location: 'footer', cta_text: 'Custom Design' })}>Custom Design</a>
-                <Link href="/admin/login">Admin Login</Link>
+                <Link href="/privacy">Privacy</Link>
+                <Link href="/terms">Terms</Link>
+              </div>
+            </div>
+
+            <div>
+              <span className="iy-footer__col-title">Wedding Invitations</span>
+              <div className="iy-footer__col-links">
+                <Link href="/wedding-invitations">Wedding Invitations</Link>
+                <Link href="/muslim-wedding-invitations">Muslim Wedding Invitations</Link>
+                <Link href="/islamic-wedding-invitations">Islamic Wedding Invitations</Link>
+                <Link href="/nikah-invitations">Nikah Invitations</Link>
+                <Link href="/walima-invitations">Walima Invitations</Link>
+              </div>
+            </div>
+
+            <div>
+              <span className="iy-footer__col-title">Templates</span>
+              <div className="iy-footer__col-links">
+                <Link href="/templates">Templates</Link>
               </div>
             </div>
 

@@ -187,6 +187,41 @@ export default function TemplatesPage() {
               <svg className="iy-brand__mark" viewBox="0 0 48 48"><path d="M24 3 31.2 16.8 45 24l-13.8 7.2L24 45l-7.2-13.8L3 24l13.8-7.2L24 3Z"/><path d="M24 10.5 28.9 19.1 37.5 24l-8.6 4.9L24 37.5l-4.9-8.6L10.5 24l8.6-4.9L24 10.5Z"/><circle cx="24" cy="24" r="2.2"/></svg>
               <strong className="iy-brand__name">Inviting You</strong>
               <span className="iy-brand__sub">More than an invitation</span>
+              <p className="iy-footer__tagline">Because every love story deserves to be beautifully told.</p>
+            </div>
+
+            <div>
+              <span className="iy-footer__col-title">Company</span>
+              <div className="iy-footer__col-links">
+                <Link href="/about">About</Link>
+                <Link href="/contact">Contact</Link>
+              </div>
+            </div>
+
+            <div>
+              <span className="iy-footer__col-title">Legal</span>
+              <div className="iy-footer__col-links">
+                <Link href="/privacy">Privacy</Link>
+                <Link href="/terms">Terms</Link>
+              </div>
+            </div>
+
+            <div>
+              <span className="iy-footer__col-title">Wedding Invitations</span>
+              <div className="iy-footer__col-links">
+                <Link href="/wedding-invitations">Wedding Invitations</Link>
+                <Link href="/muslim-wedding-invitations">Muslim Wedding Invitations</Link>
+                <Link href="/islamic-wedding-invitations">Islamic Wedding Invitations</Link>
+                <Link href="/nikah-invitations">Nikah Invitations</Link>
+                <Link href="/walima-invitations">Walima Invitations</Link>
+              </div>
+            </div>
+
+            <div>
+              <span className="iy-footer__col-title">Templates</span>
+              <div className="iy-footer__col-links">
+                <Link href="/templates">Templates</Link>
+              </div>
             </div>
           </div>
           <div className="iy-footer__bottom">
