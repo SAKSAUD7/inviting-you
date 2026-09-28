@@ -29,40 +29,7 @@ const steps = [
   { n: '04', title: 'Receive & Share', desc: 'Get your unique link in 2-3 days, ready to send.' },
 ]
 
-const reviews = [
-  {
-    name: 'Aman & Tazeen',
-    city: 'Bangalore',
-    rating: 5,
-    text: 'Absolutely stunning! Our guests loved the invite. It felt so personal and premium. Highly recommended!',
-    template: 'Velvet',
-    date: 'November 2026',
-  },
-  {
-    name: 'Zainab & Farhan',
-    city: 'Hyderabad',
-    rating: 5,
-    text: 'The whole process was smooth and super fast. The design was exactly what we wanted! The cinematic opening gave me goosebumps.',
-    template: 'Sultan',
-    date: 'October 2026',
-  },
-  {
-    name: 'Nida & Yasir',
-    city: 'Mumbai',
-    rating: 5,
-    text: 'Every single guest complimented the invite. The music, the photos, the countdown — it was like a mini wedding film.',
-    template: 'Petal',
-    date: 'September 2026',
-  },
-  {
-    name: 'Sana & Umar',
-    city: 'Pune',
-    rating: 5,
-    text: 'Delivered in exactly 2 days. The personalisation was spot on. Even our elders loved how easy it was to open on WhatsApp.',
-    template: 'Velvet',
-    date: 'August 2026',
-  },
-]
+// Reviews removed because they are not verified
 
 const faqs = [
   { q: 'How long does it take to deliver?', a: 'Your invitation is delivered within 2–3 days after you select a template, pay the advance, and share all details via WhatsApp.' },
@@ -195,8 +162,8 @@ export default function HomePage() {
             Timeless designs. Modern experiences.
           </p>
           <div className="iy-hero__actions iy-fade-in">
-            <Link href="/templates" className="iy-btn iy-btn--burg">
-              Explore Invitations →
+            <Link href="#templates" className="iy-btn iy-btn--burg">
+              Explore Templates →
             </Link>
             <a href={waLink("Hi! I'd like to order an invitation.")} className="iy-btn iy-btn--outline" target="_blank" rel="noopener noreferrer">
               Order on WhatsApp
@@ -349,16 +316,16 @@ export default function HomePage() {
                             className="iy-tpl-card__action iy-tpl-card__action--outline"
                             style={{ justifyContent: 'center' }}
                           >
-                            Experience
+                            Experience Demo
                           </a>
                           <a
                             href={waLink(`Hi! I love the ${t.name} template. I want to order it for my wedding. Can you help me?`)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="iy-tpl-card__action"
-                            style={{ justifyContent: 'center' }}
+                            style={{ justifyContent: 'center', textAlign: 'center', lineHeight: '1.2' }}
                           >
-                            Order Now
+                            Order on WhatsApp
                           </a>
                         </div>
                       ) : (
@@ -431,63 +398,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── REVIEWS ─── */}
+      {/* ─── TRUST REPLACEMENT ─── */}
       <section className="iy-reviews" id="reviews">
         <div className="iy-wrap" style={{ maxWidth: '100%' }}>
           <div className="iy-section-head iy-fade-in" style={{ textAlign: 'center' }}>
-            <span className="iy-kicker" style={{ justifyContent: 'center' }}>Kind Words</span>
-            <h2 className="iy-heading">Loved by families, everywhere</h2>
+            <span className="iy-kicker" style={{ justifyContent: 'center' }}>Our Promise</span>
+            <h2 className="iy-heading">Loved by families everywhere</h2>
           </div>
 
           <div className="iy-reviews__trust iy-fade-in">
             <div className="iy-reviews__trust-badge">
-              <span style={{ fontSize: '1.2rem' }}>🌍</span> Trusted across 15+ countries
+              <span style={{ fontSize: '1.2rem' }}>✨</span> Beautiful invitations, personalized for your story
             </div>
             <div className="iy-reviews__trust-badge">
-              <span style={{ fontSize: '1.2rem', color: 'var(--gold)' }}>★★★★★</span> 5-Star Rated Studio
+              <span style={{ fontSize: '1.2rem', color: 'var(--gold)' }}>✦</span> Designed for modern weddings
             </div>
             <div className="iy-reviews__trust-badge">
-              <span style={{ fontSize: '1.2rem' }}>💖</span> Over 500+ Happy Couples
-            </div>
-          </div>
-
-          <div className="iy-reviews__marquee iy-fade-in" style={{ animationDelay: '0.2s' }}>
-            {/* We render the content twice to create an infinite scroll effect */}
-            <div className="iy-reviews__marquee-content">
-              {reviews.map((r, i) => (
-                <div key={`a-${i}`} className="iy-review">
-                  <div className="iy-review__stars">{'★'.repeat(r.rating)}</div>
-                  <blockquote className="iy-review__text">&ldquo;{r.text}&rdquo;</blockquote>
-                  <div className="iy-review__footer">
-                    <div className="iy-review__person">
-                      <strong>{r.name}</strong>
-                      <span>{r.city}</span>
-                    </div>
-                    <div className="iy-review__meta">
-                      <span className="iy-review__template">{r.template}</span>
-                      <span className="iy-review__date">{r.date}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="iy-reviews__marquee-content" aria-hidden="true">
-              {reviews.map((r, i) => (
-                <div key={`b-${i}`} className="iy-review">
-                  <div className="iy-review__stars">{'★'.repeat(r.rating)}</div>
-                  <blockquote className="iy-review__text">&ldquo;{r.text}&rdquo;</blockquote>
-                  <div className="iy-review__footer">
-                    <div className="iy-review__person">
-                      <strong>{r.name}</strong>
-                      <span>{r.city}</span>
-                    </div>
-                    <div className="iy-review__meta">
-                      <span className="iy-review__template">{r.template}</span>
-                      <span className="iy-review__date">{r.date}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              <span style={{ fontSize: '1.2rem' }}>💌</span> Timeless & elegant experiences
             </div>
           </div>
         </div>
@@ -503,29 +430,38 @@ export default function HomePage() {
 
           <div className="iy-pricing-card iy-fade-in">
             <div className="iy-pricing-card__content">
-              <span className="iy-kicker">The Premium Package</span>
+              <span className="iy-kicker">LAUNCH OFFER</span>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1rem', marginBottom: '0.5rem' }}>
-                <span style={{ fontSize: '1.25rem', color: 'var(--muted)', textDecoration: 'line-through' }}>₹1,999</span>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', color: 'var(--burgundy)', lineHeight: 1 }}>₹1,499</div>
               </div>
-              <p style={{ color: 'var(--brown)', fontWeight: 500, marginBottom: '2.5rem' }}>Welcome Offer — 25% OFF.</p>
+              <p style={{ color: 'var(--brown)', fontWeight: 500, marginBottom: '2.5rem' }}>Everything Included</p>
               
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 3rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 {[
-                  'Your choice of template',
-                  'Full personalization',
-                  'Music & animations',
-                  'Photo gallery',
-                  'Countdown & RSVP',
-                  'Unique sharing link'
+                  'Personalized names & event details',
+                  'Up to 10 photos',
+                  'Background music',
+                  'Countdown',
+                  'Event schedule',
+                  'Venue & map',
+                  'RSVP',
+                  'WhatsApp sharing',
+                  'Unique invitation link',
+                  '1 revision',
+                  '2–3 day delivery'
                 ].map((f, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem', color: 'var(--muted)' }}>
                     <span style={{ color: 'var(--gold)' }}>✓</span> {f}
                   </li>
                 ))}
               </ul>
+
+              <div style={{ padding: '1rem', background: 'rgba(199, 168, 107, 0.1)', borderRadius: '8px', marginBottom: '2rem', textAlign: 'center' }}>
+                <div style={{ fontWeight: 600, color: 'var(--burgundy)', marginBottom: '0.25rem' }}>₹999 advance to start</div>
+                <div style={{ fontSize: '0.9rem', color: 'var(--muted)' }}>₹500 on delivery</div>
+              </div>
               
-              <a href={waLink("Hi! I want to order the Premium Package digital invitation for ₹999.")} target="_blank" rel="noopener noreferrer" className="iy-btn iy-btn--burg" style={{ width: '100%', justifyContent: 'center' }}>
+              <a href={waLink("Hi! I want to order a digital invitation (₹1,499 package).")} target="_blank" rel="noopener noreferrer" className="iy-btn iy-btn--burg" style={{ width: '100%', justifyContent: 'center' }}>
                 Order on WhatsApp →
               </a>
               <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.85rem', color: 'var(--muted)' }}>

@@ -37,6 +37,7 @@ function toWeddingData(record: Awaited<ReturnType<typeof fetchWeddingBySlug>>): 
     title: record.title,
     templateId: record.templateId as TemplateId,
     templateVersion: record.templateVersion,
+    visibility: record.visibility as WeddingData['visibility'],
     status: record.status as WeddingData['status'],
     publishedAt: record.publishedAt ? record.publishedAt.toISOString() : null,
     couple: record.couple
@@ -168,9 +169,12 @@ export async function generateMetadata(props: Props) {
     record.seo?.description ||
     `Wedding invitation of ${record.couple?.brideName ?? ''} and ${record.couple?.groomName ?? ''}`
 
+  const isPrivate = record.visibility === 'PRIVATE'
+
   return {
     title,
     description,
+    robots: isPrivate ? { index: false, follow: false } : undefined,
     openGraph: {
       title,
       description,
@@ -209,5 +213,66 @@ export default async function InvitationPage(props: Props) {
     notFound()
   }
 
-  return <TemplateComponent wedding={wedding} />
+  return (
+    <>
+      <TemplateComponent wedding={wedding} />
+      {wedding.visibility === 'PUBLIC_DEMO' && (
+        <>
+          <div style={{
+            position: 'fixed',
+            top: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 9999,
+            background: 'rgba(0,0,0,0.6)',
+            color: '#fff',
+            padding: '6px 12px',
+            borderRadius: '20px',
+            fontSize: '0.75rem',
+            letterSpacing: '0.05em',
+            backdropFilter: 'blur(4px)',
+            textTransform: 'uppercase',
+            pointerEvents: 'none',
+            fontFamily: 'sans-serif'
+          }}>
+            Template Preview
+          </div>
+          
+          <div style={{
+            position: 'fixed',
+            bottom: '24px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 9999,
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%'
+          }}>
+            <a
+              href={`https://wa.me/917411091256?text=${encodeURIComponent(`Hi! I'm looking at the ${wedding.templateId} template preview and I'd like to order my invitation.`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: '#128C7E',
+                color: '#fff',
+                padding: '14px 28px',
+                borderRadius: '30px',
+                fontSize: '1rem',
+                fontWeight: 600,
+                textDecoration: 'none',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+                fontFamily: 'sans-serif',
+                letterSpacing: '0.02em',
+                transition: 'transform 0.2s ease',
+              }}
+              onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+              onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              Order This Design
+            </a>
+          </div>
+        </>
+      )}
+    </>
+  )
 }

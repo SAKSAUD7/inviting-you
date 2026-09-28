@@ -5,6 +5,7 @@ export interface WeddingData {
   templateId: TemplateId
   /** Version of the template to render. DB default is 1. Never silently ignored. */
   templateVersion: number
+  visibility: 'PUBLIC_DEMO' | 'PRIVATE'
   status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
   publishedAt?: string | null
   couple?: WeddingCouple | null

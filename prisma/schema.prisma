@@ -25,6 +25,7 @@ model Wedding {
   title          String
   templateId     String            @default("velvet")
   templateVersion Int              @default(1)
+  visibility     Visibility        @default(PRIVATE)
   status         Status            @default(DRAFT)
   publishedAt    DateTime?
   userId         String
@@ -193,6 +194,11 @@ enum Status {
   DRAFT
   PUBLISHED
   ARCHIVED
+}
+
+enum Visibility {
+  PUBLIC_DEMO
+  PRIVATE
 }
 
 model TemplateOffer {

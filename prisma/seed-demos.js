@@ -24,6 +24,7 @@ async function main() {
       slug: 'demo-velvet',
       title: 'Aisha & Omar',
       templateId: 'velvet',
+      visibility: 'PUBLIC_DEMO',
       status: 'PUBLISHED',
       userId: adminUser.id,
       couple: {
@@ -47,6 +48,7 @@ async function main() {
       slug: 'demo-sultan',
       title: 'Zara & Zain',
       templateId: 'sultan',
+      visibility: 'PUBLIC_DEMO',
       status: 'PUBLISHED',
       userId: adminUser.id,
       couple: {
@@ -70,6 +72,7 @@ async function main() {
       slug: 'demo-petal',
       title: 'Fatima & Ali',
       templateId: 'walima',
+      visibility: 'PUBLIC_DEMO',
       status: 'PUBLISHED',
       userId: adminUser.id,
       couple: {
@@ -92,6 +95,7 @@ async function main() {
       slug: 'demo-noor',
       title: 'Sana & Bilal',
       templateId: 'noor',
+      visibility: 'PUBLIC_DEMO',
       status: 'PUBLISHED',
       userId: adminUser.id,
       couple: {
@@ -114,6 +118,7 @@ async function main() {
       slug: 'demo-birthday',
       title: "Zaid's 5th Birthday",
       templateId: 'birthday-interactive-01',
+      visibility: 'PUBLIC_DEMO',
       status: 'PUBLISHED',
       userId: adminUser.id,
       birthday: {
