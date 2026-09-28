@@ -1,11 +1,56 @@
+import { Metadata } from 'next'
 import { getTemplateById } from '@/data/templates'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import '@/app/home.css'
+import { SEO } from '@/lib/seo'
 
 function waLink(text: string) {
   const phone = '919022634351'
   return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const template = getTemplateById(id)
+  if (!template) return {}
+  
+  let title = `${template.name} Digital Wedding Invitation | Inviting You`
+  let description = `Explore ${template.name}, a premium digital wedding invitation template designed for elegant weddings and celebrations.`
+  
+  if (id === 'velvet') {
+    description = `Explore Velvet, a cinematic digital wedding invitation designed for elegant weddings, Nikah and Walima celebrations.`
+  } else if (id === 'sultan') {
+    title = `Sultan Royal Wedding Invitation | Inviting You`
+    description = `Explore Sultan, a royal digital wedding invitation with an elegant Islamic-inspired design for weddings and Nikah celebrations.`
+  } else if (id === 'walima') {
+    title = `Petal Floral Digital Wedding Invitation | Inviting You`
+  } else if (id === 'noor') {
+    title = `Noor Elegant Islamic Wedding Invitation | Inviting You`
+  }
+
+  const url = `${SEO.siteUrl}/templates/${id}`
+  const image = template.previewImg && !template.previewImg.startsWith('http') 
+    ? `${SEO.siteUrl}${template.previewImg}` 
+    : template.previewImg || SEO.defaultOgImage
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `/templates/${id}` },
+    openGraph: {
+      title,
+      description,
+      url,
+      images: [image],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [image],
+    }
+  }
 }
 
 export default async function TemplateDetailsPage({ params }: { params: Promise<{ id: string }> }) {
@@ -61,7 +106,7 @@ export default async function TemplateDetailsPage({ params }: { params: Promise<
             {/* Left: Image Preview */}
             <div className="iy-fade-in" style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 24px 60px rgba(36,24,22,0.1)' }}>
               {template.previewImg ? (
-                <img src={template.previewImg} alt={template.name} style={{ width: '100%', height: 'auto', display: 'block' }} />
+                <img src={template.previewImg} alt={`${template.name} digital wedding invitation template design`} style={{ width: '100%', height: 'auto', display: 'block' }} />
               ) : (
                 <div style={{ width: '100%', aspectRatio: '3/4', background: 'var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   No Image Available

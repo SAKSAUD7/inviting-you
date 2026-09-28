@@ -164,21 +164,33 @@ export async function generateMetadata(props: Props) {
 
   if (!record) return {}
 
-  const title = record.seo?.title || record.title
-  const description =
-    record.seo?.description ||
-    `Wedding invitation of ${record.couple?.brideName ?? ''} and ${record.couple?.groomName ?? ''}`
-
   const isPrivate = record.visibility === 'PRIVATE'
+  const isPublished = record.status === 'PUBLISHED'
+
+  if (isPrivate) {
+    return {
+      title: 'Private Event Invitation | Inviting You',
+      description: 'A private event invitation.',
+      robots: { index: false, follow: false },
+      openGraph: {
+        title: 'Private Event Invitation',
+        description: 'A private event invitation.',
+        images: ['/hero-phone.png'],
+      },
+    }
+  }
+
+  const title = record.seo?.title || `Digital Wedding Invitation Demo | Inviting You`
+  const description = record.seo?.description || `Experience this premium digital wedding invitation demo by Inviting You.`
 
   return {
     title,
     description,
-    robots: isPrivate ? { index: false, follow: false } : undefined,
+    robots: { index: isPublished, follow: isPublished },
     openGraph: {
       title,
       description,
-      images: record.seo?.ogImage ? [record.seo.ogImage] : ['/assets/images/velvet-hero-poster.webp'],
+      images: record.seo?.ogImage ? [record.seo.ogImage] : ['/hero-phone.png'],
     },
   }
 }

@@ -97,6 +97,29 @@ export default function HomePage() {
 
   return (
     <div className="iy">
+      {/* ─── SEO STRUCTURED DATA ─── */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Organization",
+                "name": "Inviting You",
+                "url": "https://inviting-you-eta.vercel.app/",
+                "logo": "https://inviting-you-eta.vercel.app/hero-phone.png"
+              },
+              {
+                "@type": "WebSite",
+                "name": "Inviting You",
+                "url": "https://inviting-you-eta.vercel.app/"
+              }
+            ]
+          })
+        }}
+      />
+
       {/* ─── FLOATING WHATSAPP ─── */}
       <a
         href={waLink("Hi! I'm interested in a digital wedding invitation. Can you help me choose a template?")}
@@ -161,8 +184,9 @@ export default function HomePage() {
             and remembered.
           </h1>
           <p className="iy-hero__lead iy-fade-in">
-            Beautiful, personalized digital invitations for weddings and special occasions.
-            Timeless designs. Modern experiences.
+            <strong>Premium Digital Wedding Invitations.</strong><br />
+            Beautiful, personalized digital invitations for weddings, Nikah, and Walima.
+            Timeless designs with photos, music, and RSVP.
           </p>
           <div className="iy-hero__actions iy-fade-in">
             <Link href="#templates" className="iy-btn iy-btn--burg">

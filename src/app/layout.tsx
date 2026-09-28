@@ -3,12 +3,35 @@ import '@/styles/globals.css'
 import Providers from './Providers'
 import PublicAnalytics from '@/components/PublicAnalytics'
 
+import { SEO } from '@/lib/seo'
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://inviting-you-eta.vercel.app'),
-  title: 'Inviting You - Premium Digital Wedding Invitations',
-  description: 'Create unforgettable digital wedding invitations with cinematic luxury and elegance.',
+  metadataBase: new URL(SEO.siteUrl),
+  title: {
+    default: SEO.defaultTitle,
+    template: `%s | ${SEO.siteName}`
+  },
+  description: SEO.defaultDescription,
   verification: {
     google: 'lwi5-zHj69LaLhdNua0HRbC-TzOK5yYRIn8xcatB59Y',
+  },
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: SEO.defaultTitle,
+    description: SEO.defaultDescription,
+    url: SEO.siteUrl,
+    siteName: SEO.siteName,
+    images: [{ url: SEO.defaultOgImage, width: 1200, height: 630, alt: 'Inviting You - Digital Wedding Invitations' }],
+    locale: SEO.locale,
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SEO.defaultTitle,
+    description: SEO.defaultDescription,
+    images: [SEO.defaultOgImage],
   },
 }
 

@@ -74,11 +74,11 @@ export default function TemplatesPage() {
         <div className="iy-hero__noise" aria-hidden />
         <div className="iy-wrap" style={{ textAlign: 'center', position: 'relative', zIndex: 2 }}>
           <span className="iy-hero__eyebrow" style={{ justifyContent: 'center' }}>The Collection</span>
-          <h1 className="iy-hero__title iy-fade-in" style={{ fontSize: 'clamp(2.8rem, 5vw, 4.5rem)', marginBottom: '1.5rem' }}>
-            Choose a design that<br /><em>tells your story</em>
+          <h1 className="iy-hero__title iy-fade-in" style={{ fontSize: 'clamp(2.5rem, 4vw, 4rem)', marginBottom: '1.5rem' }}>
+            Digital Wedding<br /><em>Invitation Templates</em>
           </h1>
-          <p className="iy-hero__lead iy-fade-in" style={{ margin: '0 auto', maxWidth: '540px' }}>
-            Every template is fully customized with your names, photos, music, and details. Delivered as a cinematic experience in 2-3 days.
+          <p className="iy-hero__lead iy-fade-in" style={{ margin: '0 auto', maxWidth: '600px', fontSize: '1.1rem' }}>
+            Explore premium digital wedding invitation designs by Inviting You. Choose an elegant invitation for your wedding, Nikah, Walima or special celebration and personalize it with your names, photos, events, music and RSVP details.
           </p>
         </div>
       </section>
