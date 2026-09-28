@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import '../home.css'
+import { trackEvent } from '@/lib/analytics'
 
 const WA_NUMBER = '917411091256'
 const waLink = (msg: string) =>
@@ -29,7 +30,7 @@ export default function ContactPage() {
   return (
     <div className="iy">
       {/* ─── FLOATING WHATSAPP ─── */}
-      <a href={waLink("Hi! I'm interested in a digital wedding invitation.")} target="_blank" rel="noopener noreferrer" className="iy-wa-float" aria-label="Chat on WhatsApp">
+      <a href={waLink("Hi! I'm interested in a digital wedding invitation.")} target="_blank" rel="noopener noreferrer" className="iy-wa-float" aria-label="Chat on WhatsApp" onClick={() => { trackEvent('whatsapp_click', { location: 'floating', cta_text: 'Order on WhatsApp' }); trackEvent('order_cta_click', { location: 'floating', cta_text: 'Order on WhatsApp' }); }}>
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.118 1.528 5.847L.057 23.25a.75.75 0 00.916.916l5.403-1.471A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.713 9.713 0 01-4.932-1.349l-.354-.21-3.665.998.997-3.593-.228-.368A9.714 9.714 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
         <span>Order on WhatsApp</span>
       </a>
@@ -48,7 +49,7 @@ export default function ContactPage() {
             <Link href="/" className="iy-nav__link">Home</Link>
             <Link href="/templates" className="iy-nav__link">Templates</Link>
             <Link href="/contact" className="iy-nav__link">Contact</Link>
-            <a href={waLink("Hi! I'm interested in ordering a digital wedding invitation.")} target="_blank" rel="noopener noreferrer" className="iy-nav__cta">Order on WhatsApp</a>
+            <a href={waLink("Hi! I'm interested in ordering a digital wedding invitation.")} target="_blank" rel="noopener noreferrer" className="iy-nav__cta" onClick={() => { trackEvent('whatsapp_click', { location: 'header', cta_text: 'Order on WhatsApp' }); trackEvent('order_cta_click', { location: 'header', cta_text: 'Order on WhatsApp' }); }}>Order on WhatsApp</a>
           </nav>
         </div>
       </header>
@@ -79,7 +80,7 @@ export default function ContactPage() {
               </div>
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', color: 'var(--brown)', marginBottom: '0.5rem' }}>WhatsApp</h3>
               <p style={{ color: 'var(--muted)', fontSize: '0.95rem', marginBottom: '2rem' }}>The fastest way to reach us. We usually reply within an hour.</p>
-              <a href={waLink("Hi! I have a question about Inviting You.")} target="_blank" rel="noopener noreferrer" className="iy-btn iy-btn--burg" style={{ width: '100%', justifyContent: 'center' }}>
+              <a href={waLink("Hi! I have a question about Inviting You.")} target="_blank" rel="noopener noreferrer" className="iy-btn iy-btn--burg" style={{ width: '100%', justifyContent: 'center' }} onClick={() => trackEvent('whatsapp_click', { location: 'contact_page', cta_text: 'Chat Now →' })}>
                 Chat Now →
               </a>
             </div>

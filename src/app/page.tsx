@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import './home.css'
+import { trackEvent } from '@/lib/analytics'
 
 // ─── WhatsApp config ────────────────────────────────────────────────────────
 const WA_NUMBER = '917411091256'
@@ -103,6 +104,7 @@ export default function HomePage() {
         rel="noopener noreferrer"
         className="iy-wa-float"
         aria-label="Chat on WhatsApp"
+        onClick={() => { trackEvent('whatsapp_click', { location: 'floating', cta_text: 'Order on WhatsApp' }); trackEvent('order_cta_click', { location: 'floating', cta_text: 'Order on WhatsApp' }); }}
       >
         <svg viewBox="0 0 24 24" fill="currentColor">
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
@@ -137,6 +139,7 @@ export default function HomePage() {
               target="_blank"
               rel="noopener noreferrer"
               className="iy-nav__cta"
+              onClick={() => { trackEvent('whatsapp_click', { location: 'header', cta_text: 'Order on WhatsApp' }); trackEvent('order_cta_click', { location: 'header', cta_text: 'Order on WhatsApp' }); }}
             >
               Order on WhatsApp
             </a>
@@ -165,7 +168,7 @@ export default function HomePage() {
             <Link href="#templates" className="iy-btn iy-btn--burg">
               Explore Templates →
             </Link>
-            <a href={waLink("Hi! I'd like to order an invitation.")} className="iy-btn iy-btn--outline" target="_blank" rel="noopener noreferrer">
+            <a href={waLink("Hi! I'd like to order an invitation.")} className="iy-btn iy-btn--outline" target="_blank" rel="noopener noreferrer" onClick={() => { trackEvent('whatsapp_click', { location: 'hero', cta_text: 'Order on WhatsApp' }); trackEvent('order_cta_click', { location: 'hero', cta_text: 'Order on WhatsApp' }); }}>
               Order on WhatsApp
             </a>
           </div>
@@ -198,7 +201,7 @@ export default function HomePage() {
         <div className="iy-hero__visual">
           <div className="iy-hero__img-wrap iy-fade-in">
             <img src="/hero-phone.png" alt="Luxury digital invitation preview" className="iy-hero__phone-img" />
-            <Link href="/i/demo-velvet" target="_blank" className="iy-hero__play-btn">
+            <Link href="/i/demo-velvet" target="_blank" className="iy-hero__play-btn" onClick={() => trackEvent('template_demo_view', { template_name: 'Velvet', template_slug: 'velvet' })}>
               <div className="iy-hero__play-circle">▶</div>
               <span className="iy-hero__play-label">Play Preview</span>
             </Link>
@@ -279,7 +282,7 @@ export default function HomePage() {
                       <img src={t.previewImg} alt={t.name} />
                     )}
                     <div className="iy-tpl-card__overlay">
-                      <Link href={t.demo!} target="_blank" className="iy-tpl-card__overlay-btn">
+                      <Link href={t.demo!} target="_blank" className="iy-tpl-card__overlay-btn" onClick={() => trackEvent('template_demo_view', { template_name: t.name, template_slug: t.id })}>
                         <span>Experience</span>
                         <span>→</span>
                       </Link>
@@ -315,6 +318,7 @@ export default function HomePage() {
                             rel="noopener noreferrer"
                             className="iy-tpl-card__action iy-tpl-card__action--outline"
                             style={{ justifyContent: 'center' }}
+                            onClick={() => trackEvent('template_demo_view', { template_name: t.name, template_slug: t.id })}
                           >
                             Experience Demo
                           </a>
@@ -324,6 +328,7 @@ export default function HomePage() {
                             rel="noopener noreferrer"
                             className="iy-tpl-card__action"
                             style={{ justifyContent: 'center', textAlign: 'center', lineHeight: '1.2' }}
+                            onClick={() => { trackEvent('whatsapp_click', { location: 'template_card', template_name: t.name, template_slug: t.id, cta_text: 'Order on WhatsApp' }); trackEvent('order_cta_click', { location: 'template_card', template_name: t.name, template_slug: t.id, cta_text: 'Order on WhatsApp' }); }}
                           >
                             Order on WhatsApp
                           </a>
@@ -461,11 +466,11 @@ export default function HomePage() {
                 <div style={{ fontSize: '0.9rem', color: 'var(--muted)' }}>₹500 on delivery</div>
               </div>
               
-              <a href={waLink("Hi! I want to order a digital invitation (₹1,499 package).")} target="_blank" rel="noopener noreferrer" className="iy-btn iy-btn--burg" style={{ width: '100%', justifyContent: 'center' }}>
+              <a href={waLink("Hi! I want to order a digital invitation (₹1,499 package).")} target="_blank" rel="noopener noreferrer" className="iy-btn iy-btn--burg" style={{ width: '100%', justifyContent: 'center' }} onClick={() => { trackEvent('whatsapp_click', { location: 'pricing', cta_text: 'Order on WhatsApp →' }); trackEvent('order_cta_click', { location: 'pricing', cta_text: 'Order on WhatsApp →' }); }}>
                 Order on WhatsApp →
               </a>
               <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.85rem', color: 'var(--muted)' }}>
-                Need something custom? <a href={waLink("Hi! I need a custom designed invitation.")} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--brown)', fontWeight: 600 }}>Let's talk →</a>
+                Need something custom? <a href={waLink("Hi! I need a custom designed invitation.")} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--brown)', fontWeight: 600 }} onClick={() => trackEvent('whatsapp_click', { location: 'pricing_custom', cta_text: 'Let\'s talk →' })}>Let's talk →</a>
               </div>
             </div>
             
@@ -487,6 +492,7 @@ export default function HomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="iy-btn iy-btn--burg"
+                onClick={() => { trackEvent('whatsapp_click', { location: 'bottom_cta', cta_text: 'Order on WhatsApp' }); trackEvent('order_cta_click', { location: 'bottom_cta', cta_text: 'Order on WhatsApp' }); }}
               >
                 Order on WhatsApp
               </a>
@@ -576,7 +582,7 @@ export default function HomePage() {
             <div>
               <span className="iy-footer__col-title">Studio</span>
               <div className="iy-footer__col-links">
-                <a href={waLink("Hi! I'd like to discuss a custom invitation.")}>Custom Design</a>
+                <a href={waLink("Hi! I'd like to discuss a custom invitation.")} onClick={() => trackEvent('whatsapp_click', { location: 'footer', cta_text: 'Custom Design' })}>Custom Design</a>
                 <Link href="/admin/login">Admin Login</Link>
               </div>
             </div>
@@ -589,6 +595,7 @@ export default function HomePage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="iy-footer__wa"
+                  onClick={() => trackEvent('whatsapp_click', { location: 'footer', cta_text: '+91 74110 91256' })}
                 >
                   <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
