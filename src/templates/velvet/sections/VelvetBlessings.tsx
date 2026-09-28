@@ -66,7 +66,7 @@ export default function VelvetBlessings() {
           </div>
 
           <span className="eyebrow">With Love</span>
-          <h2 className="blessings-title">Give Us Your Blessings</h2>
+          <h2 className="blessings-title">Attend the wedding and give us your blessing</h2>
           <p className="blessings-body">
             Your heartfelt duas and blessings are the greatest gift you can offer this couple as they begin their journey together in faith and love.
           </p>
@@ -82,7 +82,7 @@ export default function VelvetBlessings() {
                   <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor" opacity="0.9"/>
                 </svg>
               </i>
-              Send Blessings
+              Attend and Give Blessings
             </span>
             <span className="blessings-btn-ripple" aria-hidden="true" />
           </button>
