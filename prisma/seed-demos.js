@@ -43,23 +43,117 @@ async function main() {
   // 2. Sultan
   await prisma.wedding.upsert({
     where: { slug: 'demo-sultan' },
-    update: {},
+    update: {
+      title: 'Ayaan & Zara',
+      couple: {
+        update: {
+          brideName: 'Zara Ali',
+          brideQualification: 'Architect',
+          groomName: 'Ayaan Khan',
+          groomQualification: 'Software Engineer',
+          couplePhoto: 'https://images.unsplash.com/photo-1594938298603-c8148c4b4432?q=80&w=800&auto=format&fit=crop',
+          groomPhoto: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop',
+          bridePhoto: 'https://images.unsplash.com/photo-1594938298603-c8148c4b4432?q=80&w=800&auto=format&fit=crop',
+          gregorianDate: new Date('2025-07-12T00:00:00Z'),
+          gregorianDisplay: '12th July 2025',
+          hijriDate: '16th Muharram 1447',
+          invitationMessage: '"Together by His Grace" — We request the honor of your presence as two families unite in love.',
+        }
+      },
+      family: {
+        update: {
+          groomFather: 'Mr. Imran Khan\n& Mrs. Farah Khan',
+          brideParents: 'Mr. Salman Ali\n& Mrs. Saba Ali',
+        }
+      },
+    },
     create: {
       slug: 'demo-sultan',
-      title: 'Zara & Zain',
+      title: 'Ayaan & Zara',
       templateId: 'sultan',
       visibility: 'PUBLIC_DEMO',
       status: 'PUBLISHED',
       userId: adminUser.id,
       couple: {
         create: {
-          brideName: 'Zara',
-          groomName: 'Zain',
-          gregorianDate: new Date('2025-01-10T00:00:00Z'),
-          gregorianDisplay: '10th January 2025',
-          hijriDate: '1st Rajab 1446',
-          invitationMessage: 'We request the honor of your presence as we begin our new journey together.',
+          brideName: 'Zara Ali',
+          brideQualification: 'Architect',
+          groomName: 'Ayaan Khan',
+          groomQualification: 'Software Engineer',
+          couplePhoto: 'https://images.unsplash.com/photo-1594938298603-c8148c4b4432?q=80&w=800&auto=format&fit=crop',
+          groomPhoto: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop',
+          bridePhoto: 'https://images.unsplash.com/photo-1594938298603-c8148c4b4432?q=80&w=800&auto=format&fit=crop',
+          gregorianDate: new Date('2025-07-12T00:00:00Z'),
+          gregorianDisplay: '12th July 2025',
+          hijriDate: '16th Muharram 1447',
+          invitationMessage: '"Together by His Grace" — We request the honor of your presence as two families unite in love.',
         }
+      },
+      family: {
+        create: {
+          groomFather: 'Mr. Imran Khan\n& Mrs. Farah Khan',
+          brideParents: 'Mr. Salman Ali\n& Mrs. Saba Ali',
+        }
+      },
+      events: {
+        create: [
+          {
+            name: 'The Nikah Ceremony',
+            type: 'nikah',
+            date: '2025-07-10T05:00:00Z',
+            timeDisplay: '10:30 AM onwards',
+            description: 'Join us for the solemnization of our marriage.',
+            venueName: 'Grand Mosque Hall',
+            venueAddress: 'Bangalore, Karnataka',
+            mapsUrl: 'https://maps.google.com',
+            order: 1,
+            enabled: true
+          },
+          {
+            name: 'The Walima Reception',
+            type: 'walima',
+            date: '2025-07-12T13:30:00Z',
+            timeDisplay: '7:00 PM onwards',
+            description: 'An evening of love, blessings and togetherness.',
+            venueName: 'The Grand Palace',
+            venueAddress: 'Bangalore, Karnataka',
+            mapsUrl: 'https://maps.google.com',
+            order: 2,
+            enabled: true
+          }
+        ]
+      },
+      gallery: {
+        create: [
+          { url: 'https://images.unsplash.com/photo-1594938298603-c8148c4b4432?q=80&w=800&auto=format&fit=crop', isCover: true, order: 1 },
+          { url: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop', isCover: false, order: 2 },
+          { url: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop', isCover: false, order: 3 },
+          { url: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=800&auto=format&fit=crop', isCover: false, order: 4 },
+          { url: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop', isCover: false, order: 5 },
+          { url: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?q=80&w=800&auto=format&fit=crop', isCover: false, order: 6 },
+          { url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800&auto=format&fit=crop', isCover: false, order: 7 },
+        ]
+      },
+      rsvpConfig: {
+        create: {
+          enabled: true,
+          whatsapp: '919876543210',
+          deadline: '2025-07-05T00:00:00Z'
+        }
+      },
+      music: {
+        create: {
+          url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+          title: 'Royal Arrival',
+          autoplay: false
+        }
+      },
+      compliments: {
+        create: [
+          { name: 'Relatives & Friends', order: 1 },
+          { name: 'The Ali Family', order: 2 },
+          { name: 'The Khan Family', order: 3 }
+        ]
       }
     }
   })

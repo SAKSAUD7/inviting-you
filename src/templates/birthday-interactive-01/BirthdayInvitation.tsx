@@ -7,15 +7,36 @@ import BirthdayIntro from './sections/BirthdayIntro'
 import BirthdayBalloons from './sections/BirthdayBalloons'
 import BirthdayCandle from './sections/BirthdayCandle'
 import BirthdayBouquet from './sections/BirthdayBouquet'
-import BirthdayGallery from './sections/BirthdayGallery'
+import BirthdayVideo from './sections/BirthdayVideo'
+import dynamic from 'next/dynamic'
 import BirthdayEnvelope from './sections/BirthdayEnvelope'
 import BirthdayGift from './sections/BirthdayGift'
 import StarryBackground from './components/StarryBackground'
 import VelvetMusicPlayer from '../velvet/sections/VelvetMusicPlayer'
 import { AnimatePresence } from 'framer-motion'
-import BirthdayRoseBouquet from './sections/BirthdayRoseBouquet'
 
-type BirthdayState = 'INTRO' | 'BALLOONS' | 'CANDLE' | 'BOUQUET' | 'GALLERY' | 'ROSE_BOUQUET' | 'ENVELOPE' | 'GIFT'
+// Lazy-load the heavy game section to keep initial load fast
+const BirthdayLoveGame = dynamic(() => import('./sections/BirthdayLoveGame'), {
+  ssr: false,
+  loading: () => (
+    <div id="birthday-invitation" style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      background: 'linear-gradient(180deg, #0D0628 0%, #2D0F4A 100%)',
+      flexDirection: 'column', gap: '1rem',
+    }}>
+      <div style={{ fontSize: '3rem', animation: 'birthday-spin 1s linear infinite' }}>💖</div>
+      <p style={{ fontFamily: 'var(--font-birthday-heading)', color: '#FF9EB5', fontSize: '1.1rem' }}>
+        Loading Love Quest...
+      </p>
+      <style>{`@keyframes birthday-spin { to { transform: rotate(360deg); } }`}</style>
+    </div>
+  ),
+})
+
+type BirthdayState = 'INTRO' | 'BALLOONS' | 'CANDLE' | 'BOUQUET' | 'VIDEO' | 'LOVE_GAME' | 'ENVELOPE' | 'GIFT'
+
+// Video fallback to the bundled WhatsApp video
+const DEFAULT_VIDEO = '/assets/videos/WhatsApp Video 2026-09-27 at 4.29.02 AM.mp4'
 
 export default function BirthdayInvitation({ wedding }: { wedding: WeddingData }) {
   const [currentState, setCurrentState] = useState<BirthdayState>('INTRO')
@@ -36,7 +57,6 @@ export default function BirthdayInvitation({ wedding }: { wedding: WeddingData }
     window.dispatchEvent(new Event('velvet-music-play'))
   }, [advanceState])
 
-  // Full replay: reset state machine AND increment key to remount all child scenes
   const handleReplay = useCallback(() => {
     setCurrentState('INTRO')
     setSessionKey(k => k + 1)
@@ -51,6 +71,8 @@ export default function BirthdayInvitation({ wedding }: { wedding: WeddingData }
       </div>
     )
   }
+
+  const videoUrl = (birthdayData as any).videoUrl || DEFAULT_VIDEO
 
   return (
     <main id="birthday-invitation">
@@ -86,22 +108,22 @@ export default function BirthdayInvitation({ wedding }: { wedding: WeddingData }
           <BirthdayBouquet
             key={`bouquet-${sessionKey}`}
             data={birthdayData}
-            images={wedding.gallery || []}
-            onComplete={() => advanceState('GALLERY')}
+            onComplete={() => advanceState('VIDEO')}
           />
         )}
 
-        {currentState === 'GALLERY' && (
-          <BirthdayGallery
-            key={`gallery-${sessionKey}`}
-            images={wedding.gallery || []}
-            onComplete={() => advanceState('ROSE_BOUQUET')}
+        {currentState === 'VIDEO' && (
+          <BirthdayVideo
+            key={`video-${sessionKey}`}
+            videoSrc={videoUrl}
+            name={birthdayData.birthdayPersonName || undefined}
+            onComplete={() => advanceState('LOVE_GAME')}
           />
         )}
 
-        {currentState === 'ROSE_BOUQUET' && (
-          <BirthdayRoseBouquet
-            key={`rose-bouquet-${sessionKey}`}
+        {currentState === 'LOVE_GAME' && (
+          <BirthdayLoveGame
+            key={`love-game-${sessionKey}`}
             data={birthdayData}
             onComplete={() => advanceState('ENVELOPE')}
           />

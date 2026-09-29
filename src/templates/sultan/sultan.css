@@ -1,93 +1,411 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Lato:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
 
 :root {
-  /* Royal Palette */
-  --sultan-crimson: #6B0E1D;
-  --sultan-crimson-dark: #3F000A;
-  --sultan-gold-metallic: #C19A5B;
-  --sultan-gold-bright: #E5C37A;
-  --sultan-gold-soft: #F4E8CE;
-  --sultan-ivory: #FDFBF7;
-  --sultan-ink: #1A0D0D;
+  /* Exact Palette from Reference */
+  --sultan-midnight: #071421;
+  --sultan-emerald: #0B211C;
+  --sultan-gold: #CBA45D;
+  --sultan-gold-light: #E6C97A;
+  --sultan-champagne: #F0DDB7;
+  --sultan-ivory: #F5EBDD;
+  --sultan-parchment: #E9D8B9;
+  --sultan-brown: #2A1C12;
+  --sultan-soft-gold: #E4C98B;
 
-  /* Fonts */
+  /* Fonts from Reference */
   --font-sultan-display: 'Cinzel', serif;
-  --font-sultan-heading: 'Playfair Display', serif;
-  --font-sultan-body: 'Lato', sans-serif;
+  --font-sultan-heading: 'Cormorant Garamond', serif;
+  --font-sultan-script: 'Great Vibes', cursive;
+  --font-sultan-body: 'Lora', serif;
 }
 
-/* Shell & Container */
+/* ================================================
+   BASE SHELL
+================================================ */
 .sultan-shell {
-  background-color: var(--sultan-crimson-dark);
-  color: var(--sultan-gold-soft);
+  background-color: var(--sultan-midnight);
+  color: var(--sultan-champagne);
   font-family: var(--font-sultan-body);
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
 }
 
 .sultan-main {
-  background-color: var(--sultan-crimson-dark);
   position: relative;
   z-index: 1;
 }
 
+/* ================================================
+   TYPOGRAPHY
+================================================ */
+.sultan-title {
+  font-family: var(--font-sultan-display);
+  color: var(--sultan-champagne);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+  margin: 0;
+}
+
+.sultan-heading {
+  font-family: var(--font-sultan-heading);
+  color: var(--sultan-gold);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.sultan-script {
+  font-family: var(--font-sultan-script);
+  color: var(--sultan-champagne);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.sultan-body {
+  font-family: var(--font-sultan-body);
+  color: var(--sultan-champagne);
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+.sultan-label {
+  font-family: var(--font-sultan-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--sultan-gold);
+}
+
+/* ================================================
+   SECTION FRAME SYSTEM
+   - Every section has the grand arch, lanterns, florals
+================================================ */
 .sultan-section {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.sultan-section-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Grand arch border (all sections) */
+.sultan-arch-border {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sultan-content {
+  position: relative;
+  z-index: 2;
   width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+}
+
+/* ================================================
+   BUTTONS
+================================================ */
+.sultan-btn-primary {
+  background-color: var(--sultan-emerald);
+  color: var(--sultan-champagne);
+  border: 1px solid var(--sultan-gold);
+  font-family: var(--font-sultan-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.9rem 2rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  transition: all 0.4s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.sultan-btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(203, 164, 93, 0.3);
+  pointer-events: none;
+}
+
+.sultan-btn-primary:hover {
+  background-color: rgba(11, 33, 28, 0.8);
+  box-shadow: 0 0 20px rgba(203, 164, 93, 0.3);
+  color: var(--sultan-gold);
+}
+
+.sultan-btn-whatsapp {
+  background-color: var(--sultan-emerald);
+  color: var(--sultan-champagne);
+  border: 1px solid var(--sultan-gold);
+  font-family: var(--font-sultan-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.9rem 2rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  transition: all 0.4s ease;
+  text-decoration: none;
+  width: 100%;
+}
+
+.sultan-btn-whatsapp:hover {
+  background-color: #128C7E;
+  border-color: #25D366;
+}
+
+.sultan-btn-outline {
+  background-color: transparent;
+  color: var(--sultan-champagne);
+  border: 1px solid var(--sultan-gold);
+  font-family: var(--font-sultan-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.9rem 2rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  transition: all 0.4s ease;
+  text-decoration: none;
+}
+
+.sultan-btn-outline:hover {
+  background-color: rgba(203, 164, 93, 0.1);
+  color: var(--sultan-gold);
+}
+
+/* ================================================
+   FORM ELEMENTS
+================================================ */
+.sultan-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background-color: rgba(245, 235, 221, 0.05);
+  border: 1px solid rgba(203, 164, 93, 0.4);
+  color: var(--sultan-brown);
+  font-family: var(--font-sultan-body);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.sultan-input::placeholder {
+  color: rgba(42, 28, 18, 0.4);
+  font-style: italic;
+}
+
+.sultan-input:focus {
+  border-color: var(--sultan-gold);
+  background-color: rgba(245, 235, 221, 0.1);
+}
+
+.sultan-select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background-color: rgba(245, 235, 221, 0.05);
+  border: 1px solid rgba(203, 164, 93, 0.4);
+  color: var(--sultan-brown);
+  font-family: var(--font-sultan-body);
+  font-size: 0.9rem;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%23CBA45D' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 3rem;
+}
+
+.sultan-textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background-color: rgba(245, 235, 221, 0.05);
+  border: 1px solid rgba(203, 164, 93, 0.4);
+  color: var(--sultan-brown);
+  font-family: var(--font-sultan-body);
+  font-size: 0.9rem;
+  outline: none;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.sultan-textarea::placeholder {
+  color: rgba(42, 28, 18, 0.4);
+  font-style: italic;
+}
+
+.sultan-textarea:focus {
+  border-color: var(--sultan-gold);
+}
+
+/* ================================================
+   CARD COMPONENTS
+================================================ */
+.sultan-event-card {
+  background-color: var(--sultan-ivory);
+  border: 2px solid var(--sultan-gold);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.sultan-event-card::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(203, 164, 93, 0.25);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.sultan-rsvp-card {
+  background-color: var(--sultan-ivory);
+  border: 2px solid var(--sultan-gold);
+  position: relative;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.sultan-rsvp-card::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(203, 164, 93, 0.25);
+  pointer-events: none;
+}
+
+/* ================================================
+   COUNTDOWN OCTAGON
+================================================ */
+.sultan-octagon {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%);
+  background: linear-gradient(135deg, rgba(203, 164, 93, 0.35) 0%, rgba(203, 164, 93, 0.1) 100%);
+  width: 88px;
+  height: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   position: relative;
 }
 
-/* Regal Typography */
-.sultan-h1 {
-  font-family: var(--font-sultan-display);
-  color: var(--sultan-gold-bright);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin: 0;
+.sultan-octagon-inner {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%);
+  background: linear-gradient(160deg, #0B211C 0%, #071421 100%);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
 }
 
-.sultan-h2 {
-  font-family: var(--font-sultan-heading);
-  color: var(--sultan-gold-metallic);
-  font-style: italic;
-  font-weight: 400;
-  margin: 0;
+/* ================================================
+   SCROLLBAR
+================================================ */
+::-webkit-scrollbar {
+  width: 6px;
 }
-
-.sultan-body-text {
-  font-family: var(--font-sultan-body);
-  color: var(--sultan-ivory);
-  line-height: 1.8;
-  letter-spacing: 0.05em;
+::-webkit-scrollbar-track {
+  background: var(--sultan-midnight);
 }
-
-/* Interactive Elements */
-.sultan-button {
-  background: transparent;
-  border: 1px solid var(--sultan-gold-metallic);
-  color: var(--sultan-gold-bright);
-  font-family: var(--font-sultan-display);
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  padding: 1rem 2.5rem;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.4s ease;
+::-webkit-scrollbar-thumb {
+  background: var(--sultan-gold);
   border-radius: 2px;
 }
 
-.sultan-button:hover {
-  background: rgba(193, 154, 91, 0.1);
-  box-shadow: 0 0 20px rgba(193, 154, 91, 0.2);
+/* ================================================
+   GALLERY HOVER
+================================================ */
+.sultan-gallery-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
 }
 
-/* Animations */
-@keyframes sultan-fade-in {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.sultan-gallery-item img {
+  transition: transform 0.5s ease;
 }
 
-.sultan-animate-fade {
-  animation: sultan-fade-in 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+.sultan-gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.sultan-gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 20, 33, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.sultan-gallery-item:hover .sultan-gallery-overlay {
+  opacity: 1;
+}
+
+/* ================================================
+   ANIMATIONS
+================================================ */
+@keyframes sultan-flicker {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes sultan-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes sultan-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.sultan-lantern-animate {
+  animation: sultan-flicker 3s ease-in-out infinite;
+}
+
+.sultan-float {
+  animation: sultan-float 4s ease-in-out infinite;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .sultan-content {
+    padding: 4rem 1.25rem;
+  }
 }
