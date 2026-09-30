@@ -428,27 +428,45 @@ function HeartCollectible3D({
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-//  MOONLIGHT LOVE GARDEN — 3-D WORLD
+//  CHERRY BLOSSOM MORNING GARDEN — 3-D WORLD
 // ════════════════════════════════════════════════════════════════════════════
 function CherryTree({ pos, h = 4, sc = 1 }: { pos: [number, number, number]; h?: number; sc?: number }) {
   return (
     <group position={pos} scale={[sc, sc, sc]}>
-      <mesh position={[0, h * 0.3, 0]} castShadow>
-        <cylinderGeometry args={[0.18, 0.28, h * 0.7, 8]} />
-        <meshStandardMaterial color="#5C2D0A" roughness={0.9} />
+      {/* Trunk */}
+      <mesh position={[0, h * 0.35, 0]} castShadow>
+        <cylinderGeometry args={[0.15, 0.26, h * 0.75, 8]} />
+        <meshStandardMaterial color="#6B3510" roughness={0.9} />
       </mesh>
-      <mesh position={[0, h * 0.72, 0]} castShadow>
-        <sphereGeometry args={[1.1, 16, 16]} />
-        <meshStandardMaterial color="#FF9EB5" roughness={0.7} emissive="#FF9EB5" emissiveIntensity={0.08} />
+      {/* Big center cluster */}
+      <mesh position={[0, h * 0.78, 0]} castShadow>
+        <sphereGeometry args={[1.3, 14, 14]} />
+        <meshStandardMaterial color="#FF85A1" roughness={0.6} emissive="#FF85A1" emissiveIntensity={0.22} />
       </mesh>
-      <mesh position={[-0.5, h * 0.66, 0.2]}>
-        <sphereGeometry args={[0.85, 12, 12]} />
-        <meshStandardMaterial color="#FFB3C6" roughness={0.7} emissive="#FFB3C6" emissiveIntensity={0.07} />
+      {/* Side clusters */}
+      <mesh position={[-0.9, h * 0.70, 0.2]}>
+        <sphereGeometry args={[0.95, 10, 10]} />
+        <meshStandardMaterial color="#FFB3C6" roughness={0.6} emissive="#FFB3C6" emissiveIntensity={0.18} />
       </mesh>
-      <mesh position={[0.4, h * 0.68, -0.3]}>
-        <sphereGeometry args={[0.78, 12, 12]} />
-        <meshStandardMaterial color="#FF758C" roughness={0.7} emissive="#FF758C" emissiveIntensity={0.06} />
+      <mesh position={[0.85, h * 0.71, -0.3]}>
+        <sphereGeometry args={[0.88, 10, 10]} />
+        <meshStandardMaterial color="#FF6B8A" roughness={0.6} emissive="#FF6B8A" emissiveIntensity={0.2} />
       </mesh>
+      <mesh position={[0.2, h * 0.60, 0.7]}>
+        <sphereGeometry args={[0.80, 10, 10]} />
+        <meshStandardMaterial color="#FFAEC9" roughness={0.6} emissive="#FFAEC9" emissiveIntensity={0.16} />
+      </mesh>
+      <mesh position={[-0.3, h * 0.62, -0.8]}>
+        <sphereGeometry args={[0.75, 10, 10]} />
+        <meshStandardMaterial color="#FF9BB5" roughness={0.6} emissive="#FF9BB5" emissiveIntensity={0.18} />
+      </mesh>
+      {/* Top wisp */}
+      <mesh position={[0, h * 0.92, 0]}>
+        <sphereGeometry args={[0.55, 8, 8]} />
+        <meshStandardMaterial color="#FFC8D8" roughness={0.5} emissive="#FFC8D8" emissiveIntensity={0.25} />
+      </mesh>
+      {/* Soft pink glow under tree */}
+      <pointLight position={[0, h * 0.75, 0]} color="#FF9BB5" intensity={0.9} distance={5} />
     </group>
   )
 }
@@ -456,15 +474,13 @@ function CherryTree({ pos, h = 4, sc = 1 }: { pos: [number, number, number]; h?:
 function Lantern({ pos }: { pos: [number, number, number] }) {
   return (
     <group position={pos}>
-      {/* pole */}
-      <mesh position={[0, 1.2, 0]}><cylinderGeometry args={[0.05, 0.06, 2.4, 8]} /><meshStandardMaterial color="#6B4A1A" roughness={0.8} /></mesh>
-      {/* lantern body */}
+      <mesh position={[0, 1.2, 0]}><cylinderGeometry args={[0.06, 0.08, 2.4, 8]} /><meshStandardMaterial color="#8B6914" roughness={0.8} /></mesh>
       <mesh position={[0, 2.55, 0]}>
-        <cylinderGeometry args={[0.2, 0.2, 0.4, 6]} />
-        <meshStandardMaterial color="#D4860A" roughness={0.4} emissive="#FF9A00" emissiveIntensity={0.4} transparent opacity={0.85} />
+        <cylinderGeometry args={[0.22, 0.22, 0.45, 6]} />
+        <meshStandardMaterial color="#FF9A30" roughness={0.3} emissive="#FFB830" emissiveIntensity={0.7} transparent opacity={0.9} />
       </mesh>
-      <mesh position={[0, 2.8, 0]}><cylinderGeometry args={[0.12, 0.2, 0.1, 6]} /><meshStandardMaterial color="#A06010" roughness={0.6} /></mesh>
-      <pointLight position={[0, 2.55, 0]} color="#FFA040" intensity={1.5} distance={6} />
+      <mesh position={[0, 2.82, 0]}><cylinderGeometry args={[0.14, 0.22, 0.12, 6]} /><meshStandardMaterial color="#C07820" roughness={0.5} /></mesh>
+      <pointLight position={[0, 2.55, 0]} color="#FFB040" intensity={2.5} distance={8} />
     </group>
   )
 }
@@ -472,38 +488,50 @@ function Lantern({ pos }: { pos: [number, number, number] }) {
 function GameWorld() {
   return (
     <>
-      {/* Ground */}
+      {/* ── BRIGHT MORNING SKY & GROUND ──────────────────────────────── */}
+      {/* Bright green grass */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[8, 0, 2]} receiveShadow>
-        <planeGeometry args={[60, 50]} />
-        <meshStandardMaterial color="#4A1060" roughness={0.9} />
+        <planeGeometry args={[80, 70]} />
+        <meshStandardMaterial color="#7EC850" roughness={0.85} />
       </mesh>
+      {/* Pink petal scatter on grass */}
+      {Array.from({ length: 40 }, (_, i) => {
+        const fx = (i * 17.3 + 5) % 60 - 15; const fz = (i * 9.1 + 3) % 50 - 15
+        const fc = ['#FFB3C6','#FF85A1','#FFC8D8','#FF9BB5','#FFAEC9'][i % 5]
+        return <mesh key={i} rotation={[-Math.PI/2,0,i*0.8]} position={[fx, 0.02, fz]}>
+          <circleGeometry args={[0.14, 5]} />
+          <meshStandardMaterial color={fc} emissive={fc} emissiveIntensity={0.35} />
+        </mesh>
+      })}
 
-      {/* Glowing stone path */}
+      {/* ── WARM STONE PATH ──────────────────────────────────────────── */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[10, 0.01, 0]}>
-        <planeGeometry args={[35, 3.5]} />
-        <meshStandardMaterial color="#7A4A9A" roughness={0.7} emissive="#9060C0" emissiveIntensity={0.08} />
+        <planeGeometry args={[38, 4.2]} />
+        <meshStandardMaterial color="#D4B896" roughness={0.85} />
       </mesh>
-      {/* Path stones */}
-      {Array.from({ length: 16 }, (_, i) => (
-        <mesh key={i} rotation={[-Math.PI / 2, 0, 0]} position={[-3 + i * 2.4, 0.015, (i % 2 === 0 ? 0.4 : -0.4)]}>
-          <boxGeometry args={[1.6, 1.2, 0.04]} />
-          <meshStandardMaterial color="#8A5AB0" roughness={0.75} emissive="#6030A0" emissiveIntensity={0.05} />
+      {Array.from({ length: 18 }, (_, i) => (
+        <mesh key={i} rotation={[-Math.PI / 2, 0, i * 0.1]} position={[-4 + i * 2.4, 0.02, (i % 2 === 0 ? 0.5 : -0.5)]}>
+          <boxGeometry args={[1.7, 1.3, 0.04]} />
+          <meshStandardMaterial color="#C8A878" roughness={0.9} />
         </mesh>
       ))}
 
-      {/* Cherry blossom trees */}
-      <CherryTree pos={[-3, 0, -5]} h={5} sc={1.1} />
-      <CherryTree pos={[3,  0, -6]} h={4.5} />
-      <CherryTree pos={[8,  0, -7]} h={5.5} sc={1.2} />
-      <CherryTree pos={[13, 0, -6]} h={4.8} />
-      <CherryTree pos={[18, 0, -7]} h={5.2} sc={1.1} />
-      <CherryTree pos={[23, 0, -5]} h={4.6} />
-      <CherryTree pos={[-2, 0,  8]} h={4.8} sc={0.9} />
-      <CherryTree pos={[6,  0,  9]} h={5.0} />
-      <CherryTree pos={[14, 0,  8]} h={4.5} sc={1.05} />
-      <CherryTree pos={[22, 0,  7]} h={5.3} sc={1.15} />
+      {/* ── CHERRY BLOSSOM TREES ─────────────────────────────────────── */}
+      <CherryTree pos={[-4, 0, -4]} h={5.5} sc={1.15} />
+      <CherryTree pos={[3,  0, -5]} h={5.0} />
+      <CherryTree pos={[8,  0, -6]} h={6.0} sc={1.25} />
+      <CherryTree pos={[13, 0, -5]} h={5.2} />
+      <CherryTree pos={[18, 0, -6]} h={5.5} sc={1.1} />
+      <CherryTree pos={[24, 0, -4]} h={5.0} />
+      <CherryTree pos={[-3, 0,  7]} h={5.0} sc={0.95} />
+      <CherryTree pos={[5,  0,  8]} h={5.5} />
+      <CherryTree pos={[13, 0,  7]} h={4.8} sc={1.1} />
+      <CherryTree pos={[21, 0,  6]} h={5.6} sc={1.2} />
+      {/* Extra trees for density */}
+      <CherryTree pos={[0,  0, -8]} h={4.5} sc={0.9} />
+      <CherryTree pos={[10, 0,  10]} h={4.6} sc={0.95} />
 
-      {/* Lanterns */}
+      {/* ── LANTERNS ─────────────────────────────────────────────────── */}
       <Lantern pos={[-1, 0, -2.5]} />
       <Lantern pos={[5,  0, -2.8]} />
       <Lantern pos={[11, 0, -2.6]} />
@@ -513,64 +541,53 @@ function GameWorld() {
       <Lantern pos={[9,  0,  2.7]} />
       <Lantern pos={[16, 0,  2.6]} />
 
-      {/* Distant castle */}
-      <group position={[30, 0, -18]} scale={[0.7, 0.7, 0.7]}>
-        {/* Main tower */}
-        <mesh position={[0, 6, 0]}><cylinderGeometry args={[1.8, 2, 12, 8]} /><meshStandardMaterial color="#3D1060" roughness={0.7} emissive="#4D1570" emissiveIntensity={0.1} /></mesh>
-        <mesh position={[0, 12.4, 0]}><coneGeometry args={[2, 3.5, 8]} /><meshStandardMaterial color="#2A0848" roughness={0.7} /></mesh>
-        {/* Side towers */}
-        <mesh position={[-4, 4.5, 0]}><cylinderGeometry args={[1.2, 1.4, 9, 8]} /><meshStandardMaterial color="#4A1470" roughness={0.7} emissive="#4D1570" emissiveIntensity={0.08} /></mesh>
-        <mesh position={[-4, 9.8, 0]}><coneGeometry args={[1.4, 2.8, 8]} /><meshStandardMaterial color="#2A0848" roughness={0.7} /></mesh>
-        <mesh position={[4, 4.5, 0]}><cylinderGeometry args={[1.2, 1.4, 9, 8]} /><meshStandardMaterial color="#4A1470" roughness={0.7} emissive="#4D1570" emissiveIntensity={0.08} /></mesh>
-        <mesh position={[4, 9.8, 0]}><coneGeometry args={[1.4, 2.8, 8]} /><meshStandardMaterial color="#2A0848" roughness={0.7} /></mesh>
-        {/* Castle window glow */}
-        <pointLight position={[0, 7, 2]} color="#FFD166" intensity={3} distance={12} />
-        <pointLight position={[-4, 5.5, 1.5]} color="#FFD166" intensity={1.5} distance={8} />
-        <pointLight position={[4, 5.5, 1.5]} color="#FFD166" intensity={1.5} distance={8} />
+      {/* ── FAIRY-TALE CASTLE (daytime pastel) ───────────────────────── */}
+      <group position={[32, 0, -20]} scale={[0.75, 0.75, 0.75]}>
+        <mesh position={[0, 6, 0]}><cylinderGeometry args={[1.8, 2, 12, 8]} /><meshStandardMaterial color="#E8C8FF" roughness={0.5} emissive="#C090E0" emissiveIntensity={0.12} /></mesh>
+        <mesh position={[0, 12.4, 0]}><coneGeometry args={[2, 3.5, 8]} /><meshStandardMaterial color="#FF9EB5" roughness={0.5} emissive="#FF9EB5" emissiveIntensity={0.1} /></mesh>
+        <mesh position={[-4, 4.5, 0]}><cylinderGeometry args={[1.2, 1.4, 9, 8]} /><meshStandardMaterial color="#F0D8FF" roughness={0.5} /></mesh>
+        <mesh position={[-4, 9.8, 0]}><coneGeometry args={[1.4, 2.8, 8]} /><meshStandardMaterial color="#FFB3C6" roughness={0.5} emissive="#FFB3C6" emissiveIntensity={0.08} /></mesh>
+        <mesh position={[4, 4.5, 0]}><cylinderGeometry args={[1.2, 1.4, 9, 8]} /><meshStandardMaterial color="#F0D8FF" roughness={0.5} /></mesh>
+        <mesh position={[4, 9.8, 0]}><coneGeometry args={[1.4, 2.8, 8]} /><meshStandardMaterial color="#FFB3C6" roughness={0.5} emissive="#FFB3C6" emissiveIntensity={0.08} /></mesh>
+        <pointLight position={[0, 8, 2]} color="#FFE0FF" intensity={2} distance={15} />
       </group>
 
-      {/* Moon */}
-      <mesh position={[15, 22, -30]}>
-        <sphereGeometry args={[4.5, 24, 24]} />
-        <meshStandardMaterial color="#FFF8DC" emissive="#FFE566" emissiveIntensity={0.6} roughness={0.4} />
+      {/* ── SUN ──────────────────────────────────────────────────────── */}
+      <mesh position={[-10, 26, -35]}>
+        <sphereGeometry args={[5, 20, 20]} />
+        <meshStandardMaterial color="#FFF5A0" emissive="#FFE000" emissiveIntensity={1.2} roughness={0.2} />
       </mesh>
-      <pointLight position={[15, 22, -30]} color="#FFF4AA" intensity={0.8} distance={80} />
+      <pointLight position={[-10, 26, -35]} color="#FFE080" intensity={2.0} distance={120} />
 
-      {/* Fountain */}
+      {/* ── FOUNTAIN ─────────────────────────────────────────────────── */}
       <group position={[7, 0, -1.5]}>
-        <mesh><cylinderGeometry args={[1.2, 1.4, 0.4, 16]} /><meshStandardMaterial color="#7A5AB0" roughness={0.6} /></mesh>
-        <mesh position={[0, 0.5, 0]}><cylinderGeometry args={[0.12, 0.14, 1.2, 8]} /><meshStandardMaterial color="#8A6AC0" roughness={0.6} /></mesh>
-        <mesh position={[0, 1.2, 0]}><sphereGeometry args={[0.25, 12, 12]} /><meshStandardMaterial color="#9AB0E0" roughness={0.2} transparent opacity={0.7} emissive="#6080C0" emissiveIntensity={0.2} /></mesh>
-        <pointLight position={[0, 0.8, 0]} color="#A0C0FF" intensity={1.2} distance={5} />
+        <mesh><cylinderGeometry args={[1.3, 1.5, 0.45, 16]} /><meshStandardMaterial color="#D4B8E0" roughness={0.5} /></mesh>
+        <mesh position={[0, 0.55, 0]}><cylinderGeometry args={[0.14, 0.16, 1.2, 8]} /><meshStandardMaterial color="#C8A0E0" roughness={0.5} /></mesh>
+        <mesh position={[0, 1.3, 0]}><sphereGeometry args={[0.3, 12, 12]} /><meshStandardMaterial color="#A0D4FF" roughness={0.2} transparent opacity={0.8} emissive="#60B0FF" emissiveIntensity={0.35} /></mesh>
+        <pointLight position={[0, 0.8, 0]} color="#80D0FF" intensity={2} distance={7} />
       </group>
 
-      {/* Ambient ground flowers */}
-      {Array.from({ length: 30 }, (_, i) => {
-        const fx = (i * 13.7) % 40 - 10
-        const fz = (i * 7.3) % 30 - 10
-        const fc = ['#FF9EB5', '#FFD166', '#B0E0FF', '#FF758C', '#FFC1CC'][i % 5]
-        return (
-          <mesh key={i} position={[fx, 0.06, fz]}>
-            <sphereGeometry args={[0.12, 8, 8]} />
-            <meshStandardMaterial color={fc} emissive={fc} emissiveIntensity={0.3} />
-          </mesh>
-        )
+      {/* ── GROUND FLOWERS ───────────────────────────────────────────── */}
+      {Array.from({ length: 35 }, (_, i) => {
+        const fx = (i * 13.7) % 48 - 12; const fz = (i * 7.3) % 36 - 12
+        const fc = ['#FF85A1','#FFD166','#80D4FF','#FF758C','#FFC8D8','#FFEC8B'][i % 6]
+        return <mesh key={i} position={[fx, 0.08, fz]}>
+          <sphereGeometry args={[0.14, 8, 8]} />
+          <meshStandardMaterial color={fc} emissive={fc} emissiveIntensity={0.55} />
+        </mesh>
       })}
 
-      {/* Scene lighting */}
-      <ambientLight intensity={0.35} color="#8060A0" />
-      <directionalLight position={[10, 20, 5]} intensity={0.6} color="#FFF4D0" castShadow shadow-mapSize={[1024, 1024]} />
-      <hemisphereLight args={['#2D0F4A', '#6B2560', 0.4]} />
+      {/* ── BRIGHT MORNING LIGHTING ──────────────────────────────────── */}
+      <ambientLight intensity={1.4} color="#FFF5F0" />
+      <directionalLight position={[-8, 22, -10]} intensity={2.2} color="#FFE9B0" castShadow shadow-mapSize={[1024, 1024]} />
+      <hemisphereLight args={['#87CEEB', '#7EC850', 1.0]} />
 
-      {/* Stars */}
-      <Stars radius={80} depth={50} count={2000} factor={4} saturation={0} fade speed={1} />
+      {/* Falling cherry blossom petal sparkles */}
+      <Sparkles count={80} scale={[45, 10, 35]} size={3.5} speed={0.5} color="#FFB3C6" opacity={0.9} position={[8, 4, 0]} />
+      <Sparkles count={40} scale={[30, 8, 25]} size={2.5} speed={0.3} color="#FFAEC9" opacity={0.7} position={[5, 6, 0]} />
 
-      {/* Firefly sparkles */}
-      <Sparkles count={60} scale={[40, 8, 30]} size={2.5} speed={0.4} color="#FFE066" opacity={0.7} position={[8, 2, 0]} />
-      <Sparkles count={30} scale={[20, 5, 20]} size={3} speed={0.3} color="#FF9EB5" opacity={0.5} position={[8, 3, 0]} />
-
-      {/* Fog */}
-      <fog attach="fog" args={['#1A0A3A', 25, 65]} />
+      {/* Light morning haze fog */}
+      <fog attach="fog" args={['#FFE8F0', 30, 80]} />
     </>
   )
 }
@@ -649,9 +666,10 @@ function GameScene({
       setAymanState('idle')
     }
 
-    // ── Apply ayman position to group ──────────────────────────────────────
+    // ── Apply ayman position — lifted 0.5 above ground ────────────────────
+    const CHAR_Y = 0.48 // feet sit on ground
     if (aymanGroup.current) {
-      aymanGroup.current.position.copy(aymanPos.current)
+      aymanGroup.current.position.set(aymanPos.current.x, CHAR_Y, aymanPos.current.z)
       aymanGroup.current.rotation.y = THREE.MathUtils.lerp(
         aymanGroup.current.rotation.y, aymanFace.current, 0.14
       )
@@ -662,14 +680,14 @@ function GameScene({
     }
 
     // ── Saud companion follow ──────────────────────────────────────────────
-    const targetX = aymanPos.current.x - Math.sin(aymanFace.current) * 2.0
-    const targetZ = aymanPos.current.z - Math.cos(aymanFace.current) * 2.0
+    const targetX = aymanPos.current.x - Math.sin(aymanFace.current) * 2.2
+    const targetZ = aymanPos.current.z - Math.cos(aymanFace.current) * 2.2
     const sdx = targetX - saudPos.current.x
     const sdz = targetZ - saudPos.current.z
     const sdist = Math.sqrt(sdx * sdx + sdz * sdz)
 
     if (sdist > 0.25) {
-      const sSpeed = Math.min(sdist * 4.5, isRunning ? 6 : 4)
+      const sSpeed = Math.min(sdist * 5, isRunning ? 6.5 : 4.5)
       saudPos.current.x += (sdx / sdist) * sSpeed * delta
       saudPos.current.z += (sdz / sdist) * sSpeed * delta
       saudFace.current   = Math.atan2(sdx, sdz)
@@ -679,7 +697,7 @@ function GameScene({
     }
 
     if (saudGroup.current) {
-      saudGroup.current.position.copy(saudPos.current)
+      saudGroup.current.position.set(saudPos.current.x, CHAR_Y, saudPos.current.z)
       saudGroup.current.rotation.y = THREE.MathUtils.lerp(
         saudGroup.current.rotation.y, saudFace.current, 0.12
       )
@@ -689,23 +707,23 @@ function GameScene({
       saudShadow.current.position.z = saudPos.current.z
     }
 
-    // ── Camera (top-back third-person) ────────────────────────────────────
-    const camDist = 6.5
-    const camH    = 4.8
+    // ── Camera — low angle showing full body ───────────────────────────────
+    const camDist = 9.0
+    const camH    = 2.8
     const targetCam = new THREE.Vector3(
-      aymanPos.current.x - Math.sin(aymanFace.current) * camDist * 0.6,
-      aymanPos.current.y + camH,
-      aymanPos.current.z - Math.cos(aymanFace.current) * camDist + 1,
+      aymanPos.current.x - Math.sin(aymanFace.current) * camDist * 0.35,
+      CHAR_Y + camH,
+      aymanPos.current.z - Math.cos(aymanFace.current) * camDist,
     )
-    camPos.current.lerp(targetCam, 0.055)
+    camPos.current.lerp(targetCam, 0.06)
     camera.position.copy(camPos.current)
 
     const targetLook = new THREE.Vector3(
       aymanPos.current.x,
-      aymanPos.current.y + 1.2,
+      CHAR_Y + 1.0,
       aymanPos.current.z
     )
-    camLook.current.lerp(targetLook, 0.07)
+    camLook.current.lerp(targetLook, 0.08)
     camera.lookAt(camLook.current)
 
     // ── Heart collection detection ─────────────────────────────────────────
@@ -731,7 +749,7 @@ function GameScene({
 
   return (
     <>
-      <PerspectiveCamera makeDefault fov={60} near={0.1} far={120} />
+      <PerspectiveCamera makeDefault fov={68} near={0.1} far={150} />
       <GameWorld />
       {HEARTS.map(h => {
         if (collected.includes(h.id)) return null
@@ -767,76 +785,99 @@ function GameScene({
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-//  VIRTUAL JOYSTICK (mobile)
+//  FLOATING JOYSTICK — appears at touch point on left half of screen
 // ════════════════════════════════════════════════════════════════════════════
-function VirtualJoystick({ onMove }: { onMove: (x: number, z: number) => void }) {
-  const baseRef  = useRef<HTMLDivElement>(null)
-  const stickRef = useRef<HTMLDivElement>(null)
-  const active   = useRef<number | null>(null)
-  const center   = useRef({ x: 0, y: 0 })
+function FloatingJoystick({ onMove }: { onMove: (x: number, z: number) => void }) {
+  const touchRef  = useRef<{ id: number; baseX: number; baseY: number } | null>(null)
+  const [visual, setVisual] = useState<{ x: number; y: number; dx: number; dy: number } | null>(null)
+  const MAX = 58
 
   useEffect(() => {
-    const MAX = 42
-    const move = (e: TouchEvent) => {
-      if (active.current === null) return
-      // Prevent page scroll / pull-to-refresh while using joystick
-      e.preventDefault()
-      const t = Array.from(e.touches).find(t => t.identifier === active.current)
+    const moveHandler = (e: TouchEvent) => {
+      if (!touchRef.current) return
+      const t = Array.from(e.touches).find(t => t.identifier === touchRef.current!.id)
       if (!t) return
-      const dx = t.clientX - center.current.x
-      const dy = t.clientY - center.current.y
+      e.preventDefault()
+      const dx = t.clientX - touchRef.current.baseX
+      const dy = t.clientY - touchRef.current.baseY
       const dist = Math.sqrt(dx * dx + dy * dy)
-      const cx = dist > MAX ? (dx / dist) * MAX : dx
-      const cy = dist > MAX ? (dy / dist) * MAX : dy
-      if (stickRef.current) stickRef.current.style.transform = `translate(${cx}px, ${cy}px)`
+      const angle = Math.atan2(dy, dx)
+      const clamped = Math.min(dist, MAX)
+      const cx = Math.cos(angle) * clamped
+      const cy = Math.sin(angle) * clamped
+      setVisual(v => v ? { ...v, dx: cx, dy: cy } : null)
       onMove(cx / MAX, cy / MAX)
     }
-    const end = (e: TouchEvent) => {
-      // Only reset if the joystick touch ended (not some other finger)
-      const hasActive = Array.from(e.changedTouches).some(t => t.identifier === active.current)
-      if (!hasActive) return
-      active.current = null
-      if (stickRef.current) stickRef.current.style.transform = 'translate(0,0)'
+    const endHandler = (e: TouchEvent) => {
+      if (!touchRef.current) return
+      const ended = Array.from(e.changedTouches).some(t => t.identifier === touchRef.current!.id)
+      if (!ended) return
+      touchRef.current = null
+      setVisual(null)
       onMove(0, 0)
     }
-    window.addEventListener('touchmove', move, { passive: false })
-    window.addEventListener('touchend', end)
-    window.addEventListener('touchcancel', end as any)
+    window.addEventListener('touchmove', moveHandler, { passive: false })
+    window.addEventListener('touchend', endHandler)
+    window.addEventListener('touchcancel', endHandler)
     return () => {
-      window.removeEventListener('touchmove', move)
-      window.removeEventListener('touchend', end)
-      window.removeEventListener('touchcancel', end as any)
+      window.removeEventListener('touchmove', moveHandler)
+      window.removeEventListener('touchend', endHandler)
+      window.removeEventListener('touchcancel', endHandler)
     }
   }, [onMove])
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (touchRef.current) return
+    const t = e.changedTouches[0]
+    touchRef.current = { id: t.identifier, baseX: t.clientX, baseY: t.clientY }
+    setVisual({ x: t.clientX, y: t.clientY, dx: 0, dy: 0 })
+  }
+
   return (
     <div
-      ref={baseRef}
-      onTouchStart={e => {
-        e.preventDefault()
-        const t = e.changedTouches[0]
-        active.current = t.identifier
-        const r = baseRef.current!.getBoundingClientRect()
-        center.current = { x: r.left + r.width / 2, y: r.top + r.height / 2 }
-      }}
+      onTouchStart={handleTouchStart}
       style={{
-        width: 112, height: 112, borderRadius: '50%',
-        background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(10px)',
-        border: '2px solid rgba(255,255,255,0.25)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
-        touchAction: 'none',
+        position: 'absolute', left: 0, top: 0,
+        width: '55%', height: '100%',
+        zIndex: 50, touchAction: 'none',
         WebkitTapHighlightColor: 'transparent',
       }}
     >
-      <div ref={stickRef} style={{
-        width: 54, height: 54, borderRadius: '50%',
-        background: 'linear-gradient(135deg, #FF9EB5, #FF758C)',
-        boxShadow: '0 4px 16px rgba(255,117,140,0.6)',
-        transition: 'transform 0.04s ease',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: '1.2rem',
-      }}>🕹️</div>
+      {/* Hint label when no touch active */}
+      {!visual && (
+        <div style={{
+          position: 'absolute', bottom: 28, left: 16,
+          fontFamily: 'var(--font-birthday-body)', fontSize: '0.62rem',
+          color: 'rgba(255,255,255,0.55)', pointerEvents: 'none',
+          background: 'rgba(0,0,0,0.28)', borderRadius: 10, padding: '4px 10px',
+          backdropFilter: 'blur(6px)',
+        }}>👆 Touch here to move</div>
+      )}
+      {visual && (
+        <>
+          {/* Base ring — appears at touch origin */}
+          <div style={{
+            position: 'fixed',
+            left: visual.x - 60, top: visual.y - 60,
+            width: 120, height: 120, borderRadius: '50%',
+            background: 'rgba(255,255,255,0.12)',
+            border: '2.5px solid rgba(255,255,255,0.4)',
+            backdropFilter: 'blur(6px)',
+            pointerEvents: 'none',
+          }} />
+          {/* Stick — follows finger */}
+          <div style={{
+            position: 'fixed',
+            left: visual.x + visual.dx - 30, top: visual.y + visual.dy - 30,
+            width: 60, height: 60, borderRadius: '50%',
+            background: 'linear-gradient(135deg, #FF9EB5, #FF758C)',
+            boxShadow: '0 4px 20px rgba(255,117,140,0.75)',
+            pointerEvents: 'none',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '1.3rem',
+          }}>🕹️</div>
+        </>
+      )}
     </div>
   )
 }
@@ -1345,7 +1386,7 @@ export default function LoveQuestGame3D({ data, onComplete }: LoveQuestGame3DPro
   // PLAYING / HEART_DIALOG
   return (
     <motion.section className="birthday-section" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      style={{ padding: 0, overflow: 'hidden', position: 'relative', userSelect: 'none', touchAction: 'none', WebkitUserSelect: 'none' }}>
+      style={{ padding: 0, overflow: 'hidden', position: 'relative', userSelect: 'none', touchAction: 'none', WebkitUserSelect: 'none', background: '#FFE8F0' }}>
 
       {/* 3-D Canvas */}
       <Suspense fallback={
@@ -1374,35 +1415,38 @@ export default function LoveQuestGame3D({ data, onComplete }: LoveQuestGame3DPro
       </Suspense>
 
       {/* HUD — heart counter */}
-      <div style={{ position: 'absolute', top: 12, left: '50%', transform: 'translateX(-50%)', zIndex: 50, display: 'flex', alignItems: 'center', gap: '0.45rem', background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)', borderRadius: 999, padding: '5px 14px', border: '1px solid rgba(255,158,181,0.28)', whiteSpace: 'nowrap' }}>
+      <div style={{ position: 'absolute', top: 12, left: '50%', transform: 'translateX(-50%)', zIndex: 60, display: 'flex', alignItems: 'center', gap: '0.45rem', background: 'rgba(255,100,140,0.7)', backdropFilter: 'blur(10px)', borderRadius: 999, padding: '6px 16px', border: '1.5px solid rgba(255,255,255,0.4)', whiteSpace: 'nowrap', boxShadow: '0 4px 16px rgba(255,100,140,0.35)' }}>
         <span style={{ fontSize: '0.9rem' }}>❤️</span>
-        <span style={{ fontFamily: 'var(--font-birthday-body)', fontWeight: 800, color: '#FF9EB5', fontSize: '0.88rem' }}>{collected.length} / 5</span>
-        <span style={{ fontFamily: 'var(--font-birthday-body)', color: 'rgba(255,200,220,0.5)', fontSize: '0.62rem' }}>Find All Hearts</span>
+        <span style={{ fontFamily: 'var(--font-birthday-body)', fontWeight: 800, color: 'white', fontSize: '0.88rem' }}>{collected.length} / 5</span>
+        <span style={{ fontFamily: 'var(--font-birthday-body)', color: 'rgba(255,255,255,0.8)', fontSize: '0.62rem' }}>hearts</span>
       </div>
 
-      {/* Desktop-only hint — hidden on touch devices via CSS */}
+      {/* Desktop-only hint */}
       <style>{`@media (hover:hover) and (pointer:fine){.game-desktop-hint{display:block!important}}`}</style>
-      <div className="game-desktop-hint" style={{ display: 'none', position: 'absolute', top: 12, right: 12, zIndex: 50, background: 'rgba(0,0,0,0.42)', backdropFilter: 'blur(6px)', borderRadius: 10, padding: '5px 9px', fontFamily: 'var(--font-birthday-body)', fontSize: '0.6rem', color: 'rgba(255,200,220,0.6)', lineHeight: 1.7, border: '1px solid rgba(255,158,181,0.18)' }}>
+      <div className="game-desktop-hint" style={{ display: 'none', position: 'absolute', top: 12, right: 12, zIndex: 60, background: 'rgba(255,100,140,0.6)', backdropFilter: 'blur(6px)', borderRadius: 10, padding: '5px 9px', fontFamily: 'var(--font-birthday-body)', fontSize: '0.6rem', color: 'white', lineHeight: 1.7, border: '1.5px solid rgba(255,255,255,0.3)' }}>
         WASD / ↑↓←→ Move<br />SHIFT Run | E Collect
       </div>
 
-      {/* Joystick — left bottom, above home bar */}
-      <div style={{ position: 'absolute', bottom: 'max(28px, env(safe-area-inset-bottom, 16px) + 12px)', left: 16, zIndex: 50 }}>
-        <VirtualJoystick onMove={handleJoystick} />
-      </div>
+      {/* ─── FLOATING JOYSTICK (left 55% of screen) ─── */}
+      <FloatingJoystick onMove={handleJoystick} />
 
-      {/* Collect button — right bottom, above home bar */}
-      <div style={{ position: 'absolute', bottom: 'max(28px, env(safe-area-inset-bottom, 16px) + 12px)', right: 16, zIndex: 50 }}>
-        <motion.button
-          onTouchStart={e => { e.preventDefault(); if (nearHeartIdRef.current !== null) triggerCollect.current = true }}
-          onClick={() => { if (nearHeartIdRef.current !== null) triggerCollect.current = true }}
-          whileTap={{ scale: 0.85 }}
-          style={{ width: 80, height: 80, borderRadius: '50%', background: nearHeart !== null ? 'linear-gradient(135deg, #FF758C, #FF4D7A)' : 'rgba(255,255,255,0.12)', backdropFilter: 'blur(10px)', border: `2px solid ${nearHeart !== null ? '#FF758C' : 'rgba(255,255,255,0.25)'}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', gap: '2px', boxShadow: nearHeart !== null ? '0 4px 28px rgba(255,117,140,0.65)' : '0 4px 14px rgba(0,0,0,0.3)', transition: 'all 0.3s ease', touchAction: 'none', WebkitTapHighlightColor: 'transparent', animation: nearHeart !== null ? 'pulse-collect 1s ease-in-out infinite' : 'none' }}>
+      {/* ─── RIGHT SIDE: collect zone overlay + visual button ─── */}
+      {/* Invisible right-half touch area */}
+      <div
+        onTouchStart={e => { e.preventDefault(); if (nearHeartIdRef.current !== null) triggerCollect.current = true }}
+        style={{ position: 'absolute', right: 0, top: 0, width: '45%', height: '100%', zIndex: 49, touchAction: 'none', WebkitTapHighlightColor: 'transparent' }}
+      />
+      {/* Visual collect button */}
+      <div style={{ position: 'absolute', bottom: 'max(28px, env(safe-area-inset-bottom, 16px) + 12px)', right: 16, zIndex: 60, pointerEvents: 'none' }}>
+        <div style={{ width: 82, height: 82, borderRadius: '50%', background: nearHeart !== null ? 'linear-gradient(135deg, #FF758C, #FF4D7A)' : 'rgba(255,255,255,0.18)', backdropFilter: 'blur(12px)', border: `2.5px solid ${nearHeart !== null ? 'white' : 'rgba(255,255,255,0.35)'}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px', boxShadow: nearHeart !== null ? '0 4px 32px rgba(255,117,140,0.8), 0 0 0 6px rgba(255,117,140,0.2)' : '0 4px 16px rgba(0,0,0,0.25)', transition: 'all 0.3s ease', animation: nearHeart !== null ? 'pulse-collect 0.9s ease-in-out infinite' : 'none' }}>
           <span style={{ fontSize: '1.5rem' }}>❤️</span>
-          <span style={{ fontFamily: 'var(--font-birthday-body)', fontSize: '0.5rem', color: nearHeart !== null ? 'white' : 'rgba(255,200,220,0.6)', fontWeight: 800, letterSpacing: '0.05em' }}>COLLECT</span>
-        </motion.button>
-        <style>{`@keyframes pulse-collect{0%,100%{box-shadow:0 4px 28px rgba(255,117,140,0.65)}50%{box-shadow:0 4px 40px rgba(255,117,140,0.95),0 0 0 8px rgba(255,117,140,0.2)}}`}</style>
+          <span style={{ fontFamily: 'var(--font-birthday-body)', fontSize: '0.5rem', color: nearHeart !== null ? 'white' : 'rgba(255,255,255,0.7)', fontWeight: 800, letterSpacing: '0.06em' }}>COLLECT</span>
+        </div>
+        {nearHeart !== null && (
+          <div style={{ position: 'absolute', top: -24, left: '50%', transform: 'translateX(-50%)', background: '#FF758C', borderRadius: 8, padding: '2px 8px', whiteSpace: 'nowrap', fontFamily: 'var(--font-birthday-body)', fontSize: '0.58rem', color: 'white', fontWeight: 700 }}>Tap right side!</div>
+        )}
       </div>
+      <style>{`@keyframes pulse-collect{0%,100%{box-shadow:0 4px 32px rgba(255,117,140,0.8),0 0 0 6px rgba(255,117,140,0.2)}50%{box-shadow:0 4px 44px rgba(255,117,140,1),0 0 0 12px rgba(255,117,140,0.15)}}`}</style>
 
       {/* Heart dialogs */}
       <AnimatePresence>
