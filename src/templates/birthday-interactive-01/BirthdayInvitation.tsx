@@ -36,7 +36,7 @@ const BirthdayLoveGame = dynamic(() => import('./sections/BirthdayLoveGame'), {
 type BirthdayState = 'INTRO' | 'BALLOONS' | 'CANDLE' | 'BOUQUET' | 'VIDEO' | 'LOVE_GAME' | 'ENVELOPE' | 'GIFT'
 
 // Video fallback to the bundled WhatsApp video
-const DEFAULT_VIDEO = '/assets/videos/WhatsApp Video 2026-09-27 at 4.29.02 AM.mp4'
+const DEFAULT_VIDEO = '/assets/videos/WhatsApp Video 2026-09-30 at 7.41.59 AM.mp4'
 
 export default function BirthdayInvitation({ wedding }: { wedding: WeddingData }) {
   const [currentState, setCurrentState] = useState<BirthdayState>('INTRO')
