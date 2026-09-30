@@ -948,14 +948,14 @@ function PhotoCard({ name, caption, onContinue }: {
       </motion.h3>
       {/* Photo frame */}
       <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.45 }}
-        style={{ width: 170, height: 170, margin: '0 auto 1rem', borderRadius: 20, background: 'linear-gradient(135deg, #FF9EB5, #FF758C)', padding: 4, boxShadow: '0 8px 32px rgba(255,117,140,0.4)' }}>
+        style={{ width: 190, height: 220, margin: '0 auto 1rem', borderRadius: 20, background: 'linear-gradient(135deg, #FF9EB5, #FF758C)', padding: 4, boxShadow: '0 8px 32px rgba(255,117,140,0.4)' }}>
         <div style={{ width: '100%', height: '100%', borderRadius: 17, overflow: 'hidden', background: '#FFF0F5' }}>
           {!imgErr ? (
             <img
               src="/templates/birthday/ayman_photo.jpg"
               alt={name}
               onError={() => setImgErr(true)}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }}
             />
           ) : (
             /* Placeholder until user provides the photo */
@@ -967,8 +967,8 @@ function PhotoCard({ name, caption, onContinue }: {
         </div>
       </motion.div>
       <motion.p initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6 }}
-        style={{ fontFamily: 'var(--font-birthday-body)', fontSize: 'clamp(0.82rem, 3.2vw, 0.93rem)', color: '#594a4e', lineHeight: 1.65, margin: '0 0 1.3rem', fontStyle: 'italic' }}>
-        "{caption}"
+        style={{ fontFamily: 'var(--font-birthday-heading)', fontSize: 'clamp(0.88rem, 3.4vw, 1rem)', color: '#FF758C', lineHeight: 1.65, margin: '0 0 1.3rem', fontWeight: 700 }}>
+        The one & only Ayman 🌸✨
       </motion.p>
       <motion.button className="birthday-btn primary" onClick={onContinue}
         initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.78 }}
@@ -1272,10 +1272,10 @@ export default function LoveQuestGame3D({ data, onComplete }: LoveQuestGame3DPro
   const config = {
     playerName:    name,
     companionName: sender,
-    memoryMsg:     msgs[0] || 'Remember the first time we met? It changed everything.',
+    memoryMsg:     'haapy birthday aymmmiii 🎂 you mean everything to me 💚 may allah bless you with all the happiness in this world 🤍',
     complimentMsg: msgs[1] || 'Your smile always makes my whole day.',
     secretMsg:     msgs[2] || "Honestly? I'm just so grateful you exist in my life. 🥹",
-    finalMsg:      data.birthdayMessage || `Happy Birthday ${name}! You make life so much better. ❤️`,
+    finalMsg:      'aymmiii im already yours 💚 your all wishes will come true in sha allah ✨',
   }
 
   const [phase,       setPhase]       = useState<GamePhase>('INTRO')
