@@ -603,11 +603,14 @@ interface SceneProps {
   onNearHeart: (id: number | null) => void
   nearHeartIdRef: React.MutableRefObject<number | null>
   triggerCollect: React.MutableRefObject<boolean>
+  autoTargetRef: React.MutableRefObject<{ x: number; z: number } | null>
+  onArrived: () => void
 }
 
 function GameScene({
   phase, collected, onCollectHeart,
   joystickRef, onNearHeart, nearHeartIdRef, triggerCollect,
+  autoTargetRef, onArrived,
 }: SceneProps) {
   const { camera } = useThree()
   const keys = useRef(new Set<string>())
@@ -639,29 +642,45 @@ function GameScene({
   useFrame((_, delta) => {
     if (phase !== 'PLAYING') return
 
-    // ── Input ──────────────────────────────────────────────────────────────
-    const k    = keys.current
-    const jx   = joystickRef.current.x
-    const jz   = joystickRef.current.z
-    const isRunning = k.has('shift') || (Math.abs(jx) + Math.abs(jz) > 1.4)
-    const SPEED = isRunning ? 5.8 : 3.2
+    // ── Input (keyboard / touch / auto-walk) ───────────────────────────────
+    const k = keys.current
 
-    let dx = jx
-    let dz = jz
-    if (k.has('a') || k.has('arrowleft'))  dx -= 1
-    if (k.has('d') || k.has('arrowright')) dx += 1
-    if (k.has('w') || k.has('arrowup'))    dz -= 1
-    if (k.has('s') || k.has('arrowdown'))  dz += 1
+    // Start with joystick / touch input
+    let mjx = joystickRef.current.x
+    let mjz = joystickRef.current.z
+    if (k.has('a') || k.has('arrowleft'))  mjx -= 1
+    if (k.has('d') || k.has('arrowright')) mjx += 1
+    if (k.has('w') || k.has('arrowup'))    mjz -= 1
+    if (k.has('s') || k.has('arrowdown'))  mjz += 1
 
-    const len = Math.sqrt(dx * dx + dz * dz)
+    // Auto-walk override — steer toward autoTargetRef when set
+    const AT = autoTargetRef.current
+    if (AT) {
+      const adx = AT.x - aymanPos.current.x
+      const adz = AT.z - aymanPos.current.z
+      const adist = Math.sqrt(adx * adx + adz * adz)
+      if (adist > 1.5) {
+        mjx = adx / adist
+        mjz = adz / adist
+      } else {
+        mjx = 0; mjz = 0
+        autoTargetRef.current = null
+        onArrived()
+      }
+    }
+
+    const isRunning = k.has('shift') || !!AT
+    const SPEED = isRunning ? 5.8 : 3.5
+
+    const len = Math.sqrt(mjx * mjx + mjz * mjz)
     let moving = false
     if (len > 0.08) {
-      const nx = dx / len; const nz = dz / len
+      const nx = mjx / len; const nz = mjz / len
       aymanPos.current.x = Math.max(-12, Math.min(32, aymanPos.current.x + nx * SPEED * delta))
       aymanPos.current.z = Math.max(-18, Math.min(18, aymanPos.current.z + nz * SPEED * delta))
       aymanFace.current  = Math.atan2(nx, nz)
       moving = true
-      setAymanState(isRunning ? 'run' : 'walk')
+      setAymanState(AT ? 'run' : isRunning ? 'run' : 'walk')
     } else {
       setAymanState('idle')
     }
@@ -1259,14 +1278,18 @@ export default function LoveQuestGame3D({ data, onComplete }: LoveQuestGame3DPro
     finalMsg:      data.birthdayMessage || `Happy Birthday ${name}! You make life so much better. ❤️`,
   }
 
-  const [phase,     setPhase]     = useState<GamePhase>('INTRO')
-  const [collected, setCollected] = useState<number[]>([])
-  const [nearHeart, setNearHeart] = useState<number | null>(null)
+  const [phase,       setPhase]       = useState<GamePhase>('INTRO')
+  const [collected,   setCollected]   = useState<number[]>([])
+  const [nearHeart,   setNearHeart]   = useState<number | null>(null)
   const [dialogHeart, setDialogHeart] = useState<HeartInfo | null>(null)
+  // Guide state machine
+  type GuidePhase = 'ready' | 'walking' | 'arrived'
+  const [guidePhase,  setGuidePhase]  = useState<GuidePhase>('ready')
 
   const joystickRef    = useRef<{ x: number; z: number }>({ x: 0, z: 0 })
   const nearHeartIdRef = useRef<number | null>(null)
   const triggerCollect = useRef(false)
+  const autoTargetRef  = useRef<{ x: number; z: number } | null>(null)
 
   const handleJoystick = useCallback((x: number, z: number) => {
     joystickRef.current = { x, z }
@@ -1279,22 +1302,36 @@ export default function LoveQuestGame3D({ data, onComplete }: LoveQuestGame3DPro
     setCollected(newCollected)
     setPhase('HEART_DIALOG')
     setDialogHeart(h)
-    // Store whether this is the last heart so continue handler knows
-    if (newCollected.length >= 5) {
-      // will be handled by MakeAWishCard's onContinue -> onComplete
-    }
   }, [collected])
 
   const handleDialogContinue = useCallback(() => {
-    const newLen = collected.length // already updated by setCollected before we get here
     setDialogHeart(null)
     if (dialogHeart?.type === 'final') {
-      // MakeAWishCard's final button calls onComplete directly via onContinue prop
       onComplete()
     } else {
       setPhase('PLAYING')
+      setGuidePhase('ready') // ready for next heart
     }
-  }, [collected, dialogHeart, onComplete])
+  }, [dialogHeart, onComplete])
+
+  // When auto-walk arrives at heart
+  const handleArrived = useCallback(() => {
+    setGuidePhase('arrived')
+  }, [])
+
+  // Guide button press handler
+  const handleGuidePress = useCallback(() => {
+    if (guidePhase === 'ready') {
+      // Find next uncollected heart, set as target
+      const next = HEARTS.find(h => !collected.includes(h.id))
+      if (!next) return
+      autoTargetRef.current = { x: next.pos[0], z: next.pos[2] }
+      setGuidePhase('walking')
+    } else if (guidePhase === 'arrived') {
+      // Trigger collect
+      triggerCollect.current = true
+    }
+  }, [guidePhase, collected])
 
   // Intro screen
   if (phase === 'INTRO') {
@@ -1317,7 +1354,8 @@ export default function LoveQuestGame3D({ data, onComplete }: LoveQuestGame3DPro
           </motion.p>
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 1.1 }}>
             <div style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(6px)', border: '1px solid rgba(255,158,181,0.2)', borderRadius: 12, padding: '0.6rem 1rem', marginBottom: '1.2rem', fontFamily: 'var(--font-birthday-body)', fontSize: '0.72rem', color: 'rgba(255,200,220,0.55)', lineHeight: 1.7 }}>
-              Desktop: WASD / Arrow Keys — E to Collect<br />Mobile: Joystick + ❤️ button
+              Just tap the button — Ayman walks to every heart automatically! 🌸<br />
+              Desktop: WASD / Arrow Keys also work
             </div>
             <motion.button className="birthday-btn primary" onClick={() => setPhase('PLAYING')} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} style={{ fontSize: '1rem', padding: '0.9rem 2.8rem' }}>
               Let&apos;s Go! →
@@ -1371,63 +1409,102 @@ export default function LoveQuestGame3D({ data, onComplete }: LoveQuestGame3DPro
             onNearHeart={setNearHeart}
             nearHeartIdRef={nearHeartIdRef}
             triggerCollect={triggerCollect}
+            autoTargetRef={autoTargetRef}
+            onArrived={handleArrived}
           />
         </Canvas>
       </Suspense>
 
       {/* HUD — heart counter */}
-      <div style={{ position: 'absolute', top: 12, left: '50%', transform: 'translateX(-50%)', zIndex: 60, display: 'flex', alignItems: 'center', gap: '0.45rem', background: 'rgba(255,100,140,0.7)', backdropFilter: 'blur(10px)', borderRadius: 999, padding: '6px 16px', border: '1.5px solid rgba(255,255,255,0.4)', whiteSpace: 'nowrap', boxShadow: '0 4px 16px rgba(255,100,140,0.35)' }}>
+      <div style={{ position: 'absolute', top: 12, left: '50%', transform: 'translateX(-50%)', zIndex: 60, display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(255,100,140,0.7)', backdropFilter: 'blur(10px)', borderRadius: 999, padding: '6px 18px', border: '1.5px solid rgba(255,255,255,0.4)', whiteSpace: 'nowrap', boxShadow: '0 4px 16px rgba(255,100,140,0.35)' }}>
         <span style={{ fontSize: '0.9rem' }}>❤️</span>
-        <span style={{ fontFamily: 'var(--font-birthday-body)', fontWeight: 800, color: 'white', fontSize: '0.88rem' }}>{collected.length} / 5</span>
-        <span style={{ fontFamily: 'var(--font-birthday-body)', color: 'rgba(255,255,255,0.8)', fontSize: '0.62rem' }}>hearts</span>
+        <span style={{ fontFamily: 'var(--font-birthday-body)', fontWeight: 800, color: 'white', fontSize: '0.88rem' }}>{collected.length} / 5 hearts</span>
       </div>
 
-      {/* Desktop-only hint */}
+      {/* Desktop hint (keyboard users) */}
       <style>{`@media (hover:hover) and (pointer:fine){.game-desktop-hint{display:block!important}}`}</style>
       <div className="game-desktop-hint" style={{ display: 'none', position: 'absolute', top: 12, right: 12, zIndex: 60, background: 'rgba(255,100,140,0.6)', backdropFilter: 'blur(6px)', borderRadius: 10, padding: '5px 9px', fontFamily: 'var(--font-birthday-body)', fontSize: '0.6rem', color: 'white', lineHeight: 1.7, border: '1.5px solid rgba(255,255,255,0.3)' }}>
-        WASD / ↑↓←→ Move<br />SHIFT Run | E Collect
+        WASD / Arrows Move | E Collect
       </div>
 
-      {/* ─── TOUCH DRAG CONTROL — full screen drag to move ─── */}
+      {/* Keep touch drag for desktop fallback */}
       <TouchDragControl onMove={handleJoystick} />
 
-      {/* ─── COLLECT BUTTON — bottom right, tappable ─── */}
-      <motion.button
-        onTouchStart={e => { e.stopPropagation(); e.preventDefault(); if (nearHeartIdRef.current !== null) triggerCollect.current = true }}
-        onClick={() => { if (nearHeartIdRef.current !== null) triggerCollect.current = true }}
-        whileTap={{ scale: 0.88 }}
-        style={{
-          position: 'absolute',
-          bottom: 'max(28px, env(safe-area-inset-bottom, 16px) + 12px)',
-          right: 16, zIndex: 65,
-          width: 86, height: 86, borderRadius: '50%',
-          background: nearHeart !== null ? 'linear-gradient(135deg, #FF758C, #FF3D6B)' : 'rgba(255,255,255,0.18)',
-          backdropFilter: 'blur(14px)',
-          border: `2.5px solid ${nearHeart !== null ? 'white' : 'rgba(255,255,255,0.35)'}`,
-          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px',
-          boxShadow: nearHeart !== null ? '0 4px 32px rgba(255,117,140,0.85)' : '0 4px 18px rgba(0,0,0,0.22)',
-          transition: 'all 0.3s ease',
-          touchAction: 'none', WebkitTapHighlightColor: 'transparent', cursor: 'pointer',
-          animation: nearHeart !== null ? 'pulse-collect 0.85s ease-in-out infinite' : 'none',
-        }}>
-        <span style={{ fontSize: '1.6rem' }}>❤️</span>
-        <span style={{ fontFamily: 'var(--font-birthday-body)', fontSize: '0.48rem', color: nearHeart !== null ? 'white' : 'rgba(255,255,255,0.65)', fontWeight: 800, letterSpacing: '0.08em' }}>COLLECT</span>
-      </motion.button>
-      {/* Tooltip above collect button */}
-      {nearHeart !== null && (
-        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-          style={{ position: 'absolute', bottom: 'calc(max(28px, env(safe-area-inset-bottom, 16px) + 12px) + 94px)', right: 10, zIndex: 65, background: '#FF758C', borderRadius: 10, padding: '4px 10px', whiteSpace: 'nowrap', fontFamily: 'var(--font-birthday-body)', fontSize: '0.6rem', color: 'white', fontWeight: 700, pointerEvents: 'none', boxShadow: '0 4px 14px rgba(255,117,140,0.5)' }}>
-          Tap to collect! ❤️
-        </motion.div>
-      )}
-      {/* Drag hint at bottom — mobile only */}
-      <style>{`
-        @keyframes pulse-collect{0%,100%{box-shadow:0 4px 32px rgba(255,117,140,0.85)}50%{box-shadow:0 4px 48px rgba(255,117,140,1),0 0 0 14px rgba(255,117,140,0.15)}}
-        @media (hover:hover) and (pointer:fine){.mobile-drag-hint{display:none!important}}
-      `}</style>
-      <div className="mobile-drag-hint" style={{ position: 'absolute', bottom: 'max(28px, env(safe-area-inset-bottom, 16px) + 12px)', left: '50%', transform: 'translateX(-50%)', zIndex: 60, fontFamily: 'var(--font-birthday-body)', fontSize: '0.6rem', color: 'rgba(255,255,255,0.6)', pointerEvents: 'none', background: 'rgba(0,0,0,0.3)', borderRadius: 10, padding: '4px 12px', backdropFilter: 'blur(6px)', whiteSpace: 'nowrap' }}>
-        👆 Drag anywhere to move
-      </div>
+      {/* ─── BIG GUIDE BUTTON — drives the whole experience ─── */}
+      {(() => {
+        const nextHeartNum = collected.length + 1
+        const isWalking  = guidePhase === 'walking'
+        const isArrived  = guidePhase === 'arrived'
+        const isReady    = guidePhase === 'ready'
+        const allDone    = collected.length >= 5
+
+        let emoji   = '✨'
+        let label1  = collected.length === 0 ? 'Begin' : `Heart ${nextHeartNum}`
+        let label2  = collected.length === 0 ? 'Adventure!' : 'Next Heart'
+        let btnBg   = 'linear-gradient(135deg, #FF9EB5, #FF758C)'
+        let shadow  = '0 6px 30px rgba(255,117,140,0.6)'
+        let anim    = 'guide-pulse 1.8s ease-in-out infinite'
+        let disabled = false
+
+        if (isWalking) {
+          emoji  = '🌸'
+          label1 = `Walking to Heart ${nextHeartNum}...`
+          label2 = 'Almost there!'
+          btnBg  = 'linear-gradient(135deg, #FFB3C6, #FF85A1)'
+          shadow = '0 6px 20px rgba(255,133,161,0.4)'
+          anim   = 'guide-spin 2s linear infinite'
+          disabled = true
+        } else if (isArrived) {
+          emoji  = '🎁'
+          label1 = `Open Heart ${nextHeartNum}!`
+          label2 = 'Tap to reveal ❤️'
+          btnBg  = 'linear-gradient(135deg, #FF4D7A, #FF1744)'
+          shadow = '0 6px 36px rgba(255,23,68,0.7)'
+          anim   = 'guide-pulse 0.7s ease-in-out infinite'
+        } else if (allDone) {
+          return null
+        }
+
+        return (
+          <>
+            <style>{`
+              @keyframes guide-pulse{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.06)}}
+              @keyframes guide-spin{0%{transform:translateX(-50%) rotate(0deg)}100%{transform:translateX(-50%) rotate(360deg)}}
+              @keyframes pulse-collect{0%,100%{box-shadow:0 6px 36px rgba(255,23,68,0.7)}50%{box-shadow:0 6px 50px rgba(255,23,68,0.95),0 0 0 16px rgba(255,23,68,0.12)}}
+            `}</style>
+            <motion.button
+              key={guidePhase + collected.length}
+              initial={{ opacity: 0, y: 20, scale: 0.85 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ type: 'spring', bounce: 0.45 }}
+              onClick={disabled ? undefined : handleGuidePress}
+              onTouchStart={e => { e.stopPropagation(); if (!disabled) handleGuidePress() }}
+              disabled={disabled}
+              style={{
+                position: 'absolute',
+                bottom: 'max(32px, env(safe-area-inset-bottom, 16px) + 16px)',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 65,
+                minWidth: 200, padding: '14px 28px',
+                borderRadius: 999,
+                background: btnBg,
+                border: '2.5px solid rgba(255,255,255,0.5)',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px',
+                boxShadow: shadow,
+                cursor: disabled ? 'default' : 'pointer',
+                opacity: disabled ? 0.85 : 1,
+                animation: isWalking ? 'none' : anim,
+                touchAction: 'none', WebkitTapHighlightColor: 'transparent',
+              }}
+            >
+              <span style={{ fontSize: isWalking ? '1.1rem' : '1.4rem', transition: 'font-size 0.3s' }}>{emoji}</span>
+              <span style={{ fontFamily: 'var(--font-birthday-heading)', fontSize: '0.88rem', color: 'white', fontWeight: 800, letterSpacing: '0.02em' }}>{label1}</span>
+              <span style={{ fontFamily: 'var(--font-birthday-body)', fontSize: '0.58rem', color: 'rgba(255,255,255,0.82)', letterSpacing: '0.06em' }}>{label2}</span>
+            </motion.button>
+          </>
+        )
+      })()}
 
       {/* Heart dialogs */}
       <AnimatePresence>
