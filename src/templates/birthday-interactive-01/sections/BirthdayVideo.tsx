@@ -102,12 +102,12 @@ export default function BirthdayVideo({ videoSrc, name, onComplete }: Props) {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <h2 style={{ fontSize: 'clamp(1.4rem, 6vw, 2rem)', color: '#e05070', margin: '0 0 0.3rem' }}>
+        <h2 style={{ fontSize: 'clamp(1.3rem, 6vw, 1.8rem)', color: '#e05070', margin: '0 0 0.2rem' }}>
           A Special Message 🎬
         </h2>
         <p style={{
           fontFamily: 'var(--font-birthday-heading)',
-          fontSize: 'clamp(0.85rem, 3.5vw, 1rem)',
+          fontSize: 'clamp(0.8rem, 3vw, 0.95rem)',
           color: '#d06080',
           opacity: 0.8,
           margin: 0,
@@ -116,7 +116,7 @@ export default function BirthdayVideo({ videoSrc, name, onComplete }: Props) {
         </p>
       </motion.div>
 
-      {/* Video Player Card */}
+      {/* Video Player — full-width portrait card */}
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -124,17 +124,18 @@ export default function BirthdayVideo({ videoSrc, name, onComplete }: Props) {
         style={{
           position: 'relative',
           width: '100%',
-          maxWidth: '420px',
+          maxWidth: '340px',
           borderRadius: '20px',
           overflow: 'hidden',
-          background: 'rgba(255,255,255,0.95)',
-          boxShadow: '0 20px 60px rgba(255,117,140,0.25), 0 8px 25px rgba(0,0,0,0.1)',
-          border: '2px solid rgba(255,117,140,0.2)',
+          background: '#000',
+          boxShadow: '0 20px 60px rgba(255,117,140,0.3), 0 8px 25px rgba(0,0,0,0.2)',
+          border: '2.5px solid rgba(255,117,140,0.35)',
           zIndex: 10,
+          alignSelf: 'center',
         }}
       >
-        {/* Video element */}
-        <div style={{ position: 'relative', backgroundColor: '#1a0a10', aspectRatio: '9/16', maxHeight: '52vh' }}>
+        {/* Video fills frame with proper portrait ratio */}
+        <div style={{ position: 'relative', width: '100%', paddingBottom: '177.77%' /* 9:16 */ }}>
           <video
             ref={videoRef}
             src={videoSrc}
@@ -146,6 +147,8 @@ export default function BirthdayVideo({ videoSrc, name, onComplete }: Props) {
             onCanPlay={() => setBuffering(false)}
             onClick={handlePlayPause}
             style={{
+              position: 'absolute',
+              inset: 0,
               width: '100%',
               height: '100%',
               objectFit: 'cover',
@@ -166,12 +169,11 @@ export default function BirthdayVideo({ videoSrc, name, onComplete }: Props) {
                   position: 'absolute', inset: 0,
                   display: 'flex', flexDirection: 'column',
                   alignItems: 'center', justifyContent: 'center',
-                  background: 'rgba(26, 10, 16, 0.55)',
+                  background: 'rgba(26, 10, 16, 0.52)',
                   cursor: 'pointer', gap: '0.8rem',
                   backdropFilter: 'blur(2px)',
                 }}
               >
-                {/* Play button */}
                 <motion.div
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -250,11 +252,11 @@ export default function BirthdayVideo({ videoSrc, name, onComplete }: Props) {
           </button>
         </div>
 
-        {/* Controls bar */}
+        {/* Controls bar — below video, inside card */}
         <div style={{
-          padding: '0.75rem 1rem',
+          padding: '0.65rem 1rem',
           background: 'rgba(255,255,255,0.97)',
-          display: 'flex', flexDirection: 'column', gap: '0.5rem',
+          display: 'flex', flexDirection: 'column', gap: '0.45rem',
         }}>
           {/* Progress bar */}
           <div style={{ position: 'relative', height: '4px', borderRadius: '4px', background: 'rgba(255,117,140,0.15)' }}>
