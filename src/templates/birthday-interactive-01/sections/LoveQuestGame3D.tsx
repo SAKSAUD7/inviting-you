@@ -785,12 +785,12 @@ function GameScene({
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-//  FLOATING JOYSTICK — appears at touch point on left half of screen
+//  TOUCH DRAG CONTROL — drag anywhere to move, no joystick visual
 // ════════════════════════════════════════════════════════════════════════════
-function FloatingJoystick({ onMove }: { onMove: (x: number, z: number) => void }) {
-  const touchRef  = useRef<{ id: number; baseX: number; baseY: number } | null>(null)
-  const [visual, setVisual] = useState<{ x: number; y: number; dx: number; dy: number } | null>(null)
-  const MAX = 58
+function TouchDragControl({ onMove }: { onMove: (x: number, z: number) => void }) {
+  const touchRef = useRef<{ id: number; startX: number; startY: number } | null>(null)
+  const DEAD = 8    // dead zone px before movement starts
+  const MAX  = 65   // max drag distance for full speed
 
   useEffect(() => {
     const moveHandler = (e: TouchEvent) => {
@@ -798,22 +798,19 @@ function FloatingJoystick({ onMove }: { onMove: (x: number, z: number) => void }
       const t = Array.from(e.touches).find(t => t.identifier === touchRef.current!.id)
       if (!t) return
       e.preventDefault()
-      const dx = t.clientX - touchRef.current.baseX
-      const dy = t.clientY - touchRef.current.baseY
+      const dx = t.clientX - touchRef.current.startX
+      const dy = t.clientY - touchRef.current.startY
       const dist = Math.sqrt(dx * dx + dy * dy)
+      if (dist < DEAD) { onMove(0, 0); return }
       const angle = Math.atan2(dy, dx)
-      const clamped = Math.min(dist, MAX)
-      const cx = Math.cos(angle) * clamped
-      const cy = Math.sin(angle) * clamped
-      setVisual(v => v ? { ...v, dx: cx, dy: cy } : null)
-      onMove(cx / MAX, cy / MAX)
+      const intensity = Math.min(dist / MAX, 1)
+      onMove(Math.cos(angle) * intensity, Math.sin(angle) * intensity)
     }
     const endHandler = (e: TouchEvent) => {
       if (!touchRef.current) return
       const ended = Array.from(e.changedTouches).some(t => t.identifier === touchRef.current!.id)
       if (!ended) return
       touchRef.current = null
-      setVisual(null)
       onMove(0, 0)
     }
     window.addEventListener('touchmove', moveHandler, { passive: false })
@@ -826,59 +823,23 @@ function FloatingJoystick({ onMove }: { onMove: (x: number, z: number) => void }
     }
   }, [onMove])
 
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (touchRef.current) return
-    const t = e.changedTouches[0]
-    touchRef.current = { id: t.identifier, baseX: t.clientX, baseY: t.clientY }
-    setVisual({ x: t.clientX, y: t.clientY, dx: 0, dy: 0 })
-  }
-
   return (
     <div
-      onTouchStart={handleTouchStart}
+      onTouchStart={e => {
+        if (touchRef.current) return // already tracking
+        const t = e.changedTouches[0]
+        // Don't intercept touches near bottom-right (collect button area)
+        const isCollectZone = t.clientX > window.innerWidth * 0.72 && t.clientY > window.innerHeight * 0.72
+        if (isCollectZone) return
+        e.preventDefault()
+        touchRef.current = { id: t.identifier, startX: t.clientX, startY: t.clientY }
+      }}
       style={{
-        position: 'absolute', left: 0, top: 0,
-        width: '55%', height: '100%',
-        zIndex: 50, touchAction: 'none',
+        position: 'absolute', inset: 0,
+        zIndex: 48, touchAction: 'none',
         WebkitTapHighlightColor: 'transparent',
       }}
-    >
-      {/* Hint label when no touch active */}
-      {!visual && (
-        <div style={{
-          position: 'absolute', bottom: 28, left: 16,
-          fontFamily: 'var(--font-birthday-body)', fontSize: '0.62rem',
-          color: 'rgba(255,255,255,0.55)', pointerEvents: 'none',
-          background: 'rgba(0,0,0,0.28)', borderRadius: 10, padding: '4px 10px',
-          backdropFilter: 'blur(6px)',
-        }}>👆 Touch here to move</div>
-      )}
-      {visual && (
-        <>
-          {/* Base ring — appears at touch origin */}
-          <div style={{
-            position: 'fixed',
-            left: visual.x - 60, top: visual.y - 60,
-            width: 120, height: 120, borderRadius: '50%',
-            background: 'rgba(255,255,255,0.12)',
-            border: '2.5px solid rgba(255,255,255,0.4)',
-            backdropFilter: 'blur(6px)',
-            pointerEvents: 'none',
-          }} />
-          {/* Stick — follows finger */}
-          <div style={{
-            position: 'fixed',
-            left: visual.x + visual.dx - 30, top: visual.y + visual.dy - 30,
-            width: 60, height: 60, borderRadius: '50%',
-            background: 'linear-gradient(135deg, #FF9EB5, #FF758C)',
-            boxShadow: '0 4px 20px rgba(255,117,140,0.75)',
-            pointerEvents: 'none',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '1.3rem',
-          }}>🕹️</div>
-        </>
-      )}
-    </div>
+    />
   )
 }
 
@@ -1427,26 +1388,46 @@ export default function LoveQuestGame3D({ data, onComplete }: LoveQuestGame3DPro
         WASD / ↑↓←→ Move<br />SHIFT Run | E Collect
       </div>
 
-      {/* ─── FLOATING JOYSTICK (left 55% of screen) ─── */}
-      <FloatingJoystick onMove={handleJoystick} />
+      {/* ─── TOUCH DRAG CONTROL — full screen drag to move ─── */}
+      <TouchDragControl onMove={handleJoystick} />
 
-      {/* ─── RIGHT SIDE: collect zone overlay + visual button ─── */}
-      {/* Invisible right-half touch area */}
-      <div
-        onTouchStart={e => { e.preventDefault(); if (nearHeartIdRef.current !== null) triggerCollect.current = true }}
-        style={{ position: 'absolute', right: 0, top: 0, width: '45%', height: '100%', zIndex: 49, touchAction: 'none', WebkitTapHighlightColor: 'transparent' }}
-      />
-      {/* Visual collect button */}
-      <div style={{ position: 'absolute', bottom: 'max(28px, env(safe-area-inset-bottom, 16px) + 12px)', right: 16, zIndex: 60, pointerEvents: 'none' }}>
-        <div style={{ width: 82, height: 82, borderRadius: '50%', background: nearHeart !== null ? 'linear-gradient(135deg, #FF758C, #FF4D7A)' : 'rgba(255,255,255,0.18)', backdropFilter: 'blur(12px)', border: `2.5px solid ${nearHeart !== null ? 'white' : 'rgba(255,255,255,0.35)'}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px', boxShadow: nearHeart !== null ? '0 4px 32px rgba(255,117,140,0.8), 0 0 0 6px rgba(255,117,140,0.2)' : '0 4px 16px rgba(0,0,0,0.25)', transition: 'all 0.3s ease', animation: nearHeart !== null ? 'pulse-collect 0.9s ease-in-out infinite' : 'none' }}>
-          <span style={{ fontSize: '1.5rem' }}>❤️</span>
-          <span style={{ fontFamily: 'var(--font-birthday-body)', fontSize: '0.5rem', color: nearHeart !== null ? 'white' : 'rgba(255,255,255,0.7)', fontWeight: 800, letterSpacing: '0.06em' }}>COLLECT</span>
-        </div>
-        {nearHeart !== null && (
-          <div style={{ position: 'absolute', top: -24, left: '50%', transform: 'translateX(-50%)', background: '#FF758C', borderRadius: 8, padding: '2px 8px', whiteSpace: 'nowrap', fontFamily: 'var(--font-birthday-body)', fontSize: '0.58rem', color: 'white', fontWeight: 700 }}>Tap right side!</div>
-        )}
+      {/* ─── COLLECT BUTTON — bottom right, tappable ─── */}
+      <motion.button
+        onTouchStart={e => { e.stopPropagation(); e.preventDefault(); if (nearHeartIdRef.current !== null) triggerCollect.current = true }}
+        onClick={() => { if (nearHeartIdRef.current !== null) triggerCollect.current = true }}
+        whileTap={{ scale: 0.88 }}
+        style={{
+          position: 'absolute',
+          bottom: 'max(28px, env(safe-area-inset-bottom, 16px) + 12px)',
+          right: 16, zIndex: 65,
+          width: 86, height: 86, borderRadius: '50%',
+          background: nearHeart !== null ? 'linear-gradient(135deg, #FF758C, #FF3D6B)' : 'rgba(255,255,255,0.18)',
+          backdropFilter: 'blur(14px)',
+          border: `2.5px solid ${nearHeart !== null ? 'white' : 'rgba(255,255,255,0.35)'}`,
+          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px',
+          boxShadow: nearHeart !== null ? '0 4px 32px rgba(255,117,140,0.85)' : '0 4px 18px rgba(0,0,0,0.22)',
+          transition: 'all 0.3s ease',
+          touchAction: 'none', WebkitTapHighlightColor: 'transparent', cursor: 'pointer',
+          animation: nearHeart !== null ? 'pulse-collect 0.85s ease-in-out infinite' : 'none',
+        }}>
+        <span style={{ fontSize: '1.6rem' }}>❤️</span>
+        <span style={{ fontFamily: 'var(--font-birthday-body)', fontSize: '0.48rem', color: nearHeart !== null ? 'white' : 'rgba(255,255,255,0.65)', fontWeight: 800, letterSpacing: '0.08em' }}>COLLECT</span>
+      </motion.button>
+      {/* Tooltip above collect button */}
+      {nearHeart !== null && (
+        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+          style={{ position: 'absolute', bottom: 'calc(max(28px, env(safe-area-inset-bottom, 16px) + 12px) + 94px)', right: 10, zIndex: 65, background: '#FF758C', borderRadius: 10, padding: '4px 10px', whiteSpace: 'nowrap', fontFamily: 'var(--font-birthday-body)', fontSize: '0.6rem', color: 'white', fontWeight: 700, pointerEvents: 'none', boxShadow: '0 4px 14px rgba(255,117,140,0.5)' }}>
+          Tap to collect! ❤️
+        </motion.div>
+      )}
+      {/* Drag hint at bottom — mobile only */}
+      <style>{`
+        @keyframes pulse-collect{0%,100%{box-shadow:0 4px 32px rgba(255,117,140,0.85)}50%{box-shadow:0 4px 48px rgba(255,117,140,1),0 0 0 14px rgba(255,117,140,0.15)}}
+        @media (hover:hover) and (pointer:fine){.mobile-drag-hint{display:none!important}}
+      `}</style>
+      <div className="mobile-drag-hint" style={{ position: 'absolute', bottom: 'max(28px, env(safe-area-inset-bottom, 16px) + 12px)', left: '50%', transform: 'translateX(-50%)', zIndex: 60, fontFamily: 'var(--font-birthday-body)', fontSize: '0.6rem', color: 'rgba(255,255,255,0.6)', pointerEvents: 'none', background: 'rgba(0,0,0,0.3)', borderRadius: 10, padding: '4px 12px', backdropFilter: 'blur(6px)', whiteSpace: 'nowrap' }}>
+        👆 Drag anywhere to move
       </div>
-      <style>{`@keyframes pulse-collect{0%,100%{box-shadow:0 4px 32px rgba(255,117,140,0.8),0 0 0 6px rgba(255,117,140,0.2)}50%{box-shadow:0 4px 44px rgba(255,117,140,1),0 0 0 12px rgba(255,117,140,0.15)}}`}</style>
 
       {/* Heart dialogs */}
       <AnimatePresence>
